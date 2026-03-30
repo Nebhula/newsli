@@ -562,10 +562,26 @@ function cargarFeed(url, porFeed) {
     .catch(function() { return []; });
 }
 
+/* 🔥 DESTACADOS CON CACHE - CARGA RÁPIDA */
 async function cargarDestacados() {
   var panel = document.getElementById('panel-destacados');
+  
+  /* 1. MOSTRAR CACHE INMEDIATO SI EXISTE (2 horas) */
+  var cacheLocal = localStorage.getItem('destacadosCache');
+  var cacheTime = localStorage.getItem('destacadosCacheTime');
+  if (cacheLocal && cacheTime && (Date.now() - parseInt(cacheTime) < 7200000)) {
+    var datosCache = JSON.parse(cacheLocal);
+    panel.innerHTML = renderDestacadosGrid(datosCache);
+    document.getElementById('cargarMasContainer').style.display = 'none';
+    /* Actualizar en segundo plano sin bloquear */
+    cargarDestacadosSegundoPlano();
+    return;
+  }
+  
+  /* 2. Si no hay cache, cargar normal */
   var todas = [];
   var cats = Object.keys(feedsConfig);
+  
   for (var i = 0; i < cats.length; i++) {
     var cat = cats[i];
     var urls = feedsConfig[cat];
@@ -574,12 +590,44 @@ async function cargarDestacados() {
     var resultados = await Promise.all(promesas);
     for (var j = 0; j < resultados.length; j++) { todas = todas.concat(resultados[j]); }
   }
+  
   todas.sort(function() { return Math.random() - 0.5; });
   todas = todas.slice(0, 20);
+  
+  /* 3. Guardar cache */
+  localStorage.setItem('destacadosCache', JSON.stringify(todas));
+  localStorage.setItem('destacadosCacheTime', Date.now());
+  
   var html = renderDestacadosGrid(todas);
   panel.innerHTML = html;
   document.getElementById('cargarMasContainer').style.display = 'none';
   return html;
+}
+
+/* 🔥 ACTUALIZAR CACHE EN SEGUNDO PLANO */
+function cargarDestacadosSegundoPlano() {
+  setTimeout(function() {
+    var todas = [];
+    var cats = Object.keys(feedsConfig);
+    var promesas = [];
+    
+    for (var i = 0; i < cats.length; i++) {
+      var urls = feedsConfig[cats[i]];
+      for (var j = 0; j < urls.length; j++) {
+        promesas.push(cargarFeed(urls[j], 2));
+      }
+    }
+    
+    Promise.all(promesas).then(function(resultados) {
+      for (var k = 0; k < resultados.length; k++) {
+        todas = todas.concat(resultados[k]);
+      }
+      todas.sort(function() { return Math.random() - 0.5; });
+      todas = todas.slice(0, 20);
+      localStorage.setItem('destacadosCache', JSON.stringify(todas));
+      localStorage.setItem('destacadosCacheTime', Date.now());
+    });
+  }, 100);
 }
 
 function renderDestacadosGrid(items) {
