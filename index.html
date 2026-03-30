@@ -63,10 +63,34 @@
   .favorite-btn.active { color: #e91e63 !important; }
   .share-btn:hover { color: #1e88e5 !important; }
   
-  .translate-btn { width: 32px !important; height: 32px !important; border-radius: 50% !important; border: none !important; cursor: pointer !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; font-size: 14px !important; transition: all 0.2s ease !important; box-shadow: 0 2px 4px rgba(0,0,0,0.3) !important; background: rgba(0,0,0,0.7) !important; backdrop-filter: blur(4px) !important; color: #1e88e5 !important; }
-  .translate-btn:hover { transform: scale(1.1) !important; color: #42a5f5 !important; background: rgba(0,0,0,0.9) !important; }
-  .translate-btn.translating { animation: pulse 1s infinite; pointer-events: none; opacity: 0.7; }
-  @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+  /* NUEVO BOTÓN TRADUCIR TEXTO */
+  .translate-btn-text {
+    background: rgba(30,136,229,0.2) !important;
+    border: 1px solid #1e88e5 !important;
+    color: #1e88e5 !important;
+    padding: 5px 10px !important;
+    border-radius: 20px !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    transition: all 0.2s ease !important;
+  }
+  .translate-btn-text:hover {
+    background: #1e88e5 !important;
+    color: #fff !important;
+    transform: scale(1.02) !important;
+  }
+  .translate-btn-text i {
+    font-size: 11px !important;
+  }
+  .translate-btn-text:disabled {
+    opacity: 0.6 !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+  }
   
   .affiliate-btn { width: auto !important; height: 30px !important; border-radius: 20px !important; border: 2px solid #ff9800 !important; background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%) !important; color: #fff !important; cursor: pointer !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; gap: 5px !important; padding: 4px 12px !important; font-size: 12px !important; font-weight: 700 !important; transition: all 0.2s ease !important; box-shadow: 0 2px 8px rgba(255,152,0,0.3) !important; }
   .affiliate-btn:hover { transform: scale(1.08) !important; box-shadow: 0 4px 15px rgba(255,152,0,0.5) !important; }
@@ -83,6 +107,20 @@
   .news-excerpt { font-size: 13px !important; color: #8a8f9e !important; line-height: 1.5 !important; margin-bottom: 10px !important; display: -webkit-box !important; -webkit-line-clamp: 6 !important; -webkit-box-orient: vertical !important; overflow: hidden !important; word-wrap: break-word !important; }
   
   .translated-text { background: #11131f !important; padding: 10px 12px !important; border-radius: 8px !important; margin-top: 10px !important; font-size: 12px !important; line-height: 1.5 !important; border-left: 3px solid #1e88e5 !important; animation: fadeIn 0.3s ease !important; color: #8a8f9e !important; }
+  .translated-text .close-translation {
+    background: none !important;
+    border: none !important;
+    color: #5a5f6e !important;
+    cursor: pointer !important;
+    font-size: 12px !important;
+    padding: 2px 6px !important;
+    border-radius: 12px !important;
+    transition: all 0.2s ease !important;
+  }
+  .translated-text .close-translation:hover {
+    background: rgba(233,30,99,0.2) !important;
+    color: #e91e63 !important;
+  }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
   
   .categoria-badge { display: inline-flex !important; align-items: center !important; gap: 5px !important; font-size: 11px !important; font-weight: 600 !important; padding: 3px 10px !important; border-radius: 12px !important; margin-right: 8px !important; background: rgba(233,30,99,0.15) !important; color: #e91e63 !important; white-space: nowrap !important; }
@@ -445,12 +483,13 @@ function shouldShowTranslateBtn(title, desc) {
   var words = ['the','be','to','of','and','a','in','that','have','i','it','for','not','on','with','he','as','you','do','at','this','but','his','by','from','they','we','say','her','she','or','an','will','my','one','all','would','there','their','what','so','up','out','if','about','who','get','which','go','me','when','make','can','like','time','no','just','him','know','take','people','into','year','your','good','some','could','them','see','other','than','then','now','look','only','come','its','over','think','also','back','after','use','two','how','our','work','first','well','way','even','new','want','because','any','these','give','day','most','us'];
   var c = 0; for (var i = 0; i < words.length; i++) { if (t.indexOf(' ' + words[i] + ' ') !== -1 || t.indexOf(words[i] + ' ') === 0) { c++; if (c >= 5) return true; } } return false;
 }
+
+/* NUEVA FUNCIÓN TRADUCIR TEXTO CON X PARA CERRAR */
 async function traducirTexto(card, btn) {
   var title = card.getAttribute('data-title') || '';
   var desc = card.getAttribute('data-desc') || '';
   var texto = (title + ' ' + desc).substring(0, 5000);
   
-  // Si no hay texto para traducir
   if (!texto.trim()) {
     showToast('No hay texto para traducir');
     return;
@@ -459,22 +498,14 @@ async function traducirTexto(card, btn) {
   var existing = card.querySelector('.translated-text');
   if (existing) {
     existing.remove();
-    if (btn) {
-      btn.innerHTML = '<i class="fas fa-globe"></i>';
-      btn.style.color = '#2196f3';
-    }
     return;
   }
   
-  var origIcon = btn ? btn.innerHTML : '<i class="fas fa-globe"></i>';
-  if (btn) {
-    btn.classList.add('translating');
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-    btn.disabled = true;
-  }
+  var originalText = btn.innerHTML;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Traduciendo...';
+  btn.disabled = true;
   
   try {
-    // Llamar al worker de traducción
     var res = await fetch(TRANSLATOR_WORKER_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -482,44 +513,43 @@ async function traducirTexto(card, btn) {
     });
     
     var data = await res.json();
-    console.log('Respuesta traducción:', data); // Para depurar
     
     if (data.translated && data.translated !== texto) {
       var excerptDiv = card.querySelector('.news-excerpt');
       if (excerptDiv) {
         var translatedDiv = document.createElement('div');
         translatedDiv.className = 'translated-text';
-        translatedDiv.innerHTML = '<strong><i class="fas fa-language"></i> Traducción:</strong><br>' + data.translated;
+        translatedDiv.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;"><strong><i class="fas fa-language"></i> Traducción:</strong><button class="close-translation" onclick="this.closest(\'.translated-text\').remove()" style="background:none;border:none;color:#5a5f6e;cursor:pointer;font-size:12px;"><i class="fas fa-times"></i></button></div>' + data.translated;
         excerptDiv.insertAdjacentElement('afterend', translatedDiv);
-        
-        if (btn) {
-          btn.innerHTML = '<i class="fas fa-check"></i>';
-          btn.style.color = '#4caf50';
-          setTimeout(function() {
-            btn.innerHTML = '<i class="fas fa-globe"></i>';
-            btn.style.color = '#2196f3';
-            btn.disabled = false;
-            btn.classList.remove('translating');
-          }, 3000);
-        }
       }
+      btn.innerHTML = '<i class="fas fa-check"></i> Traducido';
+      btn.style.background = '#4caf5020';
+      btn.style.borderColor = '#4caf50';
+      btn.style.color = '#4caf50';
+      setTimeout(function() {
+        btn.innerHTML = '<i class="fas fa-language"></i> Traducir';
+        btn.style.background = '';
+        btn.style.borderColor = '';
+        btn.style.color = '';
+        btn.disabled = false;
+      }, 2000);
     } else {
-      // Si no hay traducción válida
-      throw new Error(data.error || 'No se pudo traducir');
+      throw new Error('No se pudo traducir');
     }
   } catch (e) {
     console.error('Error traducción:', e);
-    if (btn) {
-      btn.innerHTML = '<i class="fas fa-exclamation-triangle"></i>';
-      btn.style.color = '#f44336';
-      setTimeout(function() {
-        btn.innerHTML = origIcon;
-        btn.style.color = '#2196f3';
-        btn.disabled = false;
-        btn.classList.remove('translating');
-      }, 2000);
-    }
-    showToast('❌ Error al traducir: ' + (e.message || 'intenta de nuevo'));
+    btn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error';
+    btn.style.background = '#f4433620';
+    btn.style.borderColor = '#f44336';
+    btn.style.color = '#f44336';
+    setTimeout(function() {
+      btn.innerHTML = '<i class="fas fa-language"></i> Traducir';
+      btn.style.background = '';
+      btn.style.borderColor = '';
+      btn.style.color = '';
+      btn.disabled = false;
+    }, 2000);
+    showToast('❌ Error al traducir');
   }
 }
 
@@ -659,8 +689,6 @@ function renderDestacadosGrid(items) {
     var esFav = noticiaEsFavorita(it.link);
     var afi = buscarAfiliado(it.title);
     var afiBtn = afi ? '<button class="affiliate-btn" onclick="abrirOfertaModal(\'' + afi + '\')"><i class="fas fa-tag"></i> Oferta</button>' : '';
-    var showTr = shouldShowTranslateBtn(it.title, it.description);
-    var trBtn = showTr ? '<button class="translate-btn" onclick="(function(b){var c=b.closest(\'.news-card\');if(c)traducirTexto(c,b);})(this)"><i class="fas fa-globe"></i></button>' : '';
     var catDet = 'General', catIcon = 'fas fa-folder';
     var ul = it.link.toLowerCase();
     if (ul.indexOf('xataka') !== -1 || ul.indexOf('genbeta') !== -1) { catDet = 'Tecnología'; catIcon = 'fas fa-laptop'; }
@@ -678,10 +706,10 @@ function renderDestacadosGrid(items) {
     html += '<article class="news-card cat-destacados' + podClass + '" data-url="' + it.link + '" data-title="' + (it.title || '').replace(/"/g, '"') + '" data-img="' + imgSrc + '" data-source="' + (it.sourceName || '') + '" data-logo="' + (it.sourceLogo || '') + '" data-date="' + (it.pubDate || '') + '" data-desc="' + stripHtml(it.description || '').replace(/"/g, '"') + '">';
     html += '<div class="news-image-wrapper" data-has-image="' + hasImg + '">';
     if (img) { html += '<img class="news-image" src="' + imgSrc + '" loading="lazy" onerror="this.style.display=\'none\';this.parentNode.setAttribute(\'data-has-image\',\'false\');">'; }
-    html += '<div class="card-actions"><button class="favorite-btn' + (esFav ? ' active' : '') + '" onclick="toggleFavConCategoria(this)"><i class="' + (esFav ? 'fas' : 'far') + ' fa-heart"></i></button><button class="share-btn" onclick="shareIt(\'' + it.link.replace(/'/g, "\\'") + '\',\'' + (it.title || 'Noticia').replace(/'/g, "\\'") + '\',this)"><i class="fas fa-share-alt"></i></button>' + trBtn + '</div></div>';
+    html += '<div class="card-actions"><button class="favorite-btn' + (esFav ? ' active' : '') + '" onclick="toggleFavConCategoria(this)"><i class="' + (esFav ? 'fas' : 'far') + ' fa-heart"></i></button><button class="share-btn" onclick="shareIt(\'' + it.link.replace(/'/g, "\\'") + '\',\'' + (it.title || 'Noticia').replace(/'/g, "\\'") + '\',this)"><i class="fas fa-share-alt"></i></button></div></div>';
     html += '<div class="news-content"><a class="news-title" href="' + it.link + '" target="_blank">' + (it.title || 'Noticia ' + (i + 1)) + '</a>';
     html += '<p class="news-excerpt">' + truncateText(stripHtml(it.description || ''), 300) + '</p>';
-    html += '<div class="news-meta"><div class="source-info"><span class="categoria-badge"><i class="' + catIcon + '"></i> ' + catDet + '</span>' + (it.sourceLogo ? '<img class="source-favicon" src="' + it.sourceLogo + '">' : '') + '<span>' + timeAgo(it.pubDate) + ' - ' + it.sourceName + '</span></div><div style="display:flex;gap:6px;align-items:center;">' + afiBtn + '<a href="' + it.link + '" target="_blank" class="read-more-btn"><i class="fas fa-arrow-right"></i> Seguir leyendo</a></div></div></div></article>';
+    html += '<div class="news-meta"><div class="source-info"><span class="categoria-badge"><i class="' + catIcon + '"></i> ' + catDet + '</span>' + (it.sourceLogo ? '<img class="source-favicon" src="' + it.sourceLogo + '">' : '') + '<span>' + timeAgo(it.pubDate) + ' - ' + it.sourceName + '</span></div><div style="display:flex;gap:6px;align-items:center;">' + afiBtn + '<button class="translate-btn-text" onclick="traducirTexto(this.closest(\'.news-card\'), this)"><i class="fas fa-language"></i> Traducir</button><a href="' + it.link + '" target="_blank" class="read-more-btn"><i class="fas fa-arrow-right"></i> Seguir leyendo</a></div></div></div></article>';
   }
   html += '</div>';
   return html;
@@ -697,17 +725,15 @@ async function renderNewsGrid(items, mostrar, catId) {
     var esFav = noticiaEsFavorita(it.link);
     var afi = buscarAfiliado(it.title);
     var afiBtn = afi ? '<button class="affiliate-btn" onclick="abrirOfertaModal(\'' + afi + '\')"><i class="fas fa-tag"></i> Oferta</button>' : '';
-    var showTr = shouldShowTranslateBtn(it.title, it.description);
-    var trBtn = showTr ? '<button class="translate-btn" onclick="(function(b){var c=b.closest(\'.news-card\');if(c)traducirTexto(c,b);})(this)"><i class="fas fa-globe"></i></button>' : '';
     var catNom = catId.charAt(0).toUpperCase() + catId.slice(1);
     var catIcon = getIconoCategoria(catNom);
     html += '<article class="news-card cat-' + catId + '" data-url="' + it.link + '" data-title="' + it.title.replace(/"/g, '"') + '" data-img="' + imgSrc + '" data-source="' + (it.sourceName || '') + '" data-logo="' + (it.sourceLogo || '') + '" data-date="' + (it.pubDate || '') + '" data-desc="' + stripHtml(it.description || '').replace(/"/g, '"') + '">';
     html += '<div class="news-image-wrapper" data-has-image="' + hasImg + '">';
     if (img) { html += '<img class="news-image" src="' + imgSrc + '" loading="lazy" onerror="this.style.display=\'none\';this.parentNode.setAttribute(\'data-has-image\',\'false\');">'; }
-    html += '<div class="card-actions"><button class="favorite-btn' + (esFav ? ' active' : '') + '" onclick="toggleFavConCategoria(this)"><i class="' + (esFav ? 'fas' : 'far') + ' fa-heart"></i></button><button class="share-btn" onclick="shareIt(\'' + it.link.replace(/'/g, "\\'") + '\',\'' + it.title.replace(/'/g, "\\'") + '\',this)"><i class="fas fa-share-alt"></i></button>' + trBtn + '</div></div>';
+    html += '<div class="card-actions"><button class="favorite-btn' + (esFav ? ' active' : '') + '" onclick="toggleFavConCategoria(this)"><i class="' + (esFav ? 'fas' : 'far') + ' fa-heart"></i></button><button class="share-btn" onclick="shareIt(\'' + it.link.replace(/'/g, "\\'") + '\',\'' + it.title.replace(/'/g, "\\'") + '\',this)"><i class="fas fa-share-alt"></i></button></div></div>';
     html += '<div class="news-content"><a class="news-title" href="' + it.link + '" target="_blank">' + it.title + '</a>';
     html += '<p class="news-excerpt">' + truncateText(stripHtml(it.description), 300) + '</p>';
-    html += '<div class="news-meta"><div class="source-info"><span class="categoria-badge"><i class="' + catIcon + '"></i> ' + catNom + '</span>' + (it.sourceLogo ? '<img class="source-favicon" src="' + it.sourceLogo + '">' : '') + '<span>' + timeAgo(it.pubDate) + ' - ' + it.sourceName + '</span></div><div style="display:flex;gap:6px;align-items:center;">' + afiBtn + '<a href="' + it.link + '" target="_blank" class="read-more-btn"><i class="fas fa-arrow-right"></i> Seguir leyendo</a></div></div></div></article>';
+    html += '<div class="news-meta"><div class="source-info"><span class="categoria-badge"><i class="' + catIcon + '"></i> ' + catNom + '</span>' + (it.sourceLogo ? '<img class="source-favicon" src="' + it.sourceLogo + '">' : '') + '<span>' + timeAgo(it.pubDate) + ' - ' + it.sourceName + '</span></div><div style="display:flex;gap:6px;align-items:center;">' + afiBtn + '<button class="translate-btn-text" onclick="traducirTexto(this.closest(\'.news-card\'), this)"><i class="fas fa-language"></i> Traducir</button><a href="' + it.link + '" target="_blank" class="read-more-btn"><i class="fas fa-arrow-right"></i> Seguir leyendo</a></div></div></div></article>';
   }
   html += '</div>';
   return html;
