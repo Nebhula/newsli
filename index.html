@@ -41,12 +41,30 @@
   @keyframes fadeInWrap { from { opacity: 0; } to { opacity: 1; } }
   .news-info-bar { display: flex !important; justify-content: space-between !important; align-items: center !important; margin-bottom: 15px !important; padding: 10px 12px !important; background: #11131f !important; border-radius: 8px !important; font-size: 12px !important; color: #8a8f9e !important; border: 1px solid #1e2a3a !important; }
   .news-count { font-weight: 600 !important; color: #e91e63 !important; font-size: 12px !important; }
-  .news-grid { column-count: 3 !important; column-gap: 15px !important; width: 100% !important; }
+  
+  /* 🔥 GRID NORMAL (Tecnología, Deportes, etc.) - Orden vertical por columnas */
+  .news-grid { 
+    column-count: 3 !important; 
+    column-gap: 15px !important; 
+    width: 100% !important; 
+  }
   @media (max-width: 900px) { .news-grid { column-count: 2 !important; } }
   @media (max-width: 600px) { .news-grid { column-count: 1 !important; } }
-  .news-grid.votadas-grid { column-count: 3 !important; column-gap: 15px !important; }
-  @media (max-width: 900px) { .news-grid.votadas-grid { column-count: 2 !important; } }
-  @media (max-width: 600px) { .news-grid.votadas-grid { column-count: 1 !important; } }
+  
+  /* 🔥 GRID MÁS VOTADAS - Orden horizontal (1-2-3 izquierda a derecha) */
+  .news-grid.votadas-grid { 
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 15px !important;
+    width: 100% !important;
+  }
+  @media (max-width: 900px) { 
+    .news-grid.votadas-grid { grid-template-columns: repeat(2, 1fr) !important; } 
+  }
+  @media (max-width: 600px) { 
+    .news-grid.votadas-grid { grid-template-columns: 1fr !important; } 
+  }
+  
   .news-card { background: #11131f !important; border-radius: 12px !important; overflow: hidden !important; box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important; transition: all 0.3s ease !important; display: inline-flex !important; flex-direction: column !important; width: 100% !important; position: relative !important; break-inside: avoid !important; margin-bottom: 15px !important; border: 1px solid #1e2a3a !important; content-visibility: auto !important; contain-intrinsic-size: 0 400px !important; }
   .news-card:hover { transform: translateY(-4px) !important; box-shadow: 0 12px 28px rgba(0,0,0,0.4), 0 0 0 1px #e91e63 !important; border-color: #e91e63 !important; }
   @media (max-width: 600px) { .news-card { box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important; } .news-card:hover { transform: translateY(-2px) !important; } }
@@ -132,6 +150,11 @@
   .cargar-mas-btn:hover { transform: translateY(-2px) !important; box-shadow: 0 6px 20px rgba(233,30,99,0.4) !important; }
   .cargar-mas-btn:disabled { opacity: 0.5 !important; cursor: not-allowed !important; transform: none !important; }
   .cargar-mas-btn i { font-size: 16px !important; }
+  
+  /* 🔥 ESPACIO EXTRA SOLO EN MÁS VOTADAS (antes del nav) */
+  #panel-mas-votadas {
+    padding-bottom: 40px !important;
+  }
   
   /* 🔥 BARRA INFERIOR CON ICONOS FONT AWESOME */
   .bottom-nav-bar { 
@@ -300,6 +323,7 @@
   <div class='tab-panel-wrap' id='panel-moda'><div class='loading-section'>Cargando...</div></div>
   <div class='tab-panel-wrap' id='panel-musica'><div class='loading-section'>Cargando...</div></div>
   <div class='tab-panel-wrap' id='panel-ciencia'><div class='loading-section'>Cargando...</div></div>
+  <!-- 🔥 BOTÓN CARGAR MÁS (NO se muestra en Más Votadas ni Favoritos) -->
   <div class='cargar-mas-container' id='cargarMasContainer' style='display:none;'>
     <button class='cargar-mas-btn' id='cargarMasBtn' onclick='cargarMasManual()'>
       <i class='fas fa-plus-circle'></i> Cargar más noticias
@@ -394,8 +418,8 @@ if (!USUARIO_ID) { USUARIO_ID = 'user_' + Math.random().toString(36).substr(2, 1
 
 var categoriasPorDefecto = ["Tecnología", "Deportes", "Mascotas", "Terror", "Cine", "Cocina", "Games", "Viajes", "Moda", "Música", "Ciencia", "General"];
 
-var MAX_ITEMS = 68;
-var ITEMS_INICIALES = 66;
+var MAX_ITEMS = 18;
+var ITEMS_INICIALES = 16;
 
 /* ============================================
    🔥 AUTO-HIDE NAV BAR (SCROLL DIRECCIÓN)
@@ -559,6 +583,7 @@ function showFavs() {
   var cats = getCategorias();
   var total = contarTotalFavoritos();
   
+  /* 🔥 OCULTAR BOTÓN CARGAR MÁS EN FAVORITOS */
   document.getElementById('cargarMasContainer').style.display = 'none';
   
   if (total === 0) { panel.innerHTML = '<div class="empty-favorites"><i class="fas fa-heart"></i><h3>Tus favoritos están vacíos</h3><p>Haz clic en el corazón de cualquier noticia para guardarla en la categoría que prefieras.</p></div>'; return; }
@@ -697,6 +722,7 @@ async function cargarTab(id, forzarActualizacion) {
   if(id === 'favoritos') { showFavs(); return; } 
   if(id === 'mas-votadas') { 
     panel.innerHTML = await cargarMasVotadas(); 
+    /* 🔥 OCULTAR BOTÓN CARGAR MÁS EN MAS VOTADAS */
     document.getElementById('cargarMasContainer').style.display = 'none';
     return; 
   } 
@@ -754,6 +780,7 @@ function actualizarBotonCargarMas(id) {
   var btn = document.getElementById('cargarMasBtn');
   if(!btnContainer || !btn) return;
   
+  /* 🔥 OCULTAR EN MAS VOTADAS Y FAVORITOS */
   if(id === 'favoritos' || id === 'mas-votadas') {
     btnContainer.style.display = 'none';
     return;
