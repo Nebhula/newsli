@@ -6,16 +6,7 @@
   <title>Widget Noticias - Test</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { 
-      width: 100%; 
-      height: 100%; 
-      overflow-x: hidden; 
-      background: #0a0c15; 
-      font-family: Arial, sans-serif;
-      font-size: 16px;
-      -webkit-text-size-adjust: 100%;
-      scroll-behavior: smooth;
-    }
+    html, body { width: 100%; height: 100%; overflow-x: hidden; background: #0a0c15; font-family: Arial, sans-serif; font-size: 16px; -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
   </style>
 </head>
 <body>
@@ -43,35 +34,16 @@
   @media (max-width: 900px) { .news-grid { column-count: 2 !important; } }
   @media (max-width: 600px) { .news-grid { column-count: 1 !important; } }
   
-  .news-grid.destacados-grid { 
-    display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 15px !important;
-    width: 100% !important;
-  }
-  @media (max-width: 900px) { 
-    .news-grid.destacados-grid { grid-template-columns: repeat(2, 1fr) !important; } 
-  }
-  @media (max-width: 600px) { 
-    .news-grid.destacados-grid { grid-template-columns: 1fr !important; } 
-  }
+  .news-grid.destacados-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 15px !important; width: 100% !important; }
+  @media (max-width: 900px) { .news-grid.destacados-grid { grid-template-columns: repeat(2, 1fr) !important; } }
+  @media (max-width: 600px) { .news-grid.destacados-grid { grid-template-columns: 1fr !important; } }
   
   .news-card { background: #11131f !important; border-radius: 12px !important; overflow: hidden !important; box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important; transition: all 0.3s ease !important; display: inline-flex !important; flex-direction: column !important; width: 100% !important; position: relative !important; break-inside: avoid !important; margin-bottom: 15px !important; border: 1px solid #1e2a3a !important; content-visibility: auto !important; contain-intrinsic-size: 0 400px !important; }
   .news-card:hover { transform: translateY(-4px) !important; box-shadow: 0 12px 28px rgba(0,0,0,0.4), 0 0 0 1px #e91e63 !important; border-color: #e91e63 !important; }
   @media (max-width: 600px) { .news-card { box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important; } .news-card:hover { transform: translateY(-2px) !important; } }
   
-  .podium-first {
-    border: 3px solid #FFD700 !important;
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.4) !important;
-    animation: podiumGlow 2s ease-in-out infinite !important;
-  }
-  @keyframes podiumGlow {
-    0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.4); }
-    50% { box-shadow: 0 0 35px rgba(255, 215, 0, 0.7); }
-  }
-  
-  .news-card.highlight-return-card { animation: returnHighlight 0.5s ease-in-out 3 !important; border: 3px solid #e91e63 !important; box-shadow: 0 0 0 4px rgba(233,30,99,0.5), 0 0 20px rgba(233,30,99,0.6) !important; transform: scale(1.02) !important; background: #1a1f2e !important; }
-  @keyframes returnHighlight { 0% { border-color: #e91e63; box-shadow: 0 0 0 4px rgba(233,30,99,0.5); } 50% { border-color: #ff4081; box-shadow: 0 0 0 8px rgba(255,64,129,0.3); } 100% { border-color: #e91e63; box-shadow: 0 0 0 4px rgba(233,30,99,0.5); } }
+  .podium-first { border: 3px solid #FFD700 !important; box-shadow: 0 0 20px rgba(255, 215, 0, 0.4) !important; animation: podiumGlow 2s ease-in-out infinite !important; }
+  @keyframes podiumGlow { 0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.4); } 50% { box-shadow: 0 0 35px rgba(255, 215, 0, 0.7); } }
   
   .news-image-wrapper { width: 100% !important; height: auto !important; min-height: 150px !important; background: #1a1f2e !important; overflow: hidden !important; position: relative !important; }
   .news-image-wrapper[data-has-image="false"] { background: #1a1f2e !important; }
@@ -89,8 +61,30 @@
   .translate-btn.translating { animation: pulse 1s infinite; pointer-events: none; opacity: 0.7; }
   @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
   
-  .affiliate-btn { width: auto !important; height: 28px !important; border-radius: 20px !important; border: 2px solid #ff9800 !important; background: rgba(255,152,0,0.15) !important; color: #ff9800 !important; cursor: pointer !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; gap: 5px !important; padding: 4px 10px !important; font-size: 11px !important; font-weight: 700 !important; transition: all 0.2s ease !important; }
-  .affiliate-btn:hover { background: #ff9800 !important; color: #fff !important; transform: scale(1.05) !important; }
+  /* 🔥 BOTÓN OFERTA - MÁS VISIBLE */
+  .affiliate-btn { 
+    width: auto !important; 
+    height: 30px !important; 
+    border-radius: 20px !important; 
+    border: 2px solid #ff9800 !important; 
+    background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%) !important; 
+    color: #fff !important; 
+    cursor: pointer !important; 
+    display: inline-flex !important; 
+    align-items: center !important; 
+    justify-content: center !important; 
+    gap: 5px !important; 
+    padding: 4px 12px !important; 
+    font-size: 12px !important; 
+    font-weight: 700 !important; 
+    transition: all 0.2s ease !important;
+    box-shadow: 0 2px 8px rgba(255,152,0,0.3) !important;
+  }
+  .affiliate-btn:hover { 
+    transform: scale(1.08) !important; 
+    box-shadow: 0 4px 15px rgba(255,152,0,0.5) !important;
+  }
+  .affiliate-btn i { font-size: 14px !important; }
   
   .read-more-btn { background: #e91e63 !important; color: white !important; padding: 5px 12px !important; border-radius: 20px !important; text-decoration: none !important; font-size: 11px !important; font-weight: 600 !important; display: inline-flex !important; align-items: center !important; gap: 5px !important; transition: all 0.2s ease !important; border: none !important; cursor: pointer !important; }
   .read-more-btn:hover { background: #c2185b !important; transform: scale(1.02) !important; color: white !important; }
@@ -126,82 +120,31 @@
   
   #panel-destacados { padding-bottom: 40px !important; }
   
-  .bottom-nav-bar { 
-    position: fixed !important; 
-    bottom: 0 !important; 
-    left: 0 !important; 
-    right: 0 !important; 
-    background: #0a0c15 !important; 
-    border-top: 1px solid #1e2a3a !important; 
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-around !important;
-    padding: 10px 5px !important; 
-    z-index: 2000 !important; 
-    transition: transform 0.3s ease !important;
-  }
+  .bottom-nav-bar { position: fixed !important; bottom: 0 !important; left: 0 !important; right: 0 !important; background: #0a0c15 !important; border-top: 1px solid #1e2a3a !important; display: flex !important; align-items: center !important; justify-content: space-around !important; padding: 10px 5px !important; z-index: 2000 !important; transition: transform 0.3s ease !important; }
   .bottom-nav-bar.nav-hidden { transform: translateY(100%) !important; }
   .nav-btn { background: none !important; border: none !important; cursor: pointer !important; padding: 10px 15px !important; color: #8a8f9e !important; position: relative !important; display: flex !important; align-items: center !important; justify-content: center !important; transition: all 0.2s ease !important; min-width: 50px !important; }
   .nav-btn:hover { color: #e91e63 !important; }
   .nav-btn i { font-size: 24px !important; }
   .fav-counter { position: absolute !important; top: -5px !important; right: -5px !important; background: #e91e63 !important; color: #fff !important; font-size: 9px !important; padding: 2px 5px !important; border-radius: 50% !important; min-width: 16px !important; text-align: center !important; }
   
-  /* 🔥 MODAL FAVORITOS - CRÍTICO */
-  .categoria-modal { 
-    position: fixed !important; 
-    top: 0 !important; 
-    left: 0 !important; 
-    width: 100vw !important; 
-    height: 100vh !important; 
-    background: rgba(0,0,0,0.98) !important; 
-    display: none !important; 
-    justify-content: center !important; 
-    align-items: center !important; 
-    z-index: 999997 !important; 
-  }
-  .categoria-modal.active { display: flex !important; }
-  .categoria-modal-content { 
-    background: #0a0c15 !important; 
-    width: 100% !important; 
-    max-width: 100% !important; 
-    height: 100% !important; 
-    max-height: 100% !important; 
-    overflow-y: auto !important; 
-    position: relative !important; 
-    border-radius: 0 !important; 
-    margin: 0 !important; 
-    display: flex !important; 
-    flex-direction: column !important; 
-  }
-  .categoria-modal-header { 
-    background: linear-gradient(135deg, #e91e63 0%, #ff6b9d 100%) !important; 
-    color: #fff !important; 
-    padding: 20px !important; 
-    text-align: center !important; 
-    position: sticky !important; 
-    top: 0 !important; 
-    z-index: 10 !important; 
-  }
-  .categoria-modal-header h3 { 
-    margin: 0 !important; 
-    font-size: 20px !important; 
-    color: #fff !important; 
-    display: flex !important; 
-    align-items: center !important; 
-    justify-content: center !important; 
-    gap: 10px !important; 
-  }
-  .categoria-modal-header .close-modal { 
-    position: absolute !important; 
-    top: 15px !important; 
-    right: 20px !important; 
-    background: none !important; 
-    border: none !important; 
-    color: #fff !important; 
-    font-size: 28px !important; 
-    cursor: pointer !important; 
-  }
-  .categoria-modal-body { padding: 30px 20px !important; flex: 1 !important; }
+  /* MODALES */
+  .categoria-modal, .affiliate-modal, .oferta-modal, .submit-web-modal { position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important; background: rgba(0,0,0,0.98) !important; display: none !important; justify-content: center !important; align-items: center !important; z-index: 999997 !important; }
+  .categoria-modal.active, .affiliate-modal.active, .oferta-modal.active, .submit-web-modal.active { display: flex !important; }
+  
+  .categoria-modal-content, .affiliate-modal-content, .oferta-modal-content, .submit-web-content { background: #11131f !important; border-radius: 16px !important; width: 90% !important; max-width: 500px !important; max-height: 90vh !important; overflow-y: auto !important; position: relative !important; margin: 20px !important; border: 1px solid #1e2a3a !important; }
+  
+  .categoria-modal-header, .submit-web-header { background: linear-gradient(135deg, #e91e63 0%, #ff6b9d 100%) !important; color: #fff !important; padding: 20px !important; text-align: center !important; }
+  .categoria-modal-header h3 { margin: 0 !important; font-size: 20px !important; color: #fff !important; display: flex !important; align-items: center !important; justify-content: center !important; gap: 10px !important; }
+  .submit-web-header h2 { font-size: 24px !important; font-weight: 700 !important; margin: 0 0 10px 0 !important; line-height: 1.3 !important; }
+  .submit-web-header p { font-size: 14px !important; margin: 0 !important; opacity: 0.95 !important; line-height: 1.5 !important; }
+  
+  .close-modal, .affiliate-modal-close, .oferta-modal-close, .submit-web-close { position: absolute !important; top: 15px !important; right: 20px !important; background: none !important; border: none !important; color: #fff !important; font-size: 28px !important; cursor: pointer !important; }
+  .affiliate-modal-close, .oferta-modal-close, .submit-web-close { width: 44px !important; height: 44px !important; border-radius: 50% !important; background: rgba(233,30,99,0.2) !important; border: 2px solid #e91e63 !important; display: flex !important; align-items: center !important; justify-content: center !important; }
+  .affiliate-modal-close:hover, .oferta-modal-close:hover, .submit-web-close:hover, .close-modal:hover { background: #e91e63 !important; color: #fff !important; transform: scale(1.1) !important; }
+  
+  .categoria-modal-body, .affiliate-modal-body, .oferta-modal-body, .submit-web-form { padding: 30px 20px !important; }
+  .affiliate-modal-body, .oferta-modal-body { text-align: center !important; }
+  
   .categoria-list { max-height: none !important; margin-bottom: 30px !important; display: grid !important; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)) !important; gap: 12px !important; }
   .categoria-item { display: flex !important; align-items: center !important; justify-content: space-between !important; padding: 15px !important; background: #11131f !important; border-radius: 12px !important; cursor: pointer !important; transition: all 0.2s ease !important; border: 2px solid #1e2a3a !important; }
   .categoria-item:hover { background: #1a1f2e !important; transform: translateY(-2px) !important; border-color: #e91e63 !important; }
@@ -214,6 +157,7 @@
   .categoria-delete-btn { background: none !important; border: none !important; color: #5a5f6e !important; cursor: pointer !important; font-size: 16px !important; padding: 5px 8px !important; border-radius: 6px !important; transition: all 0.2s ease !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; }
   .categoria-delete-btn:hover { background: rgba(233,30,99,0.2) !important; color: #e91e63 !important; }
   .categoria-delete-btn:disabled { opacity: 0.3 !important; cursor: not-allowed !important; }
+  
   .nueva-categoria-section { margin-top: 20px !important; padding-top: 20px !important; border-top: 2px solid #1e2a3a !important; }
   .nueva-categoria-section h4 { margin: 0 0 15px 0 !important; font-size: 16px !important; color: #e91e63 !important; }
   .nueva-categoria-input { display: flex !important; gap: 12px !important; flex-wrap: wrap !important; }
@@ -222,6 +166,7 @@
   .nueva-categoria-input input::placeholder { color: #5a5f6e !important; }
   .nueva-categoria-input button { background: #e91e63 !important; color: #fff !important; border: none !important; padding: 14px 25px !important; border-radius: 12px !important; cursor: pointer !important; font-size: 16px !important; font-weight: 600 !important; display: flex !important; align-items: center !important; gap: 8px !important; white-space: nowrap !important; }
   .nueva-categoria-input button:hover { background: #c2185b !important; transform: scale(1.02) !important; }
+  
   .categoria-modal-footer { padding: 20px !important; border-top: 1px solid #1e2a3a !important; display: flex !important; justify-content: center !important; gap: 15px !important; background: #0a0c15 !important; position: sticky !important; bottom: 0 !important; }
   .categoria-modal-footer button { padding: 14px 30px !important; border-radius: 40px !important; cursor: pointer !important; border: none !important; font-size: 16px !important; font-weight: 600 !important; transition: all 0.2s ease !important; }
   .btn-cancelar { background: #1e2a3a !important; color: #8a8f9e !important; }
@@ -229,7 +174,21 @@
   .btn-guardar { background: #e91e63 !important; color: #fff !important; }
   .btn-guardar:hover { background: #c2185b !important; transform: scale(1.02) !important; }
   
-  /* FAVORITOS */
+  .affiliate-modal-img, .oferta-modal-img { width: 100% !important; max-width: 280px !important; height: auto !important; border-radius: 12px !important; margin-bottom: 25px !important; box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important; }
+  .affiliate-modal-title, .oferta-modal-title { font-size: 22px !important; font-weight: 700 !important; margin-bottom: 15px !important; color: #f0f0f0 !important; line-height: 1.3 !important; }
+  .affiliate-modal-desc, .oferta-modal-desc { font-size: 15px !important; color: #8a8f9e !important; margin-bottom: 30px !important; line-height: 1.6 !important; }
+  .affiliate-modal-btn, .oferta-modal-btn { display: inline-block !important; background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%) !important; color: #fff !important; padding: 16px 40px !important; border-radius: 50px !important; text-decoration: none !important; font-weight: 700 !important; font-size: 16px !important; transition: all 0.2s ease !important; box-shadow: 0 4px 15px rgba(255,152,0,0.3) !important; }
+  .affiliate-modal-btn:hover, .oferta-modal-btn:hover { transform: scale(1.05) !important; box-shadow: 0 6px 20px rgba(255,152,0,0.5) !important; }
+  .affiliate-modal-disclaimer, .oferta-modal-disclaimer { font-size: 12px !important; color: #5a5f6e !important; margin-top: 20px !important; line-height: 1.4 !important; }
+  
+  .submit-web-form { padding: 30px 25px !important; }
+  .form-group { margin-bottom: 20px !important; }
+  .form-group label { display: block !important; font-size: 14px !important; font-weight: 600 !important; margin-bottom: 8px !important; color: #f0f0f0 !important; line-height: 1.4 !important; }
+  .form-group input, .form-group select, .form-group textarea { width: 100% !important; padding: 12px !important; border: 2px solid #1e2a3a !important; border-radius: 8px !important; font-size: 14px !important; box-sizing: border-box !important; font-family: Arial, sans-serif !important; background: #0a0c15 !important; color: #f0f0f0 !important; }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: #e91e63 !important; outline: none !important; }
+  .submit-btn { width: 100% !important; padding: 14px !important; background: linear-gradient(135deg, #e91e63 0%, #ff6b9d 100%) !important; color: #fff !important; border: none !important; border-radius: 50px !important; font-weight: 700 !important; cursor: pointer !important; font-size: 15px !important; margin-top: 10px !important; }
+  .submit-btn:hover { opacity: 0.9 !important; transform: scale(1.02) !important; }
+  
   .categoria-fav-header { display: flex !important; justify-content: space-between !important; align-items: center !important; margin-top: 20px !important; margin-bottom: 10px !important; padding-bottom: 5px !important; border-bottom: 2px solid #e91e63 !important; }
   .categoria-fav-header h3 { margin: 0 !important; font-size: 16px !important; color: #e91e63 !important; display: flex !important; align-items: center !important; gap: 8px !important; }
   .categoria-fav-header span { font-size: 12px !important; color: #5a5f6e !important; }
@@ -243,29 +202,6 @@
   
   .toast-container { position: fixed !important; bottom: 80px !important; left: 50% !important; transform: translateX(-50%) !important; z-index: 10000 !important; width: 90% !important; max-width: 350px !important; }
   .toast { background: rgba(0,0,0,0.95) !important; color: #fff !important; padding: 12px 16px !important; border-radius: 8px !important; font-size: 13px !important; margin-bottom: 8px !important; display: flex !important; align-items: center !important; gap: 8px !important; line-height: 1.4 !important; border-left: 3px solid #e91e63 !important; }
-  
-  .affiliate-modal, .oferta-modal, .submit-web-modal { position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important; background: rgba(0,0,0,0.95) !important; display: none !important; justify-content: center !important; align-items: center !important; z-index: 999998 !important; }
-  .affiliate-modal.active, .oferta-modal.active, .submit-web-modal.active { display: flex !important; }
-  .affiliate-modal-content, .oferta-modal-content, .submit-web-content { background: #11131f !important; border-radius: 16px !important; width: 90% !important; max-width: 500px !important; max-height: 90vh !important; overflow-y: auto !important; position: relative !important; margin: 20px !important; }
-  .affiliate-modal-close, .oferta-modal-close, .submit-web-close { position: absolute !important; top: 15px !important; right: 15px !important; width: 44px !important; height: 44px !important; border-radius: 50% !important; background: rgba(233,30,99,0.2) !important; border: 2px solid #e91e63 !important; cursor: pointer !important; font-size: 22px !important; color: #e91e63 !important; display: flex !important; align-items: center !important; justify-content: center !important; z-index: 10 !important; }
-  .affiliate-modal-close:hover, .oferta-modal-close:hover, .submit-web-close:hover { background: #e91e63 !important; color: #fff !important; transform: scale(1.1) !important; }
-  .affiliate-modal-body, .oferta-modal-body { padding: 40px 30px !important; text-align: center !important; }
-  .affiliate-modal-img, .oferta-modal-img { width: 100% !important; max-width: 280px !important; height: auto !important; border-radius: 12px !important; margin-bottom: 25px !important; }
-  .affiliate-modal-title, .oferta-modal-title { font-size: 22px !important; font-weight: 700 !important; margin-bottom: 15px !important; color: #f0f0f0 !important; line-height: 1.3 !important; }
-  .affiliate-modal-desc, .oferta-modal-desc { font-size: 15px !important; color: #8a8f9e !important; margin-bottom: 30px !important; line-height: 1.6 !important; }
-  .affiliate-modal-btn, .oferta-modal-btn { display: inline-block !important; background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%) !important; color: #fff !important; padding: 14px 35px !important; border-radius: 50px !important; text-decoration: none !important; font-weight: 700 !important; font-size: 15px !important; }
-  .affiliate-modal-disclaimer, .oferta-modal-disclaimer { font-size: 12px !important; color: #5a5f6e !important; margin-top: 20px !important; line-height: 1.4 !important; }
-  
-  .submit-web-header { background: linear-gradient(135deg, #e91e63 0%, #ff6b9d 100%) !important; color: #fff !important; padding: 35px 25px !important; text-align: center !important; }
-  .submit-web-header h2 { font-size: 24px !important; font-weight: 700 !important; margin: 0 0 10px 0 !important; line-height: 1.3 !important; }
-  .submit-web-header p { font-size: 14px !important; margin: 0 !important; opacity: 0.95 !important; line-height: 1.5 !important; }
-  .submit-web-form { padding: 30px 25px !important; }
-  .form-group { margin-bottom: 20px !important; }
-  .form-group label { display: block !important; font-size: 14px !important; font-weight: 600 !important; margin-bottom: 8px !important; color: #f0f0f0 !important; line-height: 1.4 !important; }
-  .form-group input, .form-group select, .form-group textarea { width: 100% !important; padding: 12px !important; border: 2px solid #1e2a3a !important; border-radius: 8px !important; font-size: 14px !important; box-sizing: border-box !important; font-family: Arial, sans-serif !important; background: #0a0c15 !important; color: #f0f0f0 !important; }
-  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: #e91e63 !important; outline: none !important; }
-  .submit-btn { width: 100% !important; padding: 14px !important; background: linear-gradient(135deg, #e91e63 0%, #ff6b9d 100%) !important; color: #fff !important; border: none !important; border-radius: 50px !important; font-weight: 700 !important; cursor: pointer !important; font-size: 15px !important; margin-top: 10px !important; }
-  .submit-btn:hover { opacity: 0.9 !important; transform: scale(1.02) !important; }
 </style>
 
 <div class='news-aggregator' id='news-widget'>
@@ -304,7 +240,6 @@
   </div>
 </div>
 
-<!-- 🔥 MODAL FAVORITOS -->
 <div class='categoria-modal' id='categoriaModal'>
   <div class='categoria-modal-content'>
     <div class='categoria-modal-header'>
@@ -369,12 +304,8 @@
 </div>
 
 <div class='bottom-nav-bar' id='bottomNavBar'>
-  <button class='nav-btn' onclick='irAlHome()'>
-    <i class='fas fa-home'></i>
-  </button>
-  <button class='nav-btn' onclick='abrirFormularioWeb()'>
-    <i class='fas fa-plus'></i>
-  </button>
+  <button class='nav-btn' onclick='irAlHome()'><i class='fas fa-home'></i></button>
+  <button class='nav-btn' onclick='abrirFormularioWeb()'><i class='fas fa-plus'></i></button>
   <button class='nav-btn' onclick='mostrarFavoritosDesdeNav()'>
     <i class='fas fa-heart'></i>
     <span class='fav-counter' id='favCounter'>0</span>
@@ -401,6 +332,141 @@ window.addEventListener('scroll', function() {
   lastScrollY = currentScrollY;
 }, { passive: true });
 
+/* 🔥 AFILIADOS - MUCHOS MÁS PRODUCTOS */
+var afiliados = {
+  'playstation': { 
+    keywords: ['playstation','ps5','ps4','ps3','play station','sony consola','sony playstation','dualsense','control ps5'], 
+    foto: 'https://m.media-amazon.com/images/I/51w+R0uLc+L._AC_SL1500_.jpg', 
+    titulo: 'PlayStation 5 en Amazon', 
+    descripcion: 'La última consola de Sony con gráficos 4K, carga ultrarrápida y juegos exclusivos.', 
+    enlace: 'https://amazon.es/dp/B0CL5KNB9M?tag=TU-ID-AFILIADO-21' 
+  },
+  'xbox': { 
+    keywords: ['xbox','xbox series','xbox series x','xbox series s','microsoft consola','xbox one','control xbox','game pass'], 
+    foto: 'https://m.media-amazon.com/images/I/61SUj2aKoEL._AC_SL1500_.jpg', 
+    titulo: 'Xbox Series X en Amazon', 
+    descripcion: 'La Xbox más potente de la historia. Juegos en 4K real y carga instantánea.', 
+    enlace: 'https://amazon.es/dp/B08H75RTZ8?tag=TU-ID-AFILIADO-21' 
+  },
+  'nintendo': { 
+    keywords: ['nintendo','switch','nintendo switch','switch oled','switch lite','joy-con','pokemon nintendo','zelda switch'], 
+    foto: 'https://m.media-amazon.com/images/I/61-PblYntsL._AC_SL1500_.jpg', 
+    titulo: 'Nintendo Switch en Amazon', 
+    descripcion: 'Juega en casa o donde quieras. La consola híbrida más versátil.', 
+    enlace: 'https://amazon.es/dp/B07VGRJDFY?tag=TU-ID-AFILIADO-21' 
+  },
+  'iphone': { 
+    keywords: ['iphone','iphone 15','iphone 16','iphone 14','iphone 13','apple telefono','apple iphone','ios','airpods'], 
+    foto: 'https://m.media-amazon.com/images/I/71xb2xkN5qL._AC_SL1500_.jpg', 
+    titulo: 'iPhone en Amazon', 
+    descripcion: 'El último iPhone con cámara profesional y rendimiento increíble.', 
+    enlace: 'https://amazon.es/dp/B0CHX3TW6T?tag=TU-ID-AFILIADO-21' 
+  },
+  'samsung': { 
+    keywords: ['samsung','galaxy','samsung galaxy','galaxy s24','galaxy s23','samsung telefono','android samsung'], 
+    foto: 'https://m.media-amazon.com/images/I/71gK4bXJSQL._AC_SL1500_.jpg', 
+    titulo: 'Samsung Galaxy en Amazon', 
+    descripcion: 'Tecnología Samsung con las mejores cámaras y pantalla.', 
+    enlace: 'https://amazon.es/dp/B0CMDWC5LL?tag=TU-ID-AFILIADO-21' 
+  },
+  'airpods': { 
+    keywords: ['airpods','airpods pro','airpods max','auriculares apple','airpods 3'], 
+    foto: 'https://m.media-amazon.com/images/I/61SUj2aKoEL._AC_SL1500_.jpg', 
+    titulo: 'AirPods en Amazon', 
+    descripcion: 'Sonido espacial y cancelación de ruido activa.', 
+    enlace: 'https://amazon.es/dp/B0BDHB9Y8H?tag=TU-ID-AFILIADO-21' 
+  },
+  'macbook': { 
+    keywords: ['macbook','macbook pro','macbook air','apple laptop','mac os','macbook m1','macbook m2','macbook m3'], 
+    foto: 'https://m.media-amazon.com/images/I/61L5QgPvgqL._AC_SL1500_.jpg', 
+    titulo: 'MacBook en Amazon', 
+    descripcion: 'Potencia y portabilidad con chip Apple Silicon.', 
+    enlace: 'https://amazon.es/dp/B0BSHF7WHW?tag=TU-ID-AFILIADO-21' 
+  },
+  'tablet': { 
+    keywords: ['tablet','ipad','ipad pro','ipad air','samsung tablet','tablet android','xiaomi tablet'], 
+    foto: 'https://m.media-amazon.com/images/I/61NGnpjoRDL._AC_SL1500_.jpg', 
+    titulo: 'Tablets en Amazon', 
+    descripcion: 'Las mejores tablets para trabajo y entretenimiento.', 
+    enlace: 'https://amazon.es/dp/B09G9FPHY6?tag=TU-ID-AFILIADO-21' 
+  },
+  'gaming': { 
+    keywords: ['gaming','gamer','pc gaming','teclado gaming','raton gaming','auriculares gaming','silla gaming'], 
+    foto: 'https://m.media-amazon.com/images/I/71bhWgQK-cL._AC_SL1500_.jpg', 
+    titulo: 'Accesorios Gaming en Amazon', 
+    descripcion: 'Equípate con lo mejor para gaming.', 
+    enlace: 'https://amazon.es/gaming?tag=TU-ID-AFILIADO-21' 
+  },
+  'tv': { 
+    keywords: ['tv','television','smart tv','oled','qled','4k tv','lg tv','samsung tv','sony tv'], 
+    foto: 'https://m.media-amazon.com/images/I/81xrGj8PJZL._AC_SL1500_.jpg', 
+    titulo: 'Smart TV en Amazon', 
+    descripcion: 'Televisores 4K con la mejor calidad de imagen.', 
+    enlace: 'https://amazon.es/tv?tag=TU-ID-AFILIADO-21' 
+  }
+};
+
+function buscarAfiliado(t) { 
+  var tl = t.toLowerCase(); 
+  for (var k in afiliados) { 
+    for (var i = 0; i < afiliados[k].keywords.length; i++) { 
+      if (tl.indexOf(afiliados[k].keywords[i]) !== -1) { 
+        console.log('Afiliado encontrado:', k);
+        return k; 
+      } 
+    } 
+  } 
+  return null; 
+}
+
+/* 🔥 ABRIR MODAL OFERTA - CRÍTICO */
+function abrirOfertaModal(key) {
+  console.log('Abriendo oferta:', key);
+  var af = afiliados[key];
+  if (!af) { 
+    console.log('Afiliado no encontrado');
+    return; 
+  }
+  
+  var modal = document.getElementById('ofertaModal');
+  var img = document.getElementById('ofertaModalImg');
+  var title = document.getElementById('ofertaModalTitle');
+  var desc = document.getElementById('ofertaModalDesc');
+  var link = document.getElementById('ofertaModalLink');
+  
+  img.src = af.foto;
+  title.textContent = af.titulo;
+  desc.textContent = af.descripcion;
+  link.href = af.enlace;
+  
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  console.log('Modal oferta abierto');
+}
+
+function cerrarOfertaModal() { 
+  document.getElementById('ofertaModal').classList.remove('active'); 
+  document.body.style.overflow = ''; 
+}
+
+function abrirModal(p) { 
+  document.getElementById('modalImg').src = p.foto; 
+  document.getElementById('modalTitle').textContent = p.titulo; 
+  document.getElementById('modalDesc').textContent = p.descripcion; 
+  document.getElementById('affiliateModal').classList.add('active'); 
+  document.body.style.overflow = 'hidden'; 
+}
+
+function cerrarModal() { 
+  document.getElementById('affiliateModal').classList.remove('active'); 
+  document.body.style.overflow = ''; 
+}
+
+document.addEventListener('click', function(e) { 
+  if (e.target === document.getElementById('ofertaModal')) cerrarOfertaModal();
+  if (e.target === document.getElementById('affiliateModal')) cerrarModal(); 
+});
+
 /* FAVORITOS */
 var iconosCategorias = { "Tecnología": "fas fa-laptop", "Deportes": "fas fa-futbol", "Mascotas": "fas fa-paw", "Terror": "fas fa-ghost", "Cine": "fas fa-film", "Cocina": "fas fa-utensils", "Games": "fas fa-gamepad", "Viajes": "fas fa-plane", "Moda": "fas fa-tshirt", "Música": "fas fa-music", "Ciencia": "fas fa-flask", "General": "fas fa-folder" };
 function getIconoCategoria(categoria) { return iconosCategorias[categoria] || "fas fa-folder"; }
@@ -419,9 +485,8 @@ function actualizarContadorFavoritos() { var c = document.getElementById('favCou
 
 var noticiaPendiente = null;
 
-/* 🔥 ABRIR MODAL FAVORITOS - CRÍTICO */
 function abrirModalCategoria(noticia) {
-  console.log('Abriendo modal...', noticia);
+  console.log('Abriendo modal favoritos...', noticia);
   noticiaPendiente = noticia;
   var modal = document.getElementById('categoriaModal');
   var lista = document.getElementById('categoriaList');
@@ -439,7 +504,7 @@ function abrirModalCategoria(noticia) {
   }
   modal.classList.add('active');
   document.body.style.overflow = 'hidden';
-  console.log('Modal abierto');
+  console.log('Modal favoritos abierto');
 }
 
 function cerrarModalCategoria() { 
@@ -497,15 +562,7 @@ function toggleFavConCategoria(btn) {
     } 
     return; 
   }
-  var noticia = { 
-    u: url, 
-    t: card.getAttribute('data-title'), 
-    i: card.getAttribute('data-img'), 
-    s: card.getAttribute('data-source'), 
-    l: card.getAttribute('data-logo'), 
-    d: card.getAttribute('data-date'), 
-    c: card.getAttribute('data-desc') 
-  };
+  var noticia = { u: url, t: card.getAttribute('data-title'), i: card.getAttribute('data-img'), s: card.getAttribute('data-source'), l: card.getAttribute('data-logo'), d: card.getAttribute('data-date'), c: card.getAttribute('data-desc') };
   console.log('Toggle fav', noticia);
   abrirModalCategoria(noticia);
 }
@@ -545,7 +602,7 @@ function extractImage(it) {
   if (it['media:content'] && it['media:content'].url) return it['media:content'].url;
   if (it.content) { var m = it.content.match(/<img[^>]+src="([^">]+)"/); if (m && m[1]) return m[1]; }
   if (it.description) { var m = it.description.match(/<img[^>]+src="([^">]+)"/); if (m && m[1]) return m[1]; }
-  return null; /* SIN FAVICON, SIN PLACEHOLDER */
+  return null;
 }
 
 /* TRADUCTOR */
@@ -576,13 +633,6 @@ var rssCache = {}, rssCacheTime = {};
 function getRssCache(cat) { var now = Date.now(); if (rssCache[cat] && rssCacheTime[cat] && (now - rssCacheTime[cat] < RSS_CACHE_DURATION)) return rssCache[cat]; try { var s = localStorage.getItem('rssCache_' + cat); if (s) { var p = JSON.parse(s); if (Date.now() - p.time < RSS_CACHE_DURATION) { rssCache[cat] = p.data; rssCacheTime[cat] = p.time; return p.data; } } } catch (e) {} return null; }
 function setRssCache(cat, data) { rssCache[cat] = data; rssCacheTime[cat] = Date.now(); try { localStorage.setItem('rssCache_' + cat, JSON.stringify({  data, time: Date.now() })); } catch (e) {} }
 function loadRssCacheFromStorage() { try { for (var i = 0; i < localStorage.length; i++) { var k = localStorage.key(i); if (k && k.indexOf('rssCache_') === 0) { var s = localStorage.getItem(k); if (s) { var p = JSON.parse(s); if (Date.now() - p.time < RSS_CACHE_DURATION) { var c = k.replace('rssCache_', ''); rssCache[c] = p.data; rssCacheTime[c] = p.time; } } } } } catch (e) {} }
-
-/* AFILIADOS */
-var afiliados = { 'playstation': { keywords: ['playstation','ps5','ps4'], foto: 'https://m.media-amazon.com/images/I/51w+R0uLc+L._AC_SL1500_.jpg', titulo: 'PlayStation 5', descripcion: 'Consola Sony', enlace: 'https://amazon.es/dp/B0CL5KNB9M?tag=TU-ID-AFILIADO-21' }, 'xbox': { keywords: ['xbox','xbox series'], foto: 'https://m.media-amazon.com/images/I/61SUj2aKoEL._AC_SL1500_.jpg', titulo: 'Xbox Series X', descripcion: 'Consola Microsoft', enlace: 'https://amazon.es/dp/B08H75RTZ8?tag=TU-ID-AFILIADO-21' }, 'nintendo': { keywords: ['nintendo','switch'], foto: 'https://m.media-amazon.com/images/I/61-PblYntsL._AC_SL1500_.jpg', titulo: 'Nintendo Switch', descripcion: 'Consola Nintendo', enlace: 'https://amazon.es/dp/B07VGRJDFY?tag=TU-ID-AFILIADO-21' }, 'iphone': { keywords: ['iphone','iphone 15','iphone 16'], foto: 'https://m.media-amazon.com/images/I/71xb2xkN5qL._AC_SL1500_.jpg', titulo: 'iPhone', descripcion: 'Teléfono Apple', enlace: 'https://amazon.es/dp/B0CHX3TW6T?tag=TU-ID-AFILIADO-21' } };
-function buscarAfiliado(t) { var tl = t.toLowerCase(); for (var k in afiliados) { for (var i = 0; i < afiliados[k].keywords.length; i++) { if (tl.indexOf(afiliados[k].keywords[i]) !== -1) return k; } } return null; }
-function abrirModal(p) { document.getElementById('modalImg').src = p.foto; document.getElementById('modalTitle').textContent = p.titulo; document.getElementById('modalDesc').textContent = p.descripcion; document.getElementById('affiliateModal').classList.add('active'); document.body.style.overflow = 'hidden'; }
-function cerrarModal() { document.getElementById('affiliateModal').classList.remove('active'); document.body.style.overflow = ''; }
-document.addEventListener('click', function(e) { if (e.target === document.getElementById('affiliateModal')) cerrarModal(); });
 
 /* FEEDS */
 var feedsConfig = { 'tecnologia': ['https://www.xataka.com/feedburner.xml','https://www.genbeta.com/feedburner.xml','https://www.adslzone.net/feed/'], 'deportes': ['http://feeds.bbci.co.uk/sport/rss.xml','https://www.espn.com/espn/rss/news','https://feeds.abcnews.com/abcnews/sportsheadlines'], 'mascotas': ['https://www.socnas.org/feeds/posts/default?alt=rss','https://wamiz.es/rss/articles','https://www.veggieanimals.com/es/blog/rss/ultimas-entradas'], 'terror': ['https://www.bloody-disgusting.com/feed/','https://www.dreadcentral.com/feed/','https://www.ihorror.com/feed/','https://www.abandomoviez.net/rss.php'], 'cine': ['https://variety.com/feed/','https://www.hollywoodreporter.com/feed/','https://www.indiewire.com/feed/'], 'cocina': ['https://www.directoalpaladar.com/feedburner.xml','https://www.recetasnestle.es/rss'], 'games': ['https://www.vandal.net/rss','https://www.malavida.com/es/rss','https://www.gamespot.com/feeds/news/'], 'viajes': ['https://www.traveler.es/feed','https://www.elviajeperfecto.es/feed','https://www.abc.es/viajar/rss/','https://www.elpais.com/rss/tema/viajes.xml'], 'moda': ['https://www.vogue.es/feed','https://www.elle.com/es/rss/'], 'musica': ['https://www.los40.com/rss/los40.xml','https://www.rockaxis.com/rss'], 'ciencia': ['https://www.muyinteresante.es/rss','https://www.nationalgeographic.com/es/rss'] };
@@ -790,7 +840,6 @@ function shareIt(url, title, btn) {
 
 function abrirFormularioWeb() { document.getElementById('submitWebModal').classList.add('active'); }
 function cerrarFormularioWeb() { document.getElementById('submitWebModal').classList.remove('active'); }
-function cerrarOfertaModal() { document.getElementById('ofertaModal').classList.remove('active'); document.body.style.overflow = ''; }
 function enviarFormularioWeb() {
   var name = document.getElementById('webName').value.trim(), url = document.getElementById('webUrl').value.trim(), cat = document.getElementById('webCategory').value, email = document.getElementById('webEmail').value.trim();
   if (!name || !url || !cat || !email) { showToast('Completa los campos'); return; }
