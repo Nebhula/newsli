@@ -602,7 +602,6 @@ function cargarFeed(url, porFeed) {
 }
 
 /* 🔥 DESTACADOS ROTATIVOS - 3 CATEGORÍAS POR DÍA */
-/* 🔥 DESTACADOS - CARGAR DE TODAS LAS CATEGORÍAS */
 async function cargarDestacados() {
   var panel = document.getElementById('panel-destacados');
   
@@ -616,80 +615,6 @@ async function cargarDestacados() {
     cargarDestacadosSegundoPlano();
     return;
   }
-  
-  /* 2. Skeleton mientras carga */
-  panel.innerHTML = '<div class="news-grid destacados-grid">' + renderSkeletons(8) + '</div>';
-  
-  /* 3. Cargar de TODAS las categorías */
-  var todas = [];
-  var cats = Object.keys(feedsConfig);
-  
-  for (var i = 0; i < cats.length; i++) {
-    var cat = cats[i];
-    var urls = feedsConfig[cat];
-    var porFeed = 1;
-    for (var j = 0; j < urls.length; j++) {
-      try {
-        var items = await cargarFeed(urls[j], porFeed);
-        if (items && items.length > 0) {
-          todas = todas.concat(items);
-        }
-      } catch(e) {
-        console.log('Error: ' + urls[j]);
-      }
-    }
-  }
-  
-  /* 4. Mezclar y coger 15 */
-  todas.sort(function() { return Math.random() - 0.5; });
-  todas = todas.slice(0, 15);
-  
-  /* 5. Guardar cache */
-  localStorage.setItem('destacadosCache', JSON.stringify(todas));
-  localStorage.setItem('destacadosCacheTime', Date.now());
-  
-  var html = renderDestacadosGrid(todas);
-  panel.innerHTML = html;
-  document.getElementById('cargarMasContainer').style.display = 'none';
-  return html;
-}
-  
-  /* 2. Skeleton mientras carga */
-  panel.innerHTML = '<div class="news-grid destacados-grid">' + renderSkeletons(8) + '</div>';
-  
-  /* 3. Cargar de TODAS las categorías (no solo 3) */
-  var todas = [];
-  var cats = Object.keys(feedsConfig); /* 🔥 TODAS las categorías */
-  
-  for (var i = 0; i < cats.length; i++) {
-    var cat = cats[i];
-    var urls = feedsConfig[cat];
-    var porFeed = 1;
-    for (var j = 0; j < urls.length; j++) {
-      try {
-        var items = await cargarFeed(urls[j], porFeed);
-        if (items && items.length > 0) {
-          todas = todas.concat(items);
-        }
-      } catch(e) {
-        console.log('Error cargando ' + urls[j]);
-      }
-    }
-  }
-  
-  /* 4. Mezclar y coger 15 */
-  todas.sort(function() { return Math.random() - 0.5; });
-  todas = todas.slice(0, 15);
-  
-  /* 5. Guardar cache */
-  localStorage.setItem('destacadosCache', JSON.stringify(todas));
-  localStorage.setItem('destacadosCacheTime', Date.now());
-  
-  var html = renderDestacadosGrid(todas);
-  panel.innerHTML = html;
-  document.getElementById('cargarMasContainer').style.display = 'none';
-  return html;
-}
   
   /* 2. Skeleton mientras carga */
   panel.innerHTML = '<div class="news-grid destacados-grid">' + renderSkeletons(8) + '</div>';
