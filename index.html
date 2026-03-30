@@ -30,6 +30,14 @@
   .tab-panel-wrap.active { display: block !important; animation: fadeInWrap 0.3s ease !important; }
   @keyframes fadeInWrap { from { opacity: 0; } to { opacity: 1; } }
   
+  /* SKELETON LOADING */
+  .skeleton-card { background: #11131f !important; border-radius: 12px !important; overflow: hidden !important; border: 1px solid #1e2a3a !important; margin-bottom: 15px !important; break-inside: avoid !important; }
+  .skeleton-image { width: 100% !important; height: 169px !important; background: linear-gradient(90deg, #1a1f2e 25%, #2a2f3e 50%, #1a1f2e 75%) !important; background-size: 200% 100% !important; animation: skeleton-loading 1.5s infinite !important; }
+  .skeleton-content { padding: 12px !important; }
+  .skeleton-title { height: 20px !important; background: linear-gradient(90deg, #1a1f2e 25%, #2a2f3e 50%, #1a1f2e 75%) !important; background-size: 200% 100% !important; animation: skeleton-loading 1.5s infinite !important; border-radius: 4px !important; margin-bottom: 10px !important; }
+  .skeleton-text { height: 14px !important; background: linear-gradient(90deg, #1a1f2e 25%, #2a2f3e 50%, #1a1f2e 75%) !important; background-size: 200% 100% !important; animation: skeleton-loading 1.5s infinite !important; border-radius: 4px !important; margin-bottom: 6px !important; }
+  @keyframes skeleton-loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+  
   .news-grid { column-count: 3 !important; column-gap: 15px !important; width: 100% !important; }
   @media (max-width: 900px) { .news-grid { column-count: 2 !important; } }
   @media (max-width: 600px) { .news-grid { column-count: 1 !important; } }
@@ -297,6 +305,9 @@ var categoriasPorDefecto = ["Tecnología", "Deportes", "Mascotas", "Terror", "Ci
 var MAX_ITEMS = 18;
 var ITEMS_INICIALES = 16;
 
+/* 🔥 SOLO 5 CATEGORÍAS PRINCIPALES PARA DESTACADOS (menos peticiones) */
+var destacadosCategorias = ['tecnologia', 'games', 'deportes', 'cine', 'mascotas'];
+
 var lastScrollY = window.scrollY;
 var navBar = document.getElementById('bottomNavBar');
 window.addEventListener('scroll', function() {
@@ -562,39 +573,41 @@ function cargarFeed(url, porFeed) {
     .catch(function() { return []; });
 }
 
-/* 🔥 DESTACADOS CON CACHE - CARGA RÁPIDA */
+/* 🔥 DESTACADOS RÁPIDOS - SOLO 5 CATEGORÍAS + 1 NOTICIA POR FUENTE */
 async function cargarDestacados() {
   var panel = document.getElementById('panel-destacados');
   
-  /* 1. MOSTRAR CACHE INMEDIATO SI EXISTE (2 horas) */
+  /* 1. MOSTRAR CACHE INMEDIATO SI EXISTE (4 horas) */
   var cacheLocal = localStorage.getItem('destacadosCache');
   var cacheTime = localStorage.getItem('destacadosCacheTime');
-  if (cacheLocal && cacheTime && (Date.now() - parseInt(cacheTime) < 7200000)) {
+  if (cacheLocal && cacheTime && (Date.now() - parseInt(cacheTime) < 14400000)) {
     var datosCache = JSON.parse(cacheLocal);
     panel.innerHTML = renderDestacadosGrid(datosCache);
     document.getElementById('cargarMasContainer').style.display = 'none';
-    /* Actualizar en segundo plano sin bloquear */
+    /* Actualizar en segundo plano */
     cargarDestacadosSegundoPlano();
     return;
   }
   
-  /* 2. Si no hay cache, cargar normal */
-  var todas = [];
-  var cats = Object.keys(feedsConfig);
+  /* 2. Skeleton mientras carga */
+  panel.innerHTML = '<div class="news-grid destacados-grid">' + renderSkeletons(8) + '</div>';
   
-  for (var i = 0; i < cats.length; i++) {
-    var cat = cats[i];
+  /* 3. Cargar SOLO 5 categorías principales + 1 noticia por fuente */
+  var todas = [];
+  
+  for (var i = 0; i < destacadosCategorias.length; i++) {
+    var cat = destacadosCategorias[i];
     var urls = feedsConfig[cat];
-    var porFeed = 2;
+    var porFeed = 1; /* 🔥 SOLO 1 por fuente (antes 2) */
     var promesas = urls.map(function(url) { return cargarFeed(url, porFeed); });
     var resultados = await Promise.all(promesas);
     for (var j = 0; j < resultados.length; j++) { todas = todas.concat(resultados[j]); }
   }
   
   todas.sort(function() { return Math.random() - 0.5; });
-  todas = todas.slice(0, 20);
+  todas = todas.slice(0, 15); /* 🔥 Máximo 15 noticias */
   
-  /* 3. Guardar cache */
+  /* 4. Guardar cache (4 horas) */
   localStorage.setItem('destacadosCache', JSON.stringify(todas));
   localStorage.setItem('destacadosCacheTime', Date.now());
   
@@ -608,26 +621,30 @@ async function cargarDestacados() {
 function cargarDestacadosSegundoPlano() {
   setTimeout(function() {
     var todas = [];
-    var cats = Object.keys(feedsConfig);
-    var promesas = [];
-    
-    for (var i = 0; i < cats.length; i++) {
-      var urls = feedsConfig[cats[i]];
+    for (var i = 0; i < destacadosCategorias.length; i++) {
+      var cat = destacadosCategorias[i];
+      var urls = feedsConfig[cat];
       for (var j = 0; j < urls.length; j++) {
-        promesas.push(cargarFeed(urls[j], 2));
+        cargarFeed(urls[j], 1).then(function(items) {
+          todas = todas.concat(items);
+          if (todas.length >= 15) {
+            todas = todas.slice(0, 15);
+            localStorage.setItem('destacadosCache', JSON.stringify(todas));
+            localStorage.setItem('destacadosCacheTime', Date.now());
+          }
+        });
       }
     }
-    
-    Promise.all(promesas).then(function(resultados) {
-      for (var k = 0; k < resultados.length; k++) {
-        todas = todas.concat(resultados[k]);
-      }
-      todas.sort(function() { return Math.random() - 0.5; });
-      todas = todas.slice(0, 20);
-      localStorage.setItem('destacadosCache', JSON.stringify(todas));
-      localStorage.setItem('destacadosCacheTime', Date.now());
-    });
   }, 100);
+}
+
+/* 🔥 SKELETON LOADING */
+function renderSkeletons(cantidad) {
+  var html = '';
+  for (var i = 0; i < cantidad; i++) {
+    html += '<div class="skeleton-card"><div class="skeleton-image"></div><div class="skeleton-content"><div class="skeleton-title"></div><div class="skeleton-text"></div><div class="skeleton-text"></div></div></div>';
+  }
+  return html;
 }
 
 function renderDestacadosGrid(items) {
