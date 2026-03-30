@@ -114,76 +114,21 @@
   .nav-btn i { font-size: 24px !important; }
   .fav-counter { position: absolute !important; top: -5px !important; right: -5px !important; background: #e91e63 !important; color: #fff !important; font-size: 9px !important; padding: 2px 5px !important; border-radius: 50% !important; min-width: 16px !important; text-align: center !important; }
   
-  /* 🔥 MODALES FULL SCREEN */
-  .categoria-modal, .affiliate-modal, .oferta-modal, .submit-web-modal { 
-    position: fixed !important; 
-    top: 0 !important; 
-    left: 0 !important; 
-    width: 100vw !important; 
-    height: 100vh !important; 
-    background: rgba(0,0,0,0.98) !important; 
-    display: none !important; 
-    justify-content: center !important; 
-    align-items: center !important; 
-    z-index: 999997 !important; 
-  }
+  .categoria-modal, .affiliate-modal, .oferta-modal, .submit-web-modal { position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important; background: rgba(0,0,0,0.98) !important; display: none !important; justify-content: center !important; align-items: center !important; z-index: 999997 !important; }
   .categoria-modal.active, .affiliate-modal.active, .oferta-modal.active, .submit-web-modal.active { display: flex !important; }
   
-  .categoria-modal-content, .affiliate-modal-content, .oferta-modal-content, .submit-web-content { 
-    background: #0a0c15 !important; 
-    width: 100% !important; 
-    max-width: 100% !important; 
-    height: 100% !important; 
-    max-height: 100% !important; 
-    overflow-y: auto !important; 
-    position: relative !important; 
-    border-radius: 0 !important; 
-    margin: 0 !important; 
-    display: flex !important; 
-    flex-direction: column !important; 
-  }
+  .categoria-modal-content, .affiliate-modal-content, .oferta-modal-content, .submit-web-content { background: #11131f !important; border-radius: 16px !important; width: 90% !important; max-width: 500px !important; max-height: 90vh !important; overflow-y: auto !important; position: relative !important; margin: 20px !important; border: 1px solid #1e2a3a !important; }
   
-  .categoria-modal-header, .submit-web-header { 
-    background: linear-gradient(135deg, #e91e63 0%, #ff6b9d 100%) !important; 
-    color: #fff !important; 
-    padding: 20px !important; 
-    text-align: center !important; 
-    position: sticky !important; 
-    top: 0 !important; 
-    z-index: 10 !important; 
-  }
+  .categoria-modal-header, .submit-web-header { background: linear-gradient(135deg, #e91e63 0%, #ff6b9d 100%) !important; color: #fff !important; padding: 20px !important; text-align: center !important; }
   .categoria-modal-header h3 { margin: 0 !important; font-size: 20px !important; color: #fff !important; display: flex !important; align-items: center !important; justify-content: center !important; gap: 10px !important; }
   .submit-web-header h2 { font-size: 24px !important; font-weight: 700 !important; margin: 0 0 10px 0 !important; line-height: 1.3 !important; }
   .submit-web-header p { font-size: 14px !important; margin: 0 !important; opacity: 0.95 !important; line-height: 1.5 !important; }
   
-  .close-modal, .affiliate-modal-close, .oferta-modal-close, .submit-web-close { 
-    position: absolute !important; 
-    top: 15px !important; 
-    right: 20px !important; 
-    background: none !important; 
-    border: none !important; 
-    color: #fff !important; 
-    font-size: 32px !important; 
-    cursor: pointer !important; 
-    z-index: 100 !important;
-  }
-  .affiliate-modal-close, .oferta-modal-close, .submit-web-close { 
-    width: 50px !important; 
-    height: 50px !important; 
-    border-radius: 50% !important; 
-    background: rgba(233,30,99,0.2) !important; 
-    border: 2px solid #e91e63 !important; 
-    display: flex !important; 
-    align-items: center !important; 
-    justify-content: center !important; 
-  }
-  .affiliate-modal-close:hover, .oferta-modal-close:hover, .submit-web-close:hover, .close-modal:hover { 
-    background: #e91e63 !important; 
-    color: #fff !important; 
-    transform: scale(1.1) !important; 
-  }
+  .close-modal, .affiliate-modal-close, .oferta-modal-close, .submit-web-close { position: absolute !important; top: 15px !important; right: 20px !important; background: none !important; border: none !important; color: #fff !important; font-size: 28px !important; cursor: pointer !important; }
+  .affiliate-modal-close, .oferta-modal-close, .submit-web-close { width: 44px !important; height: 44px !important; border-radius: 50% !important; background: rgba(233,30,99,0.2) !important; border: 2px solid #e91e63 !important; display: flex !important; align-items: center !important; justify-content: center !important; }
+  .affiliate-modal-close:hover, .oferta-modal-close:hover, .submit-web-close:hover, .close-modal:hover { background: #e91e63 !important; color: #fff !important; transform: scale(1.1) !important; }
   
-  .categoria-modal-body, .affiliate-modal-body, .oferta-modal-body, .submit-web-form { padding: 30px 20px !important; flex: 1 !important; }
+  .categoria-modal-body, .affiliate-modal-body, .oferta-modal-body, .submit-web-form { padding: 30px 20px !important; }
   .affiliate-modal-body, .oferta-modal-body { text-align: center !important; }
   
   .categoria-list { max-height: none !important; margin-bottom: 30px !important; display: grid !important; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)) !important; gap: 12px !important; }
@@ -357,15 +302,15 @@ var workerProxyUrl = 'https://socnas-proxy.josema-mera37.workers.dev';
 var RSS_CACHE_DURATION = 2 * 60 * 60 * 1000;
 
 var categoriasPorDefecto = ["Tecnología", "Deportes", "Mascotas", "Terror", "Cine", "Cocina", "Games", "Viajes", "Moda", "Música", "Ciencia", "General"];
-var MAX_ITEMS = 28;
-var ITEMS_INICIALES = 26;
+var MAX_ITEMS = 18;
+var ITEMS_INICIALES = 16;
 
 /* 🔥 TODAS LAS CATEGORÍAS DISPONIBLES */
 var todasCategorias = ['tecnologia', 'deportes', 'mascotas', 'terror', 'cine', 'cocina', 'games', 'viajes', 'moda', 'musica', 'ciencia'];
 
 /* 🔥 ROTACIÓN AUTOMÁTICA - 3 CATEGORÍAS POR DÍA */
 function obtenerCategoriasRotativas() {
-  var hoy = new Date().toDateString();
+  var hoy = new Date().toDateString(); /* Ej: "Mon Jan 15 2024" */
   var cacheKey = 'destacadosCategorias_' + hoy;
   var categoriasGuardadas = localStorage.getItem(cacheKey);
   
@@ -373,13 +318,14 @@ function obtenerCategoriasRotativas() {
     return JSON.parse(categoriasGuardadas);
   }
   
-  var indiceDia = new Date().getDate() % 4;
+  /* Nuevo día = nuevas categorías */
+  var indiceDia = new Date().getDate() % 4; /* 4 grupos de 3 categorías */
   
   var grupos = [
-    ['tecnologia', 'games', 'deportes'],
-    ['cine', 'mascotas', 'terror'],
-    ['viajes', 'moda', 'ciencia'],
-    ['tecnologia', 'cine', 'viajes']
+    ['tecnologia', 'games', 'deportes'],      /* Grupo 1 */
+    ['cine', 'mascotas', 'terror'],           /* Grupo 2 */
+    ['viajes', 'moda', 'ciencia'],            /* Grupo 3 */
+    ['tecnologia', 'cine', 'viajes']          /* Grupo 4 (mix) */
   ];
   
   var seleccionadas = grupos[indiceDia];
@@ -655,7 +601,7 @@ function cargarFeed(url, porFeed) {
     .catch(function() { return []; });
 }
 
-/* 🔥 DESTACADOS ROTATIVOS - 3 CATEGORÍAS POR DÍA - SOLO 15 NOTICIAS */
+/* 🔥 DESTACADOS ROTATIVOS - 3 CATEGORÍAS POR DÍA */
 async function cargarDestacados() {
   var panel = document.getElementById('panel-destacados');
   
@@ -665,7 +611,6 @@ async function cargarDestacados() {
   if (cacheLocal && cacheTime && (Date.now() - parseInt(cacheTime) < 14400000)) {
     var datosCache = JSON.parse(cacheLocal);
     panel.innerHTML = renderDestacadosGrid(datosCache);
-    /* 🔥 NO MOSTRAR BOTÓN CARGAR MÁS EN DESTACADOS */
     document.getElementById('cargarMasContainer').style.display = 'none';
     cargarDestacadosSegundoPlano();
     return;
@@ -676,7 +621,7 @@ async function cargarDestacados() {
   
   /* 3. Cargar SOLO 3 categorías rotativas + 1 noticia por fuente */
   var todas = [];
-  var cats = destacadosCategorias;
+  var cats = destacadosCategorias; /* 🔥 Las 3 del día */
   
   for (var i = 0; i < cats.length; i++) {
     var cat = cats[i];
@@ -688,14 +633,13 @@ async function cargarDestacados() {
   }
   
   todas.sort(function() { return Math.random() - 0.5; });
-  todas = todas.slice(0, 15); /* 🔥 SOLO 15 NOTICIAS */
+  todas = todas.slice(0, 12);
   
   localStorage.setItem('destacadosCache', JSON.stringify(todas));
   localStorage.setItem('destacadosCacheTime', Date.now());
   
   var html = renderDestacadosGrid(todas);
   panel.innerHTML = html;
-  /* 🔥 NO MOSTRAR BOTÓN CARGAR MÁS EN DESTACADOS */
   document.getElementById('cargarMasContainer').style.display = 'none';
   return html;
 }
@@ -710,8 +654,8 @@ function cargarDestacadosSegundoPlano() {
       for (var j = 0; j < urls.length; j++) {
         cargarFeed(urls[j], 1).then(function(items) {
           todas = todas.concat(items);
-          if (todas.length >= 15) {
-            todas = todas.slice(0, 15);
+          if (todas.length >= 12) {
+            todas = todas.slice(0, 12);
             localStorage.setItem('destacadosCache', JSON.stringify(todas));
             localStorage.setItem('destacadosCacheTime', Date.now());
           }
@@ -846,7 +790,6 @@ function actualizarFeedEnSegundoPlano(cat) {
 function cargarMas() {
   var panel = document.querySelector('.tab-panel-wrap.active'); if (!panel) return;
   var id = panel.id.replace('panel-', '');
-  /* 🔥 NO CARGAR MÁS EN DESTACADOS NI FAVORITOS */
   if (id === 'favoritos' || id === 'destacados') return;
   if (cargandoMas[id]) return;
   if (visiblesPorTab[id] >= datosGuardados[id].length) return;
@@ -865,7 +808,6 @@ function cambiarTab(id) {
   document.querySelectorAll('.tab-panel-wrap').forEach(function(p) { p.classList.remove('active'); });
   if (evt && evt.currentTarget) evt.currentTarget.classList.add('active');
   document.getElementById('panel-' + id).classList.add('active');
-  /* 🔥 OCULTAR BOTÓN CARGAR MÁS AL CAMBIAR DE TAB */
   document.getElementById('cargarMasContainer').style.display = 'none';
   cargarTab(id);
 }
@@ -874,24 +816,14 @@ function actualizarBotonCargarMas(id) {
   var c = document.getElementById('cargarMasContainer');
   var b = document.getElementById('cargarMasBtn');
   if (!c || !b) return;
-  /* 🔥 NO MOSTRAR EN DESTACADOS NI FAVORITOS */
-  if (id === 'favoritos' || id === 'destacados') { 
-    c.style.display = 'none'; 
-    return; 
-  }
-  if (visiblesPorTab[id] >= datosGuardados[id].length) { 
-    c.style.display = 'none'; 
-  } else { 
-    c.style.display = 'block'; 
-    b.disabled = false; 
-    b.innerHTML = '<i class="fas fa-plus-circle"></i> Cargar más noticias'; 
-  }
+  if (id === 'favoritos' || id === 'destacados') { c.style.display = 'none'; return; }
+  if (visiblesPorTab[id] >= datosGuardados[id].length) { c.style.display = 'none'; }
+  else { c.style.display = 'block'; b.disabled = false; b.innerHTML = '<i class="fas fa-plus-circle"></i> Cargar más noticias'; }
 }
 
 function cargarMasManual() {
   var panel = document.querySelector('.tab-panel-wrap.active'); if (!panel) return;
   var id = panel.id.replace('panel-', '');
-  /* 🔥 NO CARGAR MÁS EN DESTACADOS NI FAVORITOS */
   if (id === 'favoritos' || id === 'destacados') return;
   if (cargandoMas[id]) return;
   if (visiblesPorTab[id] >= datosGuardados[id].length) return;
@@ -944,7 +876,6 @@ function enviarFormularioWeb() {
     if (sc) return; sc = true;
     setTimeout(function() {
       var p = document.querySelector('.tab-panel-wrap.active');
-      /* 🔥 NO CARGAR MÁS EN DESTACADOS NI FAVORITOS */
       if (!p || p.id === 'panel-favoritos' || p.id === 'panel-destacados') { sc = false; return; }
       var id = p.id.replace('panel-', ''), st = window.pageYOffset || document.documentElement.scrollTop, sh = document.documentElement.scrollHeight, ch = window.innerHeight;
       if (st + ch >= sh - 100) { cargarMas(); }
