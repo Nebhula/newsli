@@ -88,8 +88,25 @@
   .news-excerpt { font-size: 13px !important; color: #8a8f9e !important; line-height: 1.5 !important; margin-bottom: 10px !important; display: -webkit-box !important; -webkit-line-clamp: 6 !important; -webkit-box-orient: vertical !important; overflow: hidden !important; word-wrap: break-word !important; }
   .translated-text { background: #11131f !important; padding: 10px 12px !important; border-radius: 8px !important; margin-top: 10px !important; font-size: 12px !important; line-height: 1.5 !important; border-left: 3px solid #1e88e5 !important; animation: fadeIn 0.3s ease !important; color: #8a8f9e !important; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
-  .categoria-badge { display: inline-flex !important; align-items: center !important; gap: 5px !important; font-size: 11px !important; font-weight: 600 !important; padding: 3px 10px !important; border-radius: 12px !important; margin-right: 8px !important; background: rgba(233,30,99,0.15) !important; color: #e91e63 !important; white-space: nowrap !important; }
-  .categoria-badge i { font-size: 12px !important; }
+  
+  /* 🔥 ETIQUETA DE CATEGORÍA EN EL PIE DE CADA FICHA */
+  .categoria-badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    padding: 3px 10px !important;
+    border-radius: 12px !important;
+    margin-right: 8px !important;
+    background: rgba(233,30,99,0.15) !important;
+    color: #e91e63 !important;
+    white-space: nowrap !important;
+  }
+  .categoria-badge i {
+    font-size: 12px !important;
+  }
+  
   .news-meta { font-size: 11px !important; color: #5a5f6e !important; padding-top: 8px !important; border-top: 1px solid #1e2a3a !important; display: flex !important; justify-content: space-between !important; align-items: center !important; flex-wrap: wrap !important; gap: 10px !important; }
   .news-meta .source-info { display: flex !important; align-items: center !important; gap: 8px !important; color: #6a6f7e !important; flex-wrap: wrap !important; }
   .source-favicon { width: 32px !important; height: 32px !important; border-radius: 6px !important; background: #1a1f2e !important; }
@@ -198,11 +215,14 @@
   .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: #e91e63 !important; outline: none !important; }
   .submit-btn { width: 100% !important; padding: 14px !important; background: linear-gradient(135deg, #e91e63 0%, #ff6b9d 100%) !important; color: #fff !important; border: none !important; border-radius: 50px !important; font-weight: 700 !important; cursor: pointer !important; font-size: 15px !important; margin-top: 10px !important; }
   .submit-btn:hover { opacity: 0.9 !important; transform: scale(1.02) !important; }
+  
+  /* MODAL CATEGORÍAS */
   .categoria-modal { position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important; background: rgba(0,0,0,0.98) !important; display: none !important; justify-content: center !important; align-items: center !important; z-index: 999997 !important; }
   .categoria-modal.active { display: flex !important; }
   .categoria-modal-content { background: #0a0c15 !important; width: 100% !important; max-width: 100% !important; height: 100% !important; max-height: 100% !important; overflow-y: auto !important; position: relative !important; border-radius: 0 !important; margin: 0 !important; display: flex !important; flex-direction: column !important; }
   .categoria-modal-header { background: linear-gradient(135deg, #e91e63 0%, #ff6b9d 100%) !important; color: #fff !important; padding: 20px !important; text-align: center !important; position: sticky !important; top: 0 !important; z-index: 10 !important; }
-  .categoria-modal-header h3 { margin: 0 !important; font-size: 20px !important; color: #fff !important; }
+  .categoria-modal-header h3 { margin: 0 !important; font-size: 20px !important; color: #fff !important; display: flex !important; align-items: center !important; justify-content: center !important; gap: 10px !important; }
+  .categoria-modal-header h3 img { width: 24px !important; height: 24px !important; object-fit: contain !important; }
   .categoria-modal-header .close-modal { position: absolute !important; top: 15px !important; right: 20px !important; background: none !important; border: none !important; color: #fff !important; font-size: 28px !important; cursor: pointer !important; }
   .categoria-modal-body { padding: 30px 20px !important; flex: 1 !important; }
   .categoria-list { max-height: none !important; margin-bottom: 30px !important; display: grid !important; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)) !important; gap: 12px !important; }
@@ -233,6 +253,8 @@
   .btn-guardar:hover { background: #c2185b !important; transform: scale(1.02) !important; }
   .categoria-modal input[type="radio"] { appearance: radio !important; -webkit-appearance: radio !important; opacity: 1 !important; visibility: visible !important; display: inline-block !important; position: relative !important; }
   @media (max-width: 600px) { .categoria-list { grid-template-columns: 1fr !important; } .categoria-item { padding: 12px !important; } .categoria-modal-footer button { padding: 12px 25px !important; } .nueva-categoria-input { flex-direction: column !important; } .nueva-categoria-input button { justify-content: center !important; } }
+  
+  /* FAVORITOS */
   .categoria-fav-header { display: flex !important; justify-content: space-between !important; align-items: center !important; margin-top: 20px !important; margin-bottom: 10px !important; padding-bottom: 5px !important; border-bottom: 2px solid #e91e63 !important; }
   .categoria-fav-header h3 { margin: 0 !important; font-size: 16px !important; color: #e91e63 !important; display: flex !important; align-items: center !important; gap: 8px !important; }
   .categoria-fav-header span { font-size: 12px !important; color: #5a5f6e !important; }
@@ -281,10 +303,11 @@
   </div>
 </div>
 
+<!-- MODAL PARA SELECCIONAR CATEGORÍA -->
 <div class='categoria-modal' id='categoriaModal'>
   <div class='categoria-modal-content'>
     <div class='categoria-modal-header'>
-      <h3><img alt='Favoritos' class='fav-icon-custom' src='https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiavhh-pDfgwyHz5Lhbbhj27Zah0sqMqA3gY_JWecEyu9Y1CWIH_WFkujEYkZ9YnJ_BZMf9BJrRCMUtn0INYHOVIn_rP9Wo82jsnQrikIM3h9B11HhXRob2q100kpDlUj-K83qOJSxjulv4SK6dVoEWCHa1KSqQWVeLu1nzk7BrpOvZ66OQSqzsYAd55XQ/s1600/nebhula%20%281800%20x%201800%20px%29%20%2872%29.png'/> Guardar en favoritos</h3>
+      <h3><i class='fas fa-folder-plus'></i> Guardar en favoritos</h3>
       <button class='close-modal' onclick='cerrarModalCategoria()'><i class='fas fa-times'></i></button>
     </div>
     <div class='categoria-modal-body'>
@@ -304,6 +327,7 @@
   </div>
 </div>
 
+<!-- MODAL DE OFERTAS - FULL SCREEN -->
 <div class='oferta-modal' id='ofertaModal'>
   <button class='oferta-modal-close' onclick='cerrarOfertaModal()'><i class='fas fa-times'></i></button>
   <div class='oferta-modal-content'>
@@ -616,7 +640,6 @@ function actualizarFeedEnSegundoPlano(cat) { setTimeout(function() { var urls = 
 
 function cargarMas(){ var panel=document.querySelector('.tab-panel-wrap.active');if(!panel)return; var id=panel.id.replace('panel-','');if(id==='favoritos'||id==='mas-votadas')return; if(cargandoMas[id])return; if(visiblesPorTab[id]>=datosGuardados[id].length)return; cargandoMas[id]=true; visiblesPorTab[id]=(visiblesPorTab[id]||ITEMS_INICIALES)+ITEMS_INICIALES; renderNewsGrid(datosGuardados[id],visiblesPorTab[id],id).then(function(html){panel.innerHTML=html;}); cargandoMas[id]=false; }
 
-// 🔥 FUNCIÓN cambiarTab CON SCROLL AL TOP FORZOSO
 function cambiarTab(id) { 
   window.scrollTo(0, 0);
   document.documentElement.scrollTop = 0;
@@ -631,7 +654,6 @@ function cambiarTab(id) {
   cargarTab(id); 
 }
 
-// 🔥 MOSTRAR/OCULTAR BOTÓN CARGAR MÁS
 function actualizarBotonCargarMas(id) {
   var btnContainer = document.getElementById('cargarMasContainer');
   var btn = document.getElementById('cargarMasBtn');
@@ -651,7 +673,6 @@ function actualizarBotonCargarMas(id) {
   }
 }
 
-// 🔥 FUNCIÓN CARGAR MÁS MANUAL
 function cargarMasManual() {
   var panel = document.querySelector('.tab-panel-wrap.active');
   if(!panel) return;
