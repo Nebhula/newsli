@@ -30,6 +30,14 @@
   .tab-panel-wrap.active { display: block !important; animation: fadeInWrap 0.3s ease !important; }
   @keyframes fadeInWrap { from { opacity: 0; } to { opacity: 1; } }
   
+  /* SKELETON LOADING */
+  .skeleton-card { background: #11131f !important; border-radius: 12px !important; overflow: hidden !important; border: 1px solid #1e2a3a !important; margin-bottom: 15px !important; break-inside: avoid !important; }
+  .skeleton-image { width: 100% !important; height: 169px !important; background: linear-gradient(90deg, #1a1f2e 25%, #2a2f3e 50%, #1a1f2e 75%) !important; background-size: 200% 100% !important; animation: skeleton-loading 1.5s infinite !important; }
+  .skeleton-content { padding: 12px !important; }
+  .skeleton-title { height: 20px !important; background: linear-gradient(90deg, #1a1f2e 25%, #2a2f3e 50%, #1a1f2e 75%) !important; background-size: 200% 100% !important; animation: skeleton-loading 1.5s infinite !important; border-radius: 4px !important; margin-bottom: 10px !important; }
+  .skeleton-text { height: 14px !important; background: linear-gradient(90deg, #1a1f2e 25%, #2a2f3e 50%, #1a1f2e 75%) !important; background-size: 200% 100% !important; animation: skeleton-loading 1.5s infinite !important; border-radius: 4px !important; margin-bottom: 6px !important; }
+  @keyframes skeleton-loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+  
   .news-grid { column-count: 3 !important; column-gap: 15px !important; width: 100% !important; }
   @media (max-width: 900px) { .news-grid { column-count: 2 !important; } }
   @media (max-width: 600px) { .news-grid { column-count: 1 !important; } }
@@ -61,29 +69,8 @@
   .translate-btn.translating { animation: pulse 1s infinite; pointer-events: none; opacity: 0.7; }
   @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
   
-  /* 🔥 BOTÓN OFERTA - MÁS VISIBLE */
-  .affiliate-btn { 
-    width: auto !important; 
-    height: 30px !important; 
-    border-radius: 20px !important; 
-    border: 2px solid #ff9800 !important; 
-    background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%) !important; 
-    color: #fff !important; 
-    cursor: pointer !important; 
-    display: inline-flex !important; 
-    align-items: center !important; 
-    justify-content: center !important; 
-    gap: 5px !important; 
-    padding: 4px 12px !important; 
-    font-size: 12px !important; 
-    font-weight: 700 !important; 
-    transition: all 0.2s ease !important;
-    box-shadow: 0 2px 8px rgba(255,152,0,0.3) !important;
-  }
-  .affiliate-btn:hover { 
-    transform: scale(1.08) !important; 
-    box-shadow: 0 4px 15px rgba(255,152,0,0.5) !important;
-  }
+  .affiliate-btn { width: auto !important; height: 30px !important; border-radius: 20px !important; border: 2px solid #ff9800 !important; background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%) !important; color: #fff !important; cursor: pointer !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; gap: 5px !important; padding: 4px 12px !important; font-size: 12px !important; font-weight: 700 !important; transition: all 0.2s ease !important; box-shadow: 0 2px 8px rgba(255,152,0,0.3) !important; }
+  .affiliate-btn:hover { transform: scale(1.08) !important; box-shadow: 0 4px 15px rgba(255,152,0,0.5) !important; }
   .affiliate-btn i { font-size: 14px !important; }
   
   .read-more-btn { background: #e91e63 !important; color: white !important; padding: 5px 12px !important; border-radius: 20px !important; text-decoration: none !important; font-size: 11px !important; font-weight: 600 !important; display: inline-flex !important; align-items: center !important; gap: 5px !important; transition: all 0.2s ease !important; border: none !important; cursor: pointer !important; }
@@ -332,77 +319,42 @@ window.addEventListener('scroll', function() {
   lastScrollY = currentScrollY;
 }, { passive: true });
 
-/* 🔥 AFILIADOS - MUCHOS MÁS PRODUCTOS */
+/* 🔥 AFILIADOS - KEYWORDS ESPECÍFICAS (NO GENÉRICAS) */
 var afiliados = {
+  'iphone': { 
+    keywords: ['iphone 15','iphone 16','iphone 14 pro','comprar iphone','oferta iphone','iphone amazon','iphone 13'], 
+    foto: 'https://m.media-amazon.com/images/I/71xb2xkN5qL._AC_SL1500_.jpg', 
+    titulo: 'iPhone en Amazon', 
+    descripcion: 'El último iPhone con cámara profesional.', 
+    enlace: 'https://amazon.es/dp/B0CHX3TW6T?tag=TU-ID-AFILIADO-21' 
+  },
   'playstation': { 
-    keywords: ['playstation','ps5','ps4','ps3','play station','sony consola','sony playstation','dualsense','control ps5'], 
+    keywords: ['ps5','playstation 5','comprar ps5','oferta ps5','dualsense','pack ps5','ps5 slim'], 
     foto: 'https://m.media-amazon.com/images/I/51w+R0uLc+L._AC_SL1500_.jpg', 
     titulo: 'PlayStation 5 en Amazon', 
-    descripcion: 'La última consola de Sony con gráficos 4K, carga ultrarrápida y juegos exclusivos.', 
+    descripcion: 'La consola de Sony con gráficos 4K.', 
     enlace: 'https://amazon.es/dp/B0CL5KNB9M?tag=TU-ID-AFILIADO-21' 
   },
   'xbox': { 
-    keywords: ['xbox','xbox series','xbox series x','xbox series s','microsoft consola','xbox one','control xbox','game pass'], 
+    keywords: ['xbox series x','xbox series s','comprar xbox','oferta xbox','game pass','control xbox'], 
     foto: 'https://m.media-amazon.com/images/I/61SUj2aKoEL._AC_SL1500_.jpg', 
     titulo: 'Xbox Series X en Amazon', 
-    descripcion: 'La Xbox más potente de la historia. Juegos en 4K real y carga instantánea.', 
+    descripcion: 'La Xbox más potente.', 
     enlace: 'https://amazon.es/dp/B08H75RTZ8?tag=TU-ID-AFILIADO-21' 
   },
   'nintendo': { 
-    keywords: ['nintendo','switch','nintendo switch','switch oled','switch lite','joy-con','pokemon nintendo','zelda switch'], 
+    keywords: ['nintendo switch','switch oled','comprar switch','oferta switch','zelda switch','pokemon switch'], 
     foto: 'https://m.media-amazon.com/images/I/61-PblYntsL._AC_SL1500_.jpg', 
     titulo: 'Nintendo Switch en Amazon', 
-    descripcion: 'Juega en casa o donde quieras. La consola híbrida más versátil.', 
+    descripcion: 'La consola híbrida.', 
     enlace: 'https://amazon.es/dp/B07VGRJDFY?tag=TU-ID-AFILIADO-21' 
   },
-  'iphone': { 
-    keywords: ['iphone','iphone 15','iphone 16','iphone 14','iphone 13','apple telefono','apple iphone','ios','airpods'], 
-    foto: 'https://m.media-amazon.com/images/I/71xb2xkN5qL._AC_SL1500_.jpg', 
-    titulo: 'iPhone en Amazon', 
-    descripcion: 'El último iPhone con cámara profesional y rendimiento increíble.', 
-    enlace: 'https://amazon.es/dp/B0CHX3TW6T?tag=TU-ID-AFILIADO-21' 
-  },
-  'samsung': { 
-    keywords: ['samsung','galaxy','samsung galaxy','galaxy s24','galaxy s23','samsung telefono','android samsung'], 
-    foto: 'https://m.media-amazon.com/images/I/71gK4bXJSQL._AC_SL1500_.jpg', 
-    titulo: 'Samsung Galaxy en Amazon', 
-    descripcion: 'Tecnología Samsung con las mejores cámaras y pantalla.', 
-    enlace: 'https://amazon.es/dp/B0CMDWC5LL?tag=TU-ID-AFILIADO-21' 
-  },
-  'airpods': { 
-    keywords: ['airpods','airpods pro','airpods max','auriculares apple','airpods 3'], 
-    foto: 'https://m.media-amazon.com/images/I/61SUj2aKoEL._AC_SL1500_.jpg', 
-    titulo: 'AirPods en Amazon', 
-    descripcion: 'Sonido espacial y cancelación de ruido activa.', 
-    enlace: 'https://amazon.es/dp/B0BDHB9Y8H?tag=TU-ID-AFILIADO-21' 
-  },
-  'macbook': { 
-    keywords: ['macbook','macbook pro','macbook air','apple laptop','mac os','macbook m1','macbook m2','macbook m3'], 
-    foto: 'https://m.media-amazon.com/images/I/61L5QgPvgqL._AC_SL1500_.jpg', 
-    titulo: 'MacBook en Amazon', 
-    descripcion: 'Potencia y portabilidad con chip Apple Silicon.', 
-    enlace: 'https://amazon.es/dp/B0BSHF7WHW?tag=TU-ID-AFILIADO-21' 
-  },
-  'tablet': { 
-    keywords: ['tablet','ipad','ipad pro','ipad air','samsung tablet','tablet android','xiaomi tablet'], 
-    foto: 'https://m.media-amazon.com/images/I/61NGnpjoRDL._AC_SL1500_.jpg', 
-    titulo: 'Tablets en Amazon', 
-    descripcion: 'Las mejores tablets para trabajo y entretenimiento.', 
-    enlace: 'https://amazon.es/dp/B09G9FPHY6?tag=TU-ID-AFILIADO-21' 
-  },
-  'gaming': { 
-    keywords: ['gaming','gamer','pc gaming','teclado gaming','raton gaming','auriculares gaming','silla gaming'], 
+  'game': { 
+    keywords: ['comprar juego','oferta videojuego','juego amazon','videojuego oferta','edición coleccionista','fifa 24','call of duty','gta'], 
     foto: 'https://m.media-amazon.com/images/I/71bhWgQK-cL._AC_SL1500_.jpg', 
-    titulo: 'Accesorios Gaming en Amazon', 
-    descripcion: 'Equípate con lo mejor para gaming.', 
-    enlace: 'https://amazon.es/gaming?tag=TU-ID-AFILIADO-21' 
-  },
-  'tv': { 
-    keywords: ['tv','television','smart tv','oled','qled','4k tv','lg tv','samsung tv','sony tv'], 
-    foto: 'https://m.media-amazon.com/images/I/81xrGj8PJZL._AC_SL1500_.jpg', 
-    titulo: 'Smart TV en Amazon', 
-    descripcion: 'Televisores 4K con la mejor calidad de imagen.', 
-    enlace: 'https://amazon.es/tv?tag=TU-ID-AFILIADO-21' 
+    titulo: 'Videojuegos en Amazon', 
+    descripcion: 'Los mejores juegos al mejor precio.', 
+    enlace: 'https://amazon.es/videojuegos?tag=TU-ID-AFILIADO-21' 
   }
 };
 
@@ -411,7 +363,6 @@ function buscarAfiliado(t) {
   for (var k in afiliados) { 
     for (var i = 0; i < afiliados[k].keywords.length; i++) { 
       if (tl.indexOf(afiliados[k].keywords[i]) !== -1) { 
-        console.log('Afiliado encontrado:', k);
         return k; 
       } 
     } 
@@ -419,29 +370,15 @@ function buscarAfiliado(t) {
   return null; 
 }
 
-/* 🔥 ABRIR MODAL OFERTA - CRÍTICO */
 function abrirOfertaModal(key) {
-  console.log('Abriendo oferta:', key);
   var af = afiliados[key];
-  if (!af) { 
-    console.log('Afiliado no encontrado');
-    return; 
-  }
-  
-  var modal = document.getElementById('ofertaModal');
-  var img = document.getElementById('ofertaModalImg');
-  var title = document.getElementById('ofertaModalTitle');
-  var desc = document.getElementById('ofertaModalDesc');
-  var link = document.getElementById('ofertaModalLink');
-  
-  img.src = af.foto;
-  title.textContent = af.titulo;
-  desc.textContent = af.descripcion;
-  link.href = af.enlace;
-  
-  modal.classList.add('active');
+  if (!af) return;
+  document.getElementById('ofertaModalImg').src = af.foto;
+  document.getElementById('ofertaModalTitle').textContent = af.titulo;
+  document.getElementById('ofertaModalDesc').textContent = af.descripcion;
+  document.getElementById('ofertaModalLink').href = af.enlace;
+  document.getElementById('ofertaModal').classList.add('active');
   document.body.style.overflow = 'hidden';
-  console.log('Modal oferta abierto');
 }
 
 function cerrarOfertaModal() { 
@@ -486,7 +423,6 @@ function actualizarContadorFavoritos() { var c = document.getElementById('favCou
 var noticiaPendiente = null;
 
 function abrirModalCategoria(noticia) {
-  console.log('Abriendo modal favoritos...', noticia);
   noticiaPendiente = noticia;
   var modal = document.getElementById('categoriaModal');
   var lista = document.getElementById('categoriaList');
@@ -504,7 +440,6 @@ function abrirModalCategoria(noticia) {
   }
   modal.classList.add('active');
   document.body.style.overflow = 'hidden';
-  console.log('Modal favoritos abierto');
 }
 
 function cerrarModalCategoria() { 
@@ -563,7 +498,6 @@ function toggleFavConCategoria(btn) {
     return; 
   }
   var noticia = { u: url, t: card.getAttribute('data-title'), i: card.getAttribute('data-img'), s: card.getAttribute('data-source'), l: card.getAttribute('data-logo'), d: card.getAttribute('data-date'), c: card.getAttribute('data-desc') };
-  console.log('Toggle fav', noticia);
   abrirModalCategoria(noticia);
 }
 
@@ -628,7 +562,7 @@ async function traducirTexto(card, btn) {
   } catch (e) { btn.innerHTML = '<i class="fas fa-exclamation-triangle"></i>'; btn.style.color = '#f44336'; setTimeout(function() { btn.innerHTML = orig; btn.style.color = '#2196f3'; btn.disabled = false; btn.classList.remove('translating'); }, 2000); showToast('Error al traducir'); }
 }
 
-/* CACHE */
+/* CACHE 2 HORAS */
 var rssCache = {}, rssCacheTime = {};
 function getRssCache(cat) { var now = Date.now(); if (rssCache[cat] && rssCacheTime[cat] && (now - rssCacheTime[cat] < RSS_CACHE_DURATION)) return rssCache[cat]; try { var s = localStorage.getItem('rssCache_' + cat); if (s) { var p = JSON.parse(s); if (Date.now() - p.time < RSS_CACHE_DURATION) { rssCache[cat] = p.data; rssCacheTime[cat] = p.time; return p.data; } } } catch (e) {} return null; }
 function setRssCache(cat, data) { rssCache[cat] = data; rssCacheTime[cat] = Date.now(); try { localStorage.setItem('rssCache_' + cat, JSON.stringify({  data, time: Date.now() })); } catch (e) {} }
@@ -646,9 +580,20 @@ function cargarFeed(url, porFeed) {
     .catch(function() { return []; });
 }
 
-/* DESTACADOS */
+/* SKELETON */
+function renderSkeletons(cantidad) {
+  var html = '';
+  for (var i = 0; i < cantidad; i++) {
+    html += '<div class="skeleton-card"><div class="skeleton-image"></div><div class="skeleton-content"><div class="skeleton-title"></div><div class="skeleton-text"></div><div class="skeleton-text"></div><div class="skeleton-text"></div></div></div>';
+  }
+  return html;
+}
+
+/* DESTACADOS - CARGA PROGRESIVA */
 async function cargarDestacados() {
   var panel = document.getElementById('panel-destacados');
+  panel.innerHTML = '<div class="news-grid destacados-grid">' + renderSkeletons(12) + '</div>';
+  
   var todas = [];
   var cats = Object.keys(feedsConfig);
   for (var i = 0; i < cats.length; i++) {
@@ -737,11 +682,14 @@ async function cargarTab(id, forzar) {
   if (id === 'favoritos') { showFavs(); return; }
   if (id === 'destacados') { await cargarDestacados(); return; }
   
+  panel.innerHTML = '<div class="news-grid">' + renderSkeletons(8) + '</div>';
+  
   var cache = getRssCache(id);
   if (cache && !forzar) {
     datosGuardados[id] = cache; cargado[id] = true;
     visiblesPorTab[id] = Math.min(ITEMS_INICIALES, cache.length);
-    panel.innerHTML = await renderNewsGrid(cache, visiblesPorTab[id], id);
+    var html = await renderNewsGrid(cache, visiblesPorTab[id], id);
+    panel.innerHTML = html;
     actualizarFeedEnSegundoPlano(id);
     actualizarBotonCargarMas(id);
     return;
