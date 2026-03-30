@@ -103,15 +103,64 @@
   .cargar-mas-btn:hover { transform: translateY(-2px) !important; box-shadow: 0 6px 20px rgba(233,30,99,0.4) !important; }
   .cargar-mas-btn:disabled { opacity: 0.5 !important; cursor: not-allowed !important; transform: none !important; }
   .cargar-mas-btn i { font-size: 16px !important; }
-  .bottom-nav-bar { position: fixed !important; bottom: 0 !important; left: 0 !important; right: 0 !important; background: #0a0c15 !important; border-top: 1px solid #1e2a3a !important; display: flex !important; justify-content: space-around !important; align-items: center !important; padding: 10px 5px !important; z-index: 2000 !important; gap: 10px !important; }
-  .nav-btn { background: none !important; border: none !important; cursor: pointer !important; padding: 8px !important; color: #8a8f9e !important; position: relative !important; display: flex !important; align-items: center !important; justify-content: center !important; transition: all 0.2s ease !important; }
+  
+  /* 🔥 BARRA INFERIOR CON CARRUSEL */
+  .bottom-nav-bar { 
+    position: fixed !important; 
+    bottom: 0 !important; 
+    left: 0 !important; 
+    right: 0 !important; 
+    background: #0a0c15 !important; 
+    border-top: 1px solid #1e2a3a !important; 
+    display: flex !important; 
+    align-items: center !important; 
+    padding: 10px 5px !important; 
+    z-index: 2000 !important; 
+    gap: 0 !important;
+  }
+  .nav-btn-fixed {
+    flex-shrink: 0 !important;
+    width: 60px !important;
+    padding: 8px !important;
+    border-right: 1px solid #1e2a3a !important;
+    margin-right: 5px !important;
+  }
+  .nav-carousel {
+    flex: 1 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+    padding: 0 5px !important;
+  }
+  .nav-carousel::-webkit-scrollbar {
+    display: none !important;
+  }
+  .nav-btn { 
+    background: none !important; 
+    border: none !important; 
+    cursor: pointer !important; 
+    padding: 8px !important; 
+    color: #8a8f9e !important; 
+    position: relative !important; 
+    display: flex !important; 
+    align-items: center !important; 
+    justify-content: center !important; 
+    transition: all 0.2s ease !important;
+    flex-shrink: 0 !important;
+    min-width: 50px !important;
+  }
   .nav-btn:hover { color: #e91e63 !important; }
-  .nav-btn i { font-size: 20px !important; }
-  .nav-btn-center { background: none !important; width: auto !important; height: auto !important; border-radius: 0 !important; color: #8a8f9e !important; display: flex !important; align-items: center !important; justify-content: center !important; font-size: 20px !important; padding: 8px !important; flex-shrink: 0 !important; transition: all 0.2s ease !important; }
+  .nav-btn i { font-size: 22px !important; }
+  .nav-btn-center { background: none !important; width: auto !important; height: auto !important; border-radius: 0 !important; color: #8a8f9e !important; display: flex !important; align-items: center !important; justify-content: center !important; font-size: 22px !important; padding: 8px !important; flex-shrink: 0 !important; transition: all 0.2s ease !important; }
   .nav-btn-center:hover { color: #e91e63 !important; transform: scale(1.1) !important; }
   .fav-counter { position: absolute !important; top: -2px !important; right: -8px !important; background: #e91e63 !important; color: #fff !important; font-size: 9px !important; padding: 1px 4px !important; border-radius: 8px !important; min-width: 16px !important; text-align: center !important; }
-  .fav-icon-custom { width: 50px !important; height: 50px !important; object-fit: contain !important; display: inline-block !important; vertical-align: middle !important; margin-right: 0 !important; }
-  @media (max-width: 600px) { .fav-icon-custom { width: 50px !important; height: 50px !important; } }
+  .nav-icon-custom { width: 24px !important; height: 24px !important; object-fit: contain !important; display: inline-block !important; vertical-align: middle !important; }
+  
   .affiliate-modal { position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important; background: rgba(0,0,0,0.95) !important; display: none !important; justify-content: center !important; align-items: center !important; z-index: 999999 !important; }
   .affiliate-modal.active { display: flex !important; }
   .affiliate-modal-content { background: #11131f !important; border-radius: 16px !important; width: 90% !important; max-width: 500px !important; max-height: 90vh !important; overflow-y: auto !important; position: relative !important; margin: 20px !important; border: 1px solid #1e2a3a !important; }
@@ -296,13 +345,21 @@
 </div>
 
 <div class='bottom-nav-bar'>
-  <button class='nav-btn' onclick='toggleDarkMode()'><i class='fas fa-moon' id='navDarkIcon'></i></button>
-  <button class='nav-btn nav-btn-center' onclick='abrirFormularioWeb()'><i class='fas fa-plus'></i></button>
-  <button class='nav-btn' onclick='mostrarFavoritosDesdeNav()'>
-    <img alt='Favoritos' class='fav-icon-custom' src='https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgw_MEMorpH6xSgGC_2Q421GRnd6gkHIsnBl26Q4t19JwrhDGjR5JFAJ8WN-NyQyYR9z5OlH-Ejx-nUjzjNtWeqrfWeMZWXGzAwSAfI_0qsg7X6hLIXvmm0yP9ziQP_ZncQDtALrXaO17D_ib8SzgUNSwNbFpLmiJ07gks_QVTPmy3V2heDNiWfq9E9TTY/s1600/nebhula%20%281800%20x%201800%20px%29%20%2872%29.png'/>
-    <span class='fav-counter' id='favCounter'>0</span>
+  <!-- 🔥 HOME FIJO (IZQUIERDA) -->
+  <button class='nav-btn nav-btn-fixed' onclick='irAlHome()'>
+    <img alt='Home' class='nav-icon-custom' src='https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEin3vyNaFhuOJN4hky7DibfXDrsQwMsjVxvDSPoHxkIA5YV7jLpfDZGvPnmx-DG8Ivi77rCR36LIE4n_Huu1A2dQ6bLAghyxsO9Jriu0iX-rd7cLsVKnkhw1A0jWzZ_Ok5FtlZLMIeMv8TdGgfkDhThgFNUyB4pc_nCxzmCiOO895mmlrTv41kYx65gG7Y/s1600/nebhula%20%281800%20x%201800%20px%29%20%2873%29.png'/>
   </button>
-  <button class='nav-btn' onclick='irAlHome()'><img alt='Favoritos' class='fav-icon-custom' src='https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEin3vyNaFhuOJN4hky7DibfXDrsQwMsjVxvDSPoHxkIA5YV7jLpfDZGvPnmx-DG8Ivi77rCR36LIE4n_Huu1A2dQ6bLAghyxsO9Jriu0iX-rd7cLsVKnkhw1A0jWzZ_Ok5FtlZLMIeMv8TdGgfkDhThgFNUyB4pc_nCxzmCiOO895mmlrTv41kYx65gG7Y/s1600/nebhula%20%281800%20x%201800%20px%29%20%2873%29.png'/></button>
+  
+  <!-- 🔥 CARRUSEL DE ICONOS (DERECHA, DESLIZABLE) -->
+  <div class='nav-carousel'>
+    <button class='nav-btn' onclick='abrirFormularioWeb()'>
+      <i class='fas fa-plus'></i>
+    </button>
+    <button class='nav-btn' onclick='mostrarFavoritosDesdeNav()'>
+      <img alt='Favoritos' class='nav-icon-custom' src='https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgw_MEMorpH6xSgGC_2Q421GRnd6gkHIsnBl26Q4t19JwrhDGjR5JFAJ8WN-NyQyYR9z5OlH-Ejx-nUjzjNtWeqrfWeMZWXGzAwSAfI_0qsg7X6hLIXvmm0yP9ziQP_ZncQDtALrXaO17D_ib8SzgUNSwNbFpLmiJ07gks_QVTPmy3V2heDNiWfq9E9TTY/s1600/nebhula%20%281800%20x%201800%20px%29%20%2872%29.png'/>
+      <span class='fav-counter' id='favCounter'>0</span>
+    </button>
+  </div>
 </div>
 
 <script>
@@ -491,7 +548,6 @@ var feedsConfig = { 'tecnologia': ['https://www.xataka.com/feedburner.xml','http
 var categoriasOrden = ['mas-votadas','tecnologia','deportes','mascotas','terror','cine','cocina','games','viajes','moda','musica','ciencia'];
 var MAX_ITEMS=18, ITEMS_INICIALES=16, cargado={}, datosGuardados={}, visiblesPorTab={}, cargandoMas={};
 function showToast(m){var t=document.createElement('div');t.className='toast';t.textContent=m;document.getElementById('toastContainer').appendChild(t);setTimeout(function(){t.remove();},3000);}
-function toggleDarkMode(){var w=document.getElementById('news-widget');var i=document.getElementById('navDarkIcon');w.classList.toggle('dark-mode');i.className=w.classList.contains('dark-mode')?'fas fa-sun':'fas fa-moon';localStorage.setItem('news_dark_mode',w.classList.contains('dark-mode'));}
 function extractImage(it){if(it.thumbnail&&typeof it.thumbnail==='string'){var t=it.thumbnail.trim();if(t&&t.indexOf('http')===0)return t;}return null;}
 function getSourceName(u){try{var a=document.createElement('a');a.href=u;return a.hostname.replace('www.','').split('.')[0];}catch(e){return'';}}
 function getSourceLogo(u){try{var a=document.createElement('a');a.href=u;return'https://www.google.com/s2/favicons?domain='+a.hostname+'&sz=64';}catch(e){return'';}}
@@ -515,13 +571,53 @@ function actualizarTopEnSegundoPlano() { obtenerTopVotadas(20).then(function(top
 function renderTopGrid(top){ var html = '<div class="news-grid votadas-grid">'; for(var i = 0; i < top.length; i++){ var item = top[i]; var imgSrc = (item.imagen && item.imagen.indexOf('http') === 0) ? item.imagen : 'https://via.placeholder.com/300x160?text=Info'; var logoHtml = ''; if(item.logo && item.logo.indexOf('http') === 0) { logoHtml = '<img class="source-favicon" src="'+item.logo+'" alt="'+(item.fuente||'Fuente')+'">'; } else if(item.url) { var faviconUrl = 'https://www.google.com/s2/favicons?domain=' + encodeURIComponent(item.url) + '&sz=64'; logoHtml = '<img class="source-favicon" src="'+faviconUrl+'" alt="'+(item.fuente||'Fuente')+'">'; } var votosItem = votosCache[item.url] || { votos: item.votos || 0, yaVoto: false }; var voteHtml = renderBotonVotoHtml(item.url, votosItem); var esFav = noticiaEsFavorita(item.url); var afiliadoKey = buscarAfiliado(item.titulo); var affiliateBtn = afiliadoKey ? '<button class="affiliate-btn" onclick="abrirOfertaModal(\''+afiliadoKey+'\')"><i class="fas fa-tag"></i> Oferta</button>' : ''; var showTranslate = shouldShowTranslateBtn(item.titulo, item.descripcion); var translateBtnHtml = showTranslate ? '<button class="translate-btn" onclick="(function(btn){ var card=btn.closest(\'.news-card\'); if(card) traducirTexto(card, btn); })(this)" title="Traducir"><i class="fas fa-globe"></i></button>' : ''; var categoriaDetectada = 'Tecnología'; var categoriaIcono = 'fas fa-laptop'; var urlLower = item.url.toLowerCase(); if(urlLower.indexOf('xataka') !== -1 || urlLower.indexOf('genbeta') !== -1 || urlLower.indexOf('adslzone') !== -1) { categoriaDetectada = 'Tecnología'; categoriaIcono = 'fas fa-laptop'; } else if(urlLower.indexOf('bbc') !== -1 || urlLower.indexOf('espn') !== -1 || urlLower.indexOf('abcnews') !== -1) { categoriaDetectada = 'Deportes'; categoriaIcono = 'fas fa-futbol'; } else if(urlLower.indexOf('socnas') !== -1 || urlLower.indexOf('wamiz') !== -1 || urlLower.indexOf('veggieanimals') !== -1) { categoriaDetectada = 'Mascotas'; categoriaIcono = 'fas fa-paw'; } else if(urlLower.indexOf('bloody-disgusting') !== -1 || urlLower.indexOf('dreadcentral') !== -1 || urlLower.indexOf('ihorror') !== -1 || urlLower.indexOf('abandomoviez') !== -1) { categoriaDetectada = 'Terror'; categoriaIcono = 'fas fa-ghost'; } else if(urlLower.indexOf('variety') !== -1 || urlLower.indexOf('hollywoodreporter') !== -1 || urlLower.indexOf('indiewire') !== -1) { categoriaDetectada = 'Cine'; categoriaIcono = 'fas fa-film'; } else if(urlLower.indexOf('directoalpaladar') !== -1 || urlLower.indexOf('recetasnestle') !== -1) { categoriaDetectada = 'Cocina'; categoriaIcono = 'fas fa-utensils'; } else if(urlLower.indexOf('vandal') !== -1 || urlLower.indexOf('malavida') !== -1 || urlLower.indexOf('gamespot') !== -1) { categoriaDetectada = 'Games'; categoriaIcono = 'fas fa-gamepad'; } else if(urlLower.indexOf('traveler') !== -1 || urlLower.indexOf('elviajeperfecto') !== -1 || urlLower.indexOf('abc.es/viajar') !== -1 || urlLower.indexOf('elpais.com') !== -1) { categoriaDetectada = 'Viajes'; categoriaIcono = 'fas fa-plane'; } else if(urlLower.indexOf('vogue') !== -1 || urlLower.indexOf('elle') !== -1) { categoriaDetectada = 'Moda'; categoriaIcono = 'fas fa-tshirt'; } else if(urlLower.indexOf('los40') !== -1 || urlLower.indexOf('rockaxis') !== -1) { categoriaDetectada = 'Música'; categoriaIcono = 'fas fa-music'; } else if(urlLower.indexOf('muyinteresante') !== -1 || urlLower.indexOf('nationalgeographic') !== -1) { categoriaDetectada = 'Ciencia'; categoriaIcono = 'fas fa-flask'; } html += '<article class="news-card cat-mas-votadas" data-url="'+item.url+'" data-title="'+(item.titulo||'').replace(/"/g,'"')+'" data-img="'+imgSrc+'" data-source="'+(item.fuente||'Comunidad')+'" data-logo="'+(item.logo||'')+'" data-date="'+(item.pubDate||'')+'" data-desc="'+(item.descripcion||'').replace(/"/g,'"')+'">'; html += '<div class="news-image-wrapper">'+voteHtml+'<div class="card-actions"><button class="favorite-btn'+(esFav?' active':'')+'" onclick="toggleFavConCategoria(this)"><i class="'+(esFav?'fas':'far')+' fa-heart"></i></button><button class="share-btn" onclick="shareIt(\''+item.url.replace(/'/g,"\\'")+'\',\''+(item.titulo||'Noticia').replace(/'/g,"\\'")+'\',this)"><i class="fas fa-share-alt"></i></button>'+translateBtnHtml+'</div>'; html += '<img class="news-image" src="'+imgSrc+'" loading="lazy" onerror="this.src=\'https://via.placeholder.com/300x160?text=Info\'"></div>'; html += '<div class="news-content"><a class="news-title" href="'+item.url+'" target="_blank">'+(item.titulo||'Noticia mas votada '+(i+1))+'</a>'; html += '<p class="news-excerpt">'+truncateText(item.descripcion||'',300)+'</p>'; html += '<div class="news-meta"><div class="source-info"><span class="categoria-badge"><i class="'+categoriaIcono+'"></i> '+categoriaDetectada+'</span>'+logoHtml+'<span>'+(item.fuente||'Comunidad')+'</span></div><div style="display:flex;gap:6px;align-items:center;">'+affiliateBtn+'<a href="'+item.url+'" target="_blank" class="read-more-btn"><i class="fas fa-arrow-right"></i> Seguir leyendo</a></div></div></div></article>'; } html += '</div>'; return html; }
 
 async function renderNewsGrid(items,mostrar,categoriaId){ var conImg=items.filter(function(it){return extractImage(it);}); if(conImg.length===0)conImg=items; var urls = []; for(var i=0; i<Math.min(mostrar, conImg.length); i++) { urls.push(conImg[i].link); } var votosData = await obtenerTodosLosVotos(urls); var html='<div class="news-grid">'; for(var i=0;i<Math.min(mostrar,conImg.length);i++){ var it=conImg[i],img=extractImage(it),imgSrc=img?img:'https://via.placeholder.com/300x160?text='+encodeURIComponent(it.sourceName||'Noticia'); var esFav = noticiaEsFavorita(it.link); var afiliadoKey = buscarAfiliado(it.title); var affiliateBtn = afiliadoKey ? '<button class="affiliate-btn" onclick="abrirOfertaModal(\''+afiliadoKey+'\')"><i class="fas fa-tag"></i> Oferta</button>' : ''; var voteHtml = renderBotonVotoHtml(it.link, votosData[it.link]); var showTranslate = shouldShowTranslateBtn(it.title, it.description); var translateBtnHtml = showTranslate ? '<button class="translate-btn" onclick="(function(btn){ var card=btn.closest(\'.news-card\'); if(card) traducirTexto(card, btn); })(this)" title="Traducir"><i class="fas fa-globe"></i></button>' : ''; var categoriaNombre = categoriaId.charAt(0).toUpperCase() + categoriaId.slice(1); var categoriaIcono = getIconoCategoria(categoriaNombre); html+='<article class="news-card cat-'+categoriaId+'" data-url="'+it.link+'" data-title="'+it.title.replace(/"/g,'"')+'" data-img="'+imgSrc+'" data-source="'+(it.sourceName||'')+'" data-logo="'+(it.sourceLogo||'')+'" data-date="'+(it.pubDate||'')+'" data-desc="'+stripHtml(it.description||'').replace(/"/g,'"')+'">'; html+='<div class="news-image-wrapper">'+voteHtml+'<div class="card-actions"><button class="favorite-btn'+(esFav?' active':'')+'" onclick="toggleFavConCategoria(this)"><i class="'+(esFav?'fas':'far')+' fa-heart"></i></button><button class="share-btn" onclick="shareIt(\''+it.link.replace(/'/g,"\\'")+'\',\''+it.title.replace(/'/g,"\\'")+'\',this)"><i class="fas fa-share-alt"></i></button>'+translateBtnHtml+'</div>'; html+='<img class="news-image" src="'+imgSrc+'" loading="lazy" onerror="this.src=\'https://via.placeholder.com/300x160?text=Info\'"></div>'; html+='<div class="news-content"><a class="news-title" href="'+it.link+'" target="_blank">'+it.title+'</a>'; html+='<p class="news-excerpt">'+truncateText(stripHtml(it.description),300)+'</p>'; html+='<div class="news-meta"><div class="source-info"><span class="categoria-badge"><i class="'+categoriaIcono+'"></i> '+categoriaNombre+'</span>'+(it.sourceLogo?'<img class="source-favicon" src="'+it.sourceLogo+'">':'')+'<span>'+timeAgo(it.pubDate)+' - '+it.sourceName+'</span></div><div style="display:flex;gap:6px;align-items:center;">'+affiliateBtn+'<a href="'+it.link+'" target="_blank" class="read-more-btn"><i class="fas fa-arrow-right"></i> Seguir leyendo</a></div></div></div></article>'; } html+='</div>'; return html; }
-async function cargarTab(id, forzarActualizacion){ var panel=document.getElementById('panel-'+id);if(!panel)return; if(id==='favoritos'){showFavs();return;} if(id==='mas-votadas'){ panel.innerHTML=await cargarMasVotadas(); return; } var cache = getRssCache(id); if (cache && !forzarActualizacion) { datosGuardados[id] = cache; cargado[id] = true; visiblesPorTab[id] = Math.min(ITEMS_INICIALES, cache.length); panel.innerHTML = await renderNewsGrid(cache, visiblesPorTab[id], id); actualizarFeedEnSegundoPlano(id); return; } panel.innerHTML='<div class="news-grid"><div class="loading-section">Cargando...</div></div>'; var urls=feedsConfig[id];if(!urls)return; var porFeed=Math.floor(MAX_ITEMS/urls.length); var promesas=urls.map(function(url){return cargarFeed(url,porFeed);}); Promise.all(promesas).then(function(res){ var todos=[];for(var i=0;i<res.length;i++){todos=todos.concat(res[i]);} todos.sort(function(a,b){return new Date(b.pubDate)-new Date(a.pubDate);}); datosGuardados[id]=todos;cargado[id]=true;visiblesPorTab[id]=Math.min(ITEMS_INICIALES,todos.length); setRssCache(id, todos); renderNewsGrid(todos,visiblesPorTab[id],id).then(function(html){panel.innerHTML=html;}); cargandoMas[id]=false; }); }
-function actualizarFeedEnSegundoPlano(cat) { setTimeout(function() { var urls = feedsConfig[cat]; if (!urls) return; var porFeed = Math.floor(MAX_ITEMS / urls.length); var promesas = urls.map(function(url) { return cargarFeed(url, porFeed); }); Promise.all(promesas).then(function(res) { var todos = []; for (var i = 0; i < res.length; i++) { todos = todos.concat(res[i]); } todos.sort(function(a, b) { return new Date(b.pubDate) - new Date(a.pubDate); }); setRssCache(cat, todos); datosGuardados[cat] = todos; cargado[cat] = true; var panel = document.getElementById('panel-' + cat); if (panel && panel.classList.contains('active')) { visiblesPorTab[cat] = Math.min(ITEMS_INICIALES, todos.length); renderNewsGrid(todos, visiblesPorTab[cat], cat).then(function(html) { panel.innerHTML = html; }); } }); }, 100); }
+
+async function cargarTab(id, forzarActualizacion) { 
+  var panel = document.getElementById('panel-' + id);
+  if(!panel) return; 
+  if(id === 'favoritos') { showFavs(); return; } 
+  if(id === 'mas-votadas') { 
+    panel.innerHTML = await cargarMasVotadas(); 
+    actualizarBotonCargarMas(id);
+    return; 
+  } 
+  var cache = getRssCache(id); 
+  if (cache && !forzarActualizacion) { 
+    datosGuardados[id] = cache; 
+    cargado[id] = true; 
+    visiblesPorTab[id] = Math.min(ITEMS_INICIALES, cache.length); 
+    panel.innerHTML = await renderNewsGrid(cache, visiblesPorTab[id], id); 
+    actualizarFeedEnSegundoPlano(id); 
+    actualizarBotonCargarMas(id);
+    return; 
+  } 
+  panel.innerHTML = '<div class="news-grid"><div class="loading-section">Cargando...</div></div>'; 
+  var urls = feedsConfig[id];
+  if(!urls) return; 
+  var porFeed = Math.floor(MAX_ITEMS / urls.length); 
+  var promesas = urls.map(function(url) { return cargarFeed(url, porFeed); }); 
+  Promise.all(promesas).then(function(res) { 
+    var todos = [];
+    for(var i = 0; i < res.length; i++) { todos = todos.concat(res[i]); } 
+    todos.sort(function(a, b) { return new Date(b.pubDate) - new Date(a.pubDate); }); 
+    datosGuardados[id] = todos;
+    cargado[id] = true;
+    visiblesPorTab[id] = Math.min(ITEMS_INICIALES, todos.length); 
+    setRssCache(id, todos); 
+    renderNewsGrid(todos, visiblesPorTab[id], id).then(function(html) { 
+      panel.innerHTML = html; 
+      actualizarBotonCargarMas(id);
+    }); 
+    cargandoMas[id] = false; 
+  }); 
+}
+
+function actualizarFeedEnSegundoPlano(cat) { setTimeout(function() { var urls = feedsConfig[cat]; if (!urls) return; var porFeed = Math.floor(MAX_ITEMS / urls.length); var promesas = urls.map(function(url) { return cargarFeed(url, porFeed); }); Promise.all(promesas).then(function(res) { var todos = []; for (var i = 0; i < res.length; i++) { todos = todos.concat(res[i]); } todos.sort(function(a, b) { return new Date(b.pubDate) - new Date(a.pubDate); }); setRssCache(cat, todos); datosGuardados[cat] = todos; cargado[cat] = true; var panel = document.getElementById('panel-' + cat); if (panel && panel.classList.contains('active')) { visiblesPorTab[cat] = Math.min(ITEMS_INICIALES, todos.length); renderNewsGrid(todos, visiblesPorTab[cat], cat).then(function(html) { panel.innerHTML = html; actualizarBotonCargarMas(cat); }); } }); }, 100); }
+
 function cargarMas(){ var panel=document.querySelector('.tab-panel-wrap.active');if(!panel)return; var id=panel.id.replace('panel-','');if(id==='favoritos'||id==='mas-votadas')return; if(cargandoMas[id])return; if(visiblesPorTab[id]>=datosGuardados[id].length)return; cargandoMas[id]=true; visiblesPorTab[id]=(visiblesPorTab[id]||ITEMS_INICIALES)+ITEMS_INICIALES; renderNewsGrid(datosGuardados[id],visiblesPorTab[id],id).then(function(html){panel.innerHTML=html;}); cargandoMas[id]=false; }
 
 // 🔥 FUNCIÓN cambiarTab CON SCROLL AL TOP FORZOSO
 function cambiarTab(id) { 
-  // SCROLL AL TOP INMEDIATO
   window.scrollTo(0, 0);
   document.documentElement.scrollTop = 0;
   document.body.scrollTop = 0;
@@ -533,6 +629,50 @@ function cambiarTab(id) {
   document.getElementById('panel-' + id).classList.add('active'); 
   document.getElementById('cargarMasContainer').style.display = 'none';
   cargarTab(id); 
+}
+
+// 🔥 MOSTRAR/OCULTAR BOTÓN CARGAR MÁS
+function actualizarBotonCargarMas(id) {
+  var btnContainer = document.getElementById('cargarMasContainer');
+  var btn = document.getElementById('cargarMasBtn');
+  if(!btnContainer || !btn) return;
+  
+  if(id === 'favoritos' || id === 'mas-votadas') {
+    btnContainer.style.display = 'none';
+    return;
+  }
+  
+  if(visiblesPorTab[id] >= datosGuardados[id].length) {
+    btnContainer.style.display = 'none';
+  } else {
+    btnContainer.style.display = 'block';
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-plus-circle"></i> Cargar más noticias';
+  }
+}
+
+// 🔥 FUNCIÓN CARGAR MÁS MANUAL
+function cargarMasManual() {
+  var panel = document.querySelector('.tab-panel-wrap.active');
+  if(!panel) return;
+  var id = panel.id.replace('panel-', '');
+  if(id === 'favoritos' || id === 'mas-votadas') return;
+  if(cargandoMas[id]) return;
+  if(visiblesPorTab[id] >= datosGuardados[id].length) return;
+  
+  var btn = document.getElementById('cargarMasBtn');
+  if(btn) {
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Cargando...';
+  }
+  
+  cargandoMas[id] = true;
+  visiblesPorTab[id] = (visiblesPorTab[id] || ITEMS_INICIALES) + ITEMS_INICIALES;
+  renderNewsGrid(datosGuardados[id], visiblesPorTab[id], id).then(function(html) {
+    panel.innerHTML = html;
+    cargandoMas[id] = false;
+    actualizarBotonCargarMas(id);
+  });
 }
 
 (function(){ loadRssCacheFromStorage(); var saved=localStorage.getItem('news_dark_mode'); if(saved==='true'){document.getElementById('news-widget').classList.add('dark-mode');document.getElementById('navDarkIcon').className='fas fa-sun';} var categoriaActual='mas-votadas'; var btnActivo=document.querySelector('.tab-btn-wrap[onclick*="'+categoriaActual+'"]'); var panelActivo=document.getElementById('panel-'+categoriaActual); if(btnActivo&&panelActivo){ btnActivo.classList.add('active');panelActivo.classList.add('active'); cargarTab(categoriaActual);actualizarContadorFavoritos(); } setTimeout(function() { cargarTab('tecnologia', false); }, 300); setTimeout(function(){restaurarItemAlVolver();},500); setTimeout(function(){restaurarUltimaNoticia();},600); })();
