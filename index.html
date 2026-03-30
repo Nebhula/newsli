@@ -446,20 +446,81 @@ function shouldShowTranslateBtn(title, desc) {
   var c = 0; for (var i = 0; i < words.length; i++) { if (t.indexOf(' ' + words[i] + ' ') !== -1 || t.indexOf(words[i] + ' ') === 0) { c++; if (c >= 5) return true; } } return false;
 }
 async function traducirTexto(card, btn) {
-  var title = card.getAttribute('data-title') || ''; var desc = card.getAttribute('data-desc') || ''; var texto = (title + ' ' + desc).substring(0, 5000);
-  var existing = card.querySelector('.translated-text'); if (existing) { existing.remove(); btn.innerHTML = '<i class="fas fa-globe"></i>'; btn.style.color = '#2196f3'; return; }
-  var orig = btn.innerHTML; btn.classList.add('translating'); btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'; btn.disabled = true;
+  var title = card.getAttribute('data-title') || '';
+  var desc = card.getAttribute('data-desc') || '';
+  var texto = (title + ' ' + desc).substring(0, 5000);
+  
+  // Si no hay texto para traducir
+  if (!texto.trim()) {
+    showToast('No hay texto para traducir');
+    return;
+  }
+  
+  var existing = card.querySelector('.translated-text');
+  if (existing) {
+    existing.remove();
+    if (btn) {
+      btn.innerHTML = '<i class="fas fa-globe"></i>';
+      btn.style.color = '#2196f3';
+    }
+    return;
+  }
+  
+  var origIcon = btn ? btn.innerHTML : '<i class="fas fa-globe"></i>';
+  if (btn) {
+    btn.classList.add('translating');
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    btn.disabled = true;
+  }
+  
   try {
-    var res = await fetch(TRANSLATOR_WORKER_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text: texto }) });
+    // Llamar al worker de traducción
+    var res = await fetch(TRANSLATOR_WORKER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text: texto })
+    });
+    
     var data = await res.json();
+    console.log('Respuesta traducción:', data); // Para depurar
+    
     if (data.translated && data.translated !== texto) {
-      var ex = card.querySelector('.news-excerpt'); if (ex) {
-        var div = document.createElement('div'); div.className = 'translated-text'; div.innerHTML = '<strong>Traducción:</strong><br>' + data.translated;
-        ex.insertAdjacentElement('afterend', div); btn.innerHTML = '<i class="fas fa-check"></i>'; btn.style.color = '#4caf50';
-        setTimeout(function() { btn.innerHTML = '<i class="fas fa-globe"></i>'; btn.style.color = '#2196f3'; btn.disabled = false; btn.classList.remove('translating'); }, 3000);
+      var excerptDiv = card.querySelector('.news-excerpt');
+      if (excerptDiv) {
+        var translatedDiv = document.createElement('div');
+        translatedDiv.className = 'translated-text';
+        translatedDiv.innerHTML = '<strong><i class="fas fa-language"></i> Traducción:</strong><br>' + data.translated;
+        excerptDiv.insertAdjacentElement('afterend', translatedDiv);
+        
+        if (btn) {
+          btn.innerHTML = '<i class="fas fa-check"></i>';
+          btn.style.color = '#4caf50';
+          setTimeout(function() {
+            btn.innerHTML = '<i class="fas fa-globe"></i>';
+            btn.style.color = '#2196f3';
+            btn.disabled = false;
+            btn.classList.remove('translating');
+          }, 3000);
+        }
       }
-    } else { throw new Error('Error'); }
-  } catch (e) { btn.innerHTML = '<i class="fas fa-exclamation-triangle"></i>'; btn.style.color = '#f44336'; setTimeout(function() { btn.innerHTML = orig; btn.style.color = '#2196f3'; btn.disabled = false; btn.classList.remove('translating'); }, 2000); showToast('Error al traducir'); }
+    } else {
+      // Si no hay traducción válida
+      throw new Error(data.error || 'No se pudo traducir');
+    }
+  } catch (e) {
+    console.error('Error traducción:', e);
+    if (btn) {
+      btn.innerHTML = '<i class="fas fa-exclamation-triangle"></i>';
+      btn.style.color = '#f44336';
+      setTimeout(function() {
+        btn.innerHTML = origIcon;
+        btn.style.color = '#2196f3';
+        btn.disabled = false;
+        btn.classList.remove('translating');
+      }, 2000);
+    }
+    showToast('❌ Error al traducir: ' + (e.message || 'intenta de nuevo'));
+  }
 }
 
 var rssCache = {}, rssCacheTime = {};
