@@ -590,64 +590,87 @@ function renderSkeletons(cantidad) {
 }
 
 /* DESTACADOS - CARGA PROGRESIVA */
+/* 🔥 CARGA DESTACADOS - PROGRESIVA REAL */
 async function cargarDestacados() {
   var panel = document.getElementById('panel-destacados');
-  panel.innerHTML = '<div class="news-grid destacados-grid">' + renderSkeletons(12) + '</div>';
   
+  /* 🔥 1. Mostrar cache INMEDIATO si existe (sin esperar) */
+  var cacheLocal = localStorage.getItem('destacadosCache');
+  var cacheTime = localStorage.getItem('destacadosCacheTime');
+  if (cacheLocal && cacheTime && (Date.now() - parseInt(cacheTime) < 7200000)) {
+    var datosCache = JSON.parse(cacheLocal);
+    panel.innerHTML = renderDestacadosGrid(datosCache);
+    document.getElementById('cargarMasContainer').style.display = 'none';
+    /* Actualizar en segundo plano */
+    cargarDestacadosSegundoPlano();
+    return;
+  }
+  
+  /* 🔥 2. Skeleton inicial */
+  panel.innerHTML = '<div class="news-grid destacados-grid">' + renderSkeletons(8) + '</div>';
+  
+  /* 🔥 3. Cargar fuentes UNA POR UNA y mostrar progresivamente */
   var todas = [];
   var cats = Object.keys(feedsConfig);
+  
   for (var i = 0; i < cats.length; i++) {
     var cat = cats[i];
     var urls = feedsConfig[cat];
-    var porFeed = 2;
-    var promesas = urls.map(function(url) { return cargarFeed(url, porFeed); });
-    var resultados = await Promise.all(promesas);
-    for (var j = 0; j < resultados.length; j++) { todas = todas.concat(resultados[j]); }
+    
+    /* Cargar cada fuente individualmente */
+    for (var j = 0; j < urls.length; j++) {
+      try {
+        var data = await cargarFeed(urls[j], 1);
+        todas = todas.concat(data);
+        
+        /* 🔥 Mostrar CADA VEZ que llega una fuente (progresivo real) */
+        if (todas.length >= 3) {
+          todas.sort(function() { return Math.random() - 0.5; });
+          var parcial = todas.slice(0, Math.min(15, todas.length));
+          panel.innerHTML = renderDestacadosGrid(parcial);
+        }
+      } catch(e) {
+        console.log('Error cargando ' + urls[j]);
+      }
+    }
   }
+  
+  /* 🔥 4. Resultado final */
   todas.sort(function() { return Math.random() - 0.5; });
-  todas = todas.slice(0, 20);
-  var html = renderDestacadosGrid(todas);
-  panel.innerHTML = html;
+  todas = todas.slice(0, 15);
+  
+  /* Guardar cache */
+  localStorage.setItem('destacadosCache', JSON.stringify(todas));
+  localStorage.setItem('destacadosCacheTime', Date.now());
+  
+  panel.innerHTML = renderDestacadosGrid(todas);
   document.getElementById('cargarMasContainer').style.display = 'none';
-  return html;
 }
 
-function renderDestacadosGrid(items) {
-  var html = '<div class="news-grid destacados-grid">';
-  for (var i = 0; i < items.length; i++) {
-    var it = items[i];
-    var img = extractImage(it);
-    var imgSrc = img ? img : '';
-    var hasImg = img ? 'true' : 'false';
-    var esFav = noticiaEsFavorita(it.link);
-    var afi = buscarAfiliado(it.title);
-    var afiBtn = afi ? '<button class="affiliate-btn" onclick="abrirOfertaModal(\'' + afi + '\')"><i class="fas fa-tag"></i> Oferta</button>' : '';
-    var showTr = shouldShowTranslateBtn(it.title, it.description);
-    var trBtn = showTr ? '<button class="translate-btn" onclick="(function(b){var c=b.closest(\'.news-card\');if(c)traducirTexto(c,b);})(this)"><i class="fas fa-globe"></i></button>' : '';
-    var catDet = 'General', catIcon = 'fas fa-folder';
-    var ul = it.link.toLowerCase();
-    if (ul.indexOf('xataka') !== -1 || ul.indexOf('genbeta') !== -1) { catDet = 'Tecnología'; catIcon = 'fas fa-laptop'; }
-    else if (ul.indexOf('bbc') !== -1 || ul.indexOf('espn') !== -1) { catDet = 'Deportes'; catIcon = 'fas fa-futbol'; }
-    else if (ul.indexOf('socnas') !== -1 || ul.indexOf('wamiz') !== -1) { catDet = 'Mascotas'; catIcon = 'fas fa-paw'; }
-    else if (ul.indexOf('bloody-disgusting') !== -1 || ul.indexOf('dreadcentral') !== -1) { catDet = 'Terror'; catIcon = 'fas fa-ghost'; }
-    else if (ul.indexOf('variety') !== -1 || ul.indexOf('hollywoodreporter') !== -1) { catDet = 'Cine'; catIcon = 'fas fa-film'; }
-    else if (ul.indexOf('directoalpaladar') !== -1) { catDet = 'Cocina'; catIcon = 'fas fa-utensils'; }
-    else if (ul.indexOf('vandal') !== -1 || ul.indexOf('gamespot') !== -1) { catDet = 'Games'; catIcon = 'fas fa-gamepad'; }
-    else if (ul.indexOf('traveler') !== -1 || ul.indexOf('elpais.com') !== -1) { catDet = 'Viajes'; catIcon = 'fas fa-plane'; }
-    else if (ul.indexOf('vogue') !== -1 || ul.indexOf('elle') !== -1) { catDet = 'Moda'; catIcon = 'fas fa-tshirt'; }
-    else if (ul.indexOf('los40') !== -1) { catDet = 'Música'; catIcon = 'fas fa-music'; }
-    else if (ul.indexOf('muyinteresante') !== -1 || ul.indexOf('nationalgeographic') !== -1) { catDet = 'Ciencia'; catIcon = 'fas fa-flask'; }
-    var podClass = (i === 0) ? ' podium-first' : '';
-    html += '<article class="news-card cat-destacados' + podClass + '" data-url="' + it.link + '" data-title="' + (it.title || '').replace(/"/g, '"') + '" data-img="' + imgSrc + '" data-source="' + (it.sourceName || '') + '" data-logo="' + (it.sourceLogo || '') + '" data-date="' + (it.pubDate || '') + '" data-desc="' + stripHtml(it.description || '').replace(/"/g, '"') + '">';
-    html += '<div class="news-image-wrapper" data-has-image="' + hasImg + '">';
-    if (img) { html += '<img class="news-image" src="' + imgSrc + '" loading="lazy" onerror="this.style.display=\'none\';this.parentNode.setAttribute(\'data-has-image\',\'false\');">'; }
-    html += '<div class="card-actions"><button class="favorite-btn' + (esFav ? ' active' : '') + '" onclick="toggleFavConCategoria(this)"><i class="' + (esFav ? 'fas' : 'far') + ' fa-heart"></i></button><button class="share-btn" onclick="shareIt(\'' + it.link.replace(/'/g, "\\'") + '\',\'' + (it.title || 'Noticia').replace(/'/g, "\\'") + '\',this)"><i class="fas fa-share-alt"></i></button>' + trBtn + '</div></div>';
-    html += '<div class="news-content"><a class="news-title" href="' + it.link + '" target="_blank">' + (it.title || 'Noticia ' + (i + 1)) + '</a>';
-    html += '<p class="news-excerpt">' + truncateText(stripHtml(it.description || ''), 300) + '</p>';
-    html += '<div class="news-meta"><div class="source-info"><span class="categoria-badge"><i class="' + catIcon + '"></i> ' + catDet + '</span>' + (it.sourceLogo ? '<img class="source-favicon" src="' + it.sourceLogo + '">' : '') + '<span>' + timeAgo(it.pubDate) + ' - ' + it.sourceName + '</span></div><div style="display:flex;gap:6px;align-items:center;">' + afiBtn + '<a href="' + it.link + '" target="_blank" class="read-more-btn"><i class="fas fa-arrow-right"></i> Seguir leyendo</a></div></div></div></article>';
-  }
-  html += '</div>';
-  return html;
+/* 🔥 Actualizar cache en segundo plano */
+function cargarDestacadosSegundoPlano() {
+  setTimeout(function() {
+    var todas = [];
+    var cats = Object.keys(feedsConfig);
+    var promesas = [];
+    
+    for (var i = 0; i < cats.length; i++) {
+      var urls = feedsConfig[cats[i]];
+      for (var j = 0; j < urls.length; j++) {
+        promesas.push(cargarFeed(urls[j], 1));
+      }
+    }
+    
+    Promise.all(promesas).then(function(resultados) {
+      for (var k = 0; k < resultados.length; k++) {
+        todas = todas.concat(resultados[k]);
+      }
+      todas.sort(function() { return Math.random() - 0.5; });
+      todas = todas.slice(0, 15);
+      localStorage.setItem('destacadosCache', JSON.stringify(todas));
+      localStorage.setItem('destacadosCacheTime', Date.now());
+    });
+  }, 100);
 }
 
 /* CATEGORÍAS RSS */
