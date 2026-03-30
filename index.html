@@ -63,50 +63,170 @@
   .favorite-btn.active { color: #e91e63 !important; }
   .share-btn:hover { color: #1e88e5 !important; }
   
-  /* NUEVO BOTÓN TRADUCIR TEXTO */
-  .translate-btn-text {
-    background: rgba(30,136,229,0.2) !important;
+  /* BOTÓN TRADUCIR INLINE DENTRO DEL EXCERPT */
+  .translate-btn-inline {
+    background: rgba(30,136,229,0.15) !important;
     border: 1px solid #1e88e5 !important;
     color: #1e88e5 !important;
-    padding: 5px 10px !important;
+    padding: 2px 8px !important;
+    border-radius: 16px !important;
+    font-size: 10px !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    transition: all 0.2s ease !important;
+    margin-left: 6px !important;
+    white-space: nowrap !important;
+  }
+  .translate-btn-inline:hover {
+    background: #1e88e5 !important;
+    color: #fff !important;
+    transform: scale(1.02) !important;
+  }
+  .translate-btn-inline i {
+    font-size: 10px !important;
+  }
+  .translate-btn-inline:disabled {
+    opacity: 0.6 !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+  }
+  
+  /* BOTÓN AFILIADO (OFERTA) */
+  .affiliate-btn {
+    background: rgba(255,152,0,0.2) !important;
+    border: 1px solid #ff9800 !important;
+    color: #ff9800 !important;
+    padding: 4px 10px !important;
     border-radius: 20px !important;
     font-size: 11px !important;
     font-weight: 600 !important;
     cursor: pointer !important;
     display: inline-flex !important;
     align-items: center !important;
-    gap: 6px !important;
+    gap: 5px !important;
     transition: all 0.2s ease !important;
   }
-  .translate-btn-text:hover {
-    background: #1e88e5 !important;
+  .affiliate-btn:hover {
+    background: #ff9800 !important;
     color: #fff !important;
     transform: scale(1.02) !important;
   }
-  .translate-btn-text i {
-    font-size: 11px !important;
+  .affiliate-btn i { font-size: 11px !important; }
+  
+  /* BOTÓN SEGUIR LEYENDO - SOLO OJO */
+  .read-more-btn {
+    background: none !important;
+    border: none !important;
+    color: #8a8f9e !important;
+    cursor: pointer !important;
+    font-size: 18px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.2s ease !important;
+    width: 28px !important;
+    height: 28px !important;
+    border-radius: 50% !important;
   }
-  .translate-btn-text:disabled {
-    opacity: 0.6 !important;
-    cursor: not-allowed !important;
-    transform: none !important;
+  .read-more-btn:hover {
+    color: #e91e63 !important;
+    background: rgba(233,30,99,0.1) !important;
+    transform: scale(1.1) !important;
   }
   
-  .affiliate-btn { width: auto !important; height: 30px !important; border-radius: 20px !important; border: 2px solid #ff9800 !important; background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%) !important; color: #fff !important; cursor: pointer !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; gap: 5px !important; padding: 4px 12px !important; font-size: 12px !important; font-weight: 700 !important; transition: all 0.2s ease !important; box-shadow: 0 2px 8px rgba(255,152,0,0.3) !important; }
-  .affiliate-btn:hover { transform: scale(1.08) !important; box-shadow: 0 4px 15px rgba(255,152,0,0.5) !important; }
-  .affiliate-btn i { font-size: 14px !important; }
-  
-  .read-more-btn { background: #e91e63 !important; color: white !important; padding: 5px 12px !important; border-radius: 20px !important; text-decoration: none !important; font-size: 11px !important; font-weight: 600 !important; display: inline-flex !important; align-items: center !important; gap: 5px !important; transition: all 0.2s ease !important; border: none !important; cursor: pointer !important; }
-  .read-more-btn:hover { background: #c2185b !important; transform: scale(1.02) !important; color: white !important; }
-  .read-more-btn i { font-size: 10px !important; transition: transform 0.2s ease !important; }
-  .read-more-btn:hover i { transform: translateX(3px) !important; }
+  /* OFERTA DESPLEGABLE DENTRO DE LA TARJETA */
+  .oferta-desplegable {
+    background: #ffffff !important;
+    border: 1px solid #ff9800 !important;
+    border-radius: 16px !important;
+    padding: 16px !important;
+    margin-top: 12px !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+    transition: opacity 0.2s ease, transform 0.2s ease !important;
+  }
+  .oferta-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-bottom: 12px !important;
+  }
+  .oferta-titulo {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    color: #ff9800 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+  .oferta-cerrar {
+    background: none !important;
+    border: none !important;
+    color: #999 !important;
+    cursor: pointer !important;
+    font-size: 14px !important;
+    padding: 4px 8px !important;
+    transition: all 0.2s ease !important;
+    border-radius: 20px !important;
+  }
+  .oferta-cerrar:hover {
+    color: #ff9800 !important;
+    background: rgba(255,152,0,0.1) !important;
+  }
+  .oferta-imagen {
+    text-align: center !important;
+    margin-bottom: 12px !important;
+  }
+  .oferta-imagen img {
+    max-width: 100% !important;
+    max-height: 180px !important;
+    border-radius: 12px !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+  }
+  .oferta-desc {
+    font-size: 13px !important;
+    color: #333 !important;
+    margin-bottom: 16px !important;
+    line-height: 1.5 !important;
+  }
+  .oferta-link {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    background: #ff9800 !important;
+    color: #fff !important;
+    padding: 8px 20px !important;
+    border-radius: 30px !important;
+    text-decoration: none !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    transition: all 0.2s ease !important;
+    margin-bottom: 12px !important;
+  }
+  .oferta-link:hover {
+    background: #f57c00 !important;
+    transform: scale(1.02) !important;
+  }
+  .oferta-disclaimer {
+    font-size: 10px !important;
+    color: #888 !important;
+    text-align: center !important;
+    border-top: 1px solid #eee !important;
+    padding-top: 10px !important;
+    margin-top: 4px !important;
+  }
+  .oferta-disclaimer i {
+    margin-right: 4px !important;
+  }
   
   .news-content { padding: 12px !important; display: flex !important; flex-direction: column !important; width: 100% !important; box-sizing: border-box !important; }
   .news-title { font-size: 14px !important; font-weight: 600 !important; color: #f0f0f0 !important; text-decoration: none !important; line-height: 1.4 !important; margin-bottom: 6px !important; display: -webkit-box !important; -webkit-line-clamp: 2 !important; -webkit-box-orient: vertical !important; overflow: hidden !important; cursor: pointer !important; }
   .news-title:hover { color: #e91e63 !important; }
-  .news-excerpt { font-size: 13px !important; color: #8a8f9e !important; line-height: 1.5 !important; margin-bottom: 10px !important; display: -webkit-box !important; -webkit-line-clamp: 6 !important; -webkit-box-orient: vertical !important; overflow: hidden !important; word-wrap: break-word !important; }
+  .news-excerpt { font-size: 13px !important; color: #8a8f9e !important; line-height: 1.5 !important; margin-bottom: 10px !important; display: block !important; word-wrap: break-word !important; }
   
-  .translated-text { background: #11131f !important; padding: 10px 12px !important; border-radius: 8px !important; margin-top: 10px !important; font-size: 12px !important; line-height: 1.5 !important; border-left: 3px solid #1e88e5 !important; animation: fadeIn 0.3s ease !important; color: #8a8f9e !important; }
+  .translated-text { background: #11131f !important; padding: 10px 12px !important; border-radius: 8px !important; margin-top: 8px !important; font-size: 12px !important; line-height: 1.5 !important; border-left: 3px solid #1e88e5 !important; animation: fadeIn 0.3s ease !important; color: #8a8f9e !important; }
   .translated-text .close-translation {
     background: none !important;
     border: none !important;
@@ -284,19 +404,6 @@
   </div>
 </div>
 
-<div class='oferta-modal' id='ofertaModal'>
-  <button class='oferta-modal-close' onclick='cerrarOfertaModal()'><i class='fas fa-times'></i></button>
-  <div class='oferta-modal-content'>
-    <div class='oferta-modal-body'>
-      <img alt='Producto' class='oferta-modal-img' id='ofertaModalImg' src=''/>
-      <h3 class='oferta-modal-title' id='ofertaModalTitle'></h3>
-      <p class='oferta-modal-desc' id='ofertaModalDesc'></p>
-      <a class='oferta-modal-btn' href='#' id='ofertaModalLink' rel='nofollow noopener' target='_blank'>Ver en Amazon</a>
-      <p class='oferta-modal-disclaimer'><i class='fas fa-info-circle'></i> Enlace afiliado - Sin coste extra para ti</p>
-    </div>
-  </div>
-</div>
-
 <div class='affiliate-modal' id='affiliateModal'>
   <button class='affiliate-modal-close' onclick='cerrarModal()'><i class='fas fa-times'></i></button>
   <div class='affiliate-modal-content'>
@@ -353,30 +460,45 @@ window.addEventListener('scroll', function() {
 }, { passive: true });
 
 var afiliados = {
-  'iphone': { keywords: ['iphone 15','iphone 16','comprar iphone','oferta iphone'], foto: 'https://m.media-amazon.com/images/I/71xb2xkN5qL._AC_SL1500_.jpg', titulo: 'iPhone en Amazon', descripcion: 'El último iPhone', enlace: 'https://amazon.es/dp/B0CHX3TW6T?tag=TU-ID-AFILIADO-21' },
-  'playstation': { keywords: ['ps5','playstation 5','comprar ps5'], foto: 'https://m.media-amazon.com/images/I/51w+R0uLc+L._AC_SL1500_.jpg', titulo: 'PlayStation 5', descripcion: 'Consola Sony', enlace: 'https://amazon.es/dp/B0CL5KNB9M?tag=TU-ID-AFILIADO-21' },
-  'xbox': { keywords: ['xbox series x','xbox series s','comprar xbox'], foto: 'https://m.media-amazon.com/images/I/61SUj2aKoEL._AC_SL1500_.jpg', titulo: 'Xbox Series X', descripcion: 'Consola Microsoft', enlace: 'https://amazon.es/dp/B08H75RTZ8?tag=TU-ID-AFILIADO-21' },
-  'nintendo': { keywords: ['nintendo switch','switch oled','comprar switch'], foto: 'https://m.media-amazon.com/images/I/61-PblYntsL._AC_SL1500_.jpg', titulo: 'Nintendo Switch', descripcion: 'Consola Nintendo', enlace: 'https://amazon.es/dp/B07VGRJDFY?tag=TU-ID-AFILIADO-21' },
-  'game': { keywords: ['comprar juego','oferta videojuego','fifa','call of duty'], foto: 'https://m.media-amazon.com/images/I/71bhWgQK-cL._AC_SL1500_.jpg', titulo: 'Videojuegos', descripcion: 'Mejores precios', enlace: 'https://amazon.es/videojuegos?tag=TU-ID-AFILIADO-21' }
+  'iphone': { keywords: ['iphone 15','iphone 16','comprar iphone','oferta iphone'], foto: 'https://m.media-amazon.com/images/I/71xb2xkN5qL._AC_SL1500_.jpg', titulo: 'iPhone 16', descripcion: 'El último iPhone con cámara profesional y chip A18 Pro. Pantalla Super Retina XDR, batería para todo el día y acabados en titanio.', enlace: 'https://amazon.es/dp/B0CHX3TW6T?tag=TU-ID-AFILIADO-21' },
+  'playstation': { keywords: ['ps5','playstation 5','comprar ps5'], foto: 'https://m.media-amazon.com/images/I/51w+R0uLc+L._AC_SL1500_.jpg', titulo: 'PlayStation 5', descripcion: 'La consola de Sony con gráficos 4K, SSD ultrarrápida y mandos DualSense con respuesta háptica. Disfruta de los mejores exclusivos.', enlace: 'https://amazon.es/dp/B0CL5KNB9M?tag=TU-ID-AFILIADO-21' },
+  'xbox': { keywords: ['xbox series x','xbox series s','comprar xbox'], foto: 'https://m.media-amazon.com/images/I/61SUj2aKoEL._AC_SL1500_.jpg', titulo: 'Xbox Series X', descripcion: 'La consola más potente de Microsoft con 12 teraflops, carga instantánea y Game Pass Ultimate. Miles de juegos disponibles.', enlace: 'https://amazon.es/dp/B08H75RTZ8?tag=TU-ID-AFILIADO-21' },
+  'nintendo': { keywords: ['nintendo switch','switch oled','comprar switch'], foto: 'https://m.media-amazon.com/images/I/61-PblYntsL._AC_SL1500_.jpg', titulo: 'Nintendo Switch OLED', descripcion: 'La consola híbrida con pantalla OLED de 7 pulgadas, 64GB de almacenamiento y soporte para todos los juegos de Nintendo.', enlace: 'https://amazon.es/dp/B07VGRJDFY?tag=TU-ID-AFILIADO-21' },
+  'game': { keywords: ['comprar juego','oferta videojuego','fifa','call of duty','zelda','mario'], foto: 'https://m.media-amazon.com/images/I/71bhWgQK-cL._AC_SL1500_.jpg', titulo: 'Videojuegos en oferta', descripcion: 'Los mejores videojuegos para PlayStation, Xbox, Nintendo Switch y PC. Envío rápido y ofertas exclusivas.', enlace: 'https://amazon.es/videojuegos?tag=TU-ID-AFILIADO-21' },
+  'samsung': { keywords: ['samsung tv','smart tv samsung','tv samsung','television samsung'], foto: 'https://m.media-amazon.com/images/I/81jbHNmKbPL._AC_SL1500_.jpg', titulo: 'Smart TV Samsung', descripcion: 'Televisores Samsung con calidad 4K, HDR10+ y Smart Hub. Diseño sin bordes y compatibilidad con todos los servicios de streaming.', enlace: 'https://amazon.es/samsung-tv?tag=TU-ID-AFILIADO-21' },
+  'sony': { keywords: ['sony tv','bravia','television sony'], foto: 'https://m.media-amazon.com/images/I/71iYxQpR3BL._AC_SL1500_.jpg', titulo: 'Sony Bravia', descripcion: 'Televisores Sony con tecnología OLED, procesador Cognitive Processor XR y calidad de imagen cinematográfica.', enlace: 'https://amazon.es/sony-bravia?tag=TU-ID-AFILIADO-21' },
+  'lg': { keywords: ['lg tv','oled lg','television lg'], foto: 'https://m.media-amazon.com/images/I/81oXoBKxRML._AC_SL1500_.jpg', titulo: 'LG OLED evo', descripcion: 'Televisores LG con tecnología OLED evo, inteligencia artificial y diseño ultradelgado. Imagen perfecta desde cualquier ángulo.', enlace: 'https://amazon.es/lg-oled?tag=TU-ID-AFILIADO-21' }
 };
 
 function buscarAfiliado(t) { var tl = t.toLowerCase(); for (var k in afiliados) { for (var i = 0; i < afiliados[k].keywords.length; i++) { if (tl.indexOf(afiliados[k].keywords[i]) !== -1) return k; } } return null; }
 
-function abrirOfertaModal(key) {
-  var af = afiliados[key];
-  if (!af) return;
-  document.getElementById('ofertaModalImg').src = af.foto;
-  document.getElementById('ofertaModalTitle').textContent = af.titulo;
-  document.getElementById('ofertaModalDesc').textContent = af.descripcion;
-  document.getElementById('ofertaModalLink').href = af.enlace;
-  document.getElementById('ofertaModal').classList.add('active');
-  document.body.style.overflow = 'hidden';
+function toggleOferta(card, btn, afiliadoKey) {
+  var existingOferta = card.querySelector('.oferta-desplegable');
+  if (existingOferta) {
+    existingOferta.style.opacity = '0';
+    existingOferta.style.transform = 'translateY(-10px)';
+    setTimeout(function() { existingOferta.remove(); }, 200);
+    return;
+  }
+  var afiliado = afiliados[afiliadoKey];
+  if (!afiliado) return;
+  var ofertaHtml = '<div class="oferta-desplegable" style="opacity:0; transform:translateY(-10px); transition:all 0.2s ease;">';
+  ofertaHtml += '<div class="oferta-header"><div class="oferta-titulo"><i class="fas fa-tag"></i> ' + afiliado.titulo + '</div><button class="oferta-cerrar" onclick="this.closest(\'.oferta-desplegable\').style.opacity=\'0\'; this.closest(\'.oferta-desplegable\').style.transform=\'translateY(-10px)\'; setTimeout(()=>this.closest(\'.oferta-desplegable\').remove(),200)"><i class="fas fa-times"></i></button></div>';
+  ofertaHtml += '<div class="oferta-imagen"><img src="' + afiliado.foto + '" alt="' + afiliado.titulo + '" onerror="this.style.display=\'none\'"></div>';
+  ofertaHtml += '<div class="oferta-desc">' + afiliado.descripcion + '</div>';
+  ofertaHtml += '<a href="' + afiliado.enlace + '" target="_blank" rel="nofollow noopener" class="oferta-link"><i class="fas fa-external-link-alt"></i> Ver en Amazon</a>';
+  ofertaHtml += '<div class="oferta-disclaimer"><i class="fas fa-info-circle"></i> Enlace afiliado - Sin coste extra para ti</div>';
+  ofertaHtml += '</div>';
+  var excerptDiv = card.querySelector('.news-excerpt');
+  if (excerptDiv) {
+    excerptDiv.insertAdjacentHTML('afterend', ofertaHtml);
+    var nuevaOferta = card.querySelector('.oferta-desplegable');
+    setTimeout(function() { nuevaOferta.style.opacity = '1'; nuevaOferta.style.transform = 'translateY(0)'; }, 10);
+  }
 }
 
-function cerrarOfertaModal() { document.getElementById('ofertaModal').classList.remove('active'); document.body.style.overflow = ''; }
-function abrirModal(p) { document.getElementById('modalImg').src = p.foto; document.getElementById('modalTitle').textContent = p.titulo; document.getElementById('modalDesc').textContent = p.descripcion; document.getElementById('affiliateModal').classList.add('active'); document.body.style.overflow = 'hidden'; }
 function cerrarModal() { document.getElementById('affiliateModal').classList.remove('active'); document.body.style.overflow = ''; }
-document.addEventListener('click', function(e) { if (e.target === document.getElementById('ofertaModal')) cerrarOfertaModal(); if (e.target === document.getElementById('affiliateModal')) cerrarModal(); });
+document.addEventListener('click', function(e) { if (e.target === document.getElementById('affiliateModal')) cerrarModal(); });
 
 var iconosCategorias = { "Tecnología": "fas fa-laptop", "Deportes": "fas fa-futbol", "Mascotas": "fas fa-paw", "Terror": "fas fa-ghost", "Cine": "fas fa-film", "Cocina": "fas fa-utensils", "Games": "fas fa-gamepad", "Viajes": "fas fa-plane", "Moda": "fas fa-tshirt", "Música": "fas fa-music", "Ciencia": "fas fa-flask", "General": "fas fa-folder" };
 function getIconoCategoria(categoria) { return iconosCategorias[categoria] || "fas fa-folder"; }
@@ -484,7 +606,7 @@ function shouldShowTranslateBtn(title, desc) {
   var c = 0; for (var i = 0; i < words.length; i++) { if (t.indexOf(' ' + words[i] + ' ') !== -1 || t.indexOf(words[i] + ' ') === 0) { c++; if (c >= 5) return true; } } return false;
 }
 
-/* NUEVA FUNCIÓN TRADUCIR TEXTO CON X PARA CERRAR */
+/* TRADUCTOR CON GOOGLE TRANSLATE - SOLO PARA TEXTOS EN INGLÉS */
 async function traducirTexto(card, btn) {
   var title = card.getAttribute('data-title') || '';
   var desc = card.getAttribute('data-desc') || '';
@@ -569,112 +691,62 @@ function cargarFeed(url, porFeed) {
     .catch(function() { return []; });
 }
 
-/* 🔥 DESTACADOS - CARGA INSTANTÁNEA DESDE CACHE */
 async function cargarDestacados() {
   var panel = document.getElementById('panel-destacados');
-  
-  /* 1. CACHE INMEDIATO (24 HORAS) - CARGA INSTANTÁNEA */
   var cacheLocal = localStorage.getItem('destacadosCache');
   var cacheTime = localStorage.getItem('destacadosCacheTime');
   if (cacheLocal && cacheTime && (Date.now() - parseInt(cacheTime) < 86400000)) {
     var datosCache = JSON.parse(cacheLocal);
     panel.innerHTML = renderDestacadosGrid(datosCache);
     document.getElementById('cargarMasContainer').style.display = 'none';
-    /* Actualizar en segundo plano sin bloquear */
     actualizarDestacadosEnSegundoPlano();
     return;
   }
-  
-  /* 2. Si no hay cache, mostrar skeleton y cargar */
   panel.innerHTML = '<div class="news-grid destacados-grid">' + renderSkeletons(9) + '</div>';
-  
-  /* 3. Cargar en paralelo TODAS las categorías con Promise.all */
   var todas = [];
   var cats = Object.keys(feedsConfig);
   var promesas = [];
-  
   for (var i = 0; i < cats.length; i++) {
     var urls = feedsConfig[cats[i]];
-    for (var j = 0; j < urls.length; j++) {
-      promesas.push(cargarFeed(urls[j], 1));
-    }
+    for (var j = 0; j < urls.length; j++) { promesas.push(cargarFeed(urls[j], 1)); }
   }
-  
-  /* Ejecutar todas las promesas en paralelo */
   var resultados = await Promise.all(promesas);
-  
-  for (var i = 0; i < resultados.length; i++) {
-    if (resultados[i] && resultados[i].length > 0) {
-      todas = todas.concat(resultados[i]);
-    }
-  }
-  
-  /* Mezclar y limitar a 15 */
-  for (var i = todas.length - 1; i > 0; i--) {
-    var j = Math.floor(Math.random() * (i + 1));
-    var temp = todas[i];
-    todas[i] = todas[j];
-    todas[j] = temp;
-  }
+  for (var i = 0; i < resultados.length; i++) { if (resultados[i] && resultados[i].length > 0) { todas = todas.concat(resultados[i]); } }
+  for (var i = todas.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var temp = todas[i]; todas[i] = todas[j]; todas[j] = temp; }
   todas = todas.slice(0, 15);
-  
-  /* Guardar cache */
   localStorage.setItem('destacadosCache', JSON.stringify(todas));
   localStorage.setItem('destacadosCacheTime', Date.now());
-  
   var html = renderDestacadosGrid(todas);
   panel.innerHTML = html;
   document.getElementById('cargarMasContainer').style.display = 'none';
 }
 
-/* Actualizar destacados en segundo plano sin bloquear UI */
 function actualizarDestacadosEnSegundoPlano() {
   setTimeout(async function() {
     var todas = [];
     var cats = Object.keys(feedsConfig);
     var promesas = [];
-    
     for (var i = 0; i < cats.length; i++) {
       var urls = feedsConfig[cats[i]];
-      for (var j = 0; j < urls.length; j++) {
-        promesas.push(cargarFeed(urls[j], 1));
-      }
+      for (var j = 0; j < urls.length; j++) { promesas.push(cargarFeed(urls[j], 1)); }
     }
-    
     var resultados = await Promise.all(promesas);
-    for (var i = 0; i < resultados.length; i++) {
-      if (resultados[i] && resultados[i].length > 0) {
-        todas = todas.concat(resultados[i]);
-      }
-    }
-    
-    for (var i = todas.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1));
-      var temp = todas[i];
-      todas[i] = todas[j];
-      todas[j] = temp;
-    }
+    for (var i = 0; i < resultados.length; i++) { if (resultados[i] && resultados[i].length > 0) { todas = todas.concat(resultados[i]); } }
+    for (var i = todas.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var temp = todas[i]; todas[i] = todas[j]; todas[j] = temp; }
     todas = todas.slice(0, 15);
-    
     localStorage.setItem('destacadosCache', JSON.stringify(todas));
     localStorage.setItem('destacadosCacheTime', Date.now());
-    
-    /* Si el panel sigue activo, actualizar silenciosamente */
     var panel = document.getElementById('panel-destacados');
     if (panel && panel.classList.contains('active')) {
       var nuevaHtml = renderDestacadosGrid(todas);
-      if (nuevaHtml !== panel.innerHTML) {
-        panel.innerHTML = nuevaHtml;
-      }
+      if (nuevaHtml !== panel.innerHTML) { panel.innerHTML = nuevaHtml; }
     }
   }, 100);
 }
 
 function renderSkeletons(cantidad) {
   var html = '';
-  for (var i = 0; i < cantidad; i++) {
-    html += '<div class="skeleton-card"><div class="skeleton-image"></div><div class="skeleton-content"><div class="skeleton-title"></div><div class="skeleton-text"></div><div class="skeleton-text"></div></div></div>';
-  }
+  for (var i = 0; i < cantidad; i++) { html += '<div class="skeleton-card"><div class="skeleton-image"></div><div class="skeleton-content"><div class="skeleton-title"></div><div class="skeleton-text"></div><div class="skeleton-text"></div></div></div>'; }
   return html;
 }
 
@@ -688,7 +760,7 @@ function renderDestacadosGrid(items) {
     var hasImg = img ? 'true' : 'false';
     var esFav = noticiaEsFavorita(it.link);
     var afi = buscarAfiliado(it.title);
-    var afiBtn = afi ? '<button class="affiliate-btn" onclick="abrirOfertaModal(\'' + afi + '\')"><i class="fas fa-tag"></i> Oferta</button>' : '';
+    var afiBtn = afi ? '<button class="affiliate-btn" onclick="toggleOferta(this.closest(\'.news-card\'), this, \'' + afi + '\')"><i class="fas fa-tag"></i> Oferta</button>' : '';
     var catDet = 'General', catIcon = 'fas fa-folder';
     var ul = it.link.toLowerCase();
     if (ul.indexOf('xataka') !== -1 || ul.indexOf('genbeta') !== -1) { catDet = 'Tecnología'; catIcon = 'fas fa-laptop'; }
@@ -703,13 +775,18 @@ function renderDestacadosGrid(items) {
     else if (ul.indexOf('los40') !== -1) { catDet = 'Música'; catIcon = 'fas fa-music'; }
     else if (ul.indexOf('muyinteresante') !== -1 || ul.indexOf('nationalgeographic') !== -1) { catDet = 'Ciencia'; catIcon = 'fas fa-flask'; }
     var podClass = (i === 0) ? ' podium-first' : '';
+    
+    // DETECTAR SI EL TEXTO ESTÁ EN INGLÉS PARA MOSTRAR EL BOTÓN DE TRADUCIR
+    var showTranslate = shouldShowTranslateBtn(it.title, it.description);
+    var trBtn = showTranslate ? '<button class="translate-btn-inline" onclick="traducirTexto(this.closest(\'.news-card\'), this)"><i class="fas fa-language"></i> Traducir</button>' : '';
+    
     html += '<article class="news-card cat-destacados' + podClass + '" data-url="' + it.link + '" data-title="' + (it.title || '').replace(/"/g, '"') + '" data-img="' + imgSrc + '" data-source="' + (it.sourceName || '') + '" data-logo="' + (it.sourceLogo || '') + '" data-date="' + (it.pubDate || '') + '" data-desc="' + stripHtml(it.description || '').replace(/"/g, '"') + '">';
     html += '<div class="news-image-wrapper" data-has-image="' + hasImg + '">';
     if (img) { html += '<img class="news-image" src="' + imgSrc + '" loading="lazy" onerror="this.style.display=\'none\';this.parentNode.setAttribute(\'data-has-image\',\'false\');">'; }
     html += '<div class="card-actions"><button class="favorite-btn' + (esFav ? ' active' : '') + '" onclick="toggleFavConCategoria(this)"><i class="' + (esFav ? 'fas' : 'far') + ' fa-heart"></i></button><button class="share-btn" onclick="shareIt(\'' + it.link.replace(/'/g, "\\'") + '\',\'' + (it.title || 'Noticia').replace(/'/g, "\\'") + '\',this)"><i class="fas fa-share-alt"></i></button></div></div>';
     html += '<div class="news-content"><a class="news-title" href="' + it.link + '" target="_blank">' + (it.title || 'Noticia ' + (i + 1)) + '</a>';
-    html += '<p class="news-excerpt">' + truncateText(stripHtml(it.description || ''), 300) + '</p>';
-    html += '<div class="news-meta"><div class="source-info"><span class="categoria-badge"><i class="' + catIcon + '"></i> ' + catDet + '</span>' + (it.sourceLogo ? '<img class="source-favicon" src="' + it.sourceLogo + '">' : '') + '<span>' + timeAgo(it.pubDate) + ' - ' + it.sourceName + '</span></div><div style="display:flex;gap:6px;align-items:center;">' + afiBtn + '<button class="translate-btn-text" onclick="traducirTexto(this.closest(\'.news-card\'), this)"><i class="fas fa-language"></i> Traducir</button><a href="' + it.link + '" target="_blank" class="read-more-btn"><i class="fas fa-arrow-right"></i> Seguir leyendo</a></div></div></div></article>';
+    html += '<p class="news-excerpt">' + truncateText(stripHtml(it.description || ''), 280) + ' ' + trBtn + '</p>';
+    html += '<div class="news-meta"><div class="source-info"><span class="categoria-badge"><i class="' + catIcon + '"></i> ' + catDet + '</span>' + (it.sourceLogo ? '<img class="source-favicon" src="' + it.sourceLogo + '">' : '') + '<span>' + timeAgo(it.pubDate) + ' - ' + it.sourceName + '</span></div><div style="display:flex;gap:6px;align-items:center;">' + afiBtn + '<a href="' + it.link + '" target="_blank" class="read-more-btn"><i class="fas fa-eye"></i></a></div></div></div></article>';
   }
   html += '</div>';
   return html;
@@ -724,16 +801,21 @@ async function renderNewsGrid(items, mostrar, catId) {
     var it = conImg[i], img = extractImage(it), imgSrc = img ? img : '', hasImg = img ? 'true' : 'false';
     var esFav = noticiaEsFavorita(it.link);
     var afi = buscarAfiliado(it.title);
-    var afiBtn = afi ? '<button class="affiliate-btn" onclick="abrirOfertaModal(\'' + afi + '\')"><i class="fas fa-tag"></i> Oferta</button>' : '';
+    var afiBtn = afi ? '<button class="affiliate-btn" onclick="toggleOferta(this.closest(\'.news-card\'), this, \'' + afi + '\')"><i class="fas fa-tag"></i> Oferta</button>' : '';
     var catNom = catId.charAt(0).toUpperCase() + catId.slice(1);
     var catIcon = getIconoCategoria(catNom);
+    
+    // DETECTAR SI EL TEXTO ESTÁ EN INGLÉS PARA MOSTRAR EL BOTÓN DE TRADUCIR
+    var showTranslate = shouldShowTranslateBtn(it.title, it.description);
+    var trBtn = showTranslate ? '<button class="translate-btn-inline" onclick="traducirTexto(this.closest(\'.news-card\'), this)"><i class="fas fa-language"></i> Traducir</button>' : '';
+    
     html += '<article class="news-card cat-' + catId + '" data-url="' + it.link + '" data-title="' + it.title.replace(/"/g, '"') + '" data-img="' + imgSrc + '" data-source="' + (it.sourceName || '') + '" data-logo="' + (it.sourceLogo || '') + '" data-date="' + (it.pubDate || '') + '" data-desc="' + stripHtml(it.description || '').replace(/"/g, '"') + '">';
     html += '<div class="news-image-wrapper" data-has-image="' + hasImg + '">';
     if (img) { html += '<img class="news-image" src="' + imgSrc + '" loading="lazy" onerror="this.style.display=\'none\';this.parentNode.setAttribute(\'data-has-image\',\'false\');">'; }
     html += '<div class="card-actions"><button class="favorite-btn' + (esFav ? ' active' : '') + '" onclick="toggleFavConCategoria(this)"><i class="' + (esFav ? 'fas' : 'far') + ' fa-heart"></i></button><button class="share-btn" onclick="shareIt(\'' + it.link.replace(/'/g, "\\'") + '\',\'' + it.title.replace(/'/g, "\\'") + '\',this)"><i class="fas fa-share-alt"></i></button></div></div>';
     html += '<div class="news-content"><a class="news-title" href="' + it.link + '" target="_blank">' + it.title + '</a>';
-    html += '<p class="news-excerpt">' + truncateText(stripHtml(it.description), 300) + '</p>';
-    html += '<div class="news-meta"><div class="source-info"><span class="categoria-badge"><i class="' + catIcon + '"></i> ' + catNom + '</span>' + (it.sourceLogo ? '<img class="source-favicon" src="' + it.sourceLogo + '">' : '') + '<span>' + timeAgo(it.pubDate) + ' - ' + it.sourceName + '</span></div><div style="display:flex;gap:6px;align-items:center;">' + afiBtn + '<button class="translate-btn-text" onclick="traducirTexto(this.closest(\'.news-card\'), this)"><i class="fas fa-language"></i> Traducir</button><a href="' + it.link + '" target="_blank" class="read-more-btn"><i class="fas fa-arrow-right"></i> Seguir leyendo</a></div></div></div></article>';
+    html += '<p class="news-excerpt">' + truncateText(stripHtml(it.description), 280) + ' ' + trBtn + '</p>';
+    html += '<div class="news-meta"><div class="source-info"><span class="categoria-badge"><i class="' + catIcon + '"></i> ' + catNom + '</span>' + (it.sourceLogo ? '<img class="source-favicon" src="' + it.sourceLogo + '">' : '') + '<span>' + timeAgo(it.pubDate) + ' - ' + it.sourceName + '</span></div><div style="display:flex;gap:6px;align-items:center;">' + afiBtn + '<a href="' + it.link + '" target="_blank" class="read-more-btn"><i class="fas fa-eye"></i></a></div></div></div></article>';
   }
   html += '</div>';
   return html;
@@ -744,7 +826,6 @@ async function cargarTab(id, forzar) {
   if (!panel) return;
   if (id === 'favoritos') { showFavs(); return; }
   if (id === 'destacados') { await cargarDestacados(); return; }
-  
   var cache = getRssCache(id);
   if (cache && !forzar) {
     datosGuardados[id] = cache; cargado[id] = true;
@@ -754,7 +835,6 @@ async function cargarTab(id, forzar) {
     actualizarBotonCargarMas(id);
     return;
   }
-  
   var urls = feedsConfig[id];
   if (!urls) return;
   var porFeed = Math.floor(MAX_ITEMS / urls.length);
@@ -868,22 +948,5 @@ function enviarFormularioWeb() {
 })();
 </script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
 </body>
 </html>
