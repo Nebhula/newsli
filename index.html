@@ -1,47 +1,36 @@
-/* 🔥 SOLO 5 CATEGORÍAS PRINCIPALES (no 12) */
-var categoriasDestacados = ['tecnologia', 'games', 'deportes', 'cine', 'mascotas'];
-
-/* 🔥 CACHE MÁS AGRESIVO PARA DESTACADOS - 4 HORAS */
-var DESTACADOS_CACHE_DURATION = 4 * 60 * 60 * 1000;
-var destacadosCache = null;
-var destacadosCacheTime = 0;
-
-/* 🔥 CARGAR DESTACADOS - OPTIMIZADO */
-async function cargarDestacados() {
-  var panel = document.getElementById('panel-destacados');
-  
-  /* 🔥 Mostrar cache INMEDIATO si existe */
-  if (destacadosCache && destacadosCacheTime && (Date.now() - destacadosCacheTime < DESTACADOS_CACHE_DURATION)) {
-    panel.innerHTML = renderDestacadosGrid(destacadosCache);
-    document.getElementById('cargarMasContainer').style.display = 'none';
-    return;
+function extractImage(it) {
+  /* 1. thumbnail */
+  if (it.thumbnail && typeof it.thumbnail === 'string') {
+    var t = it.thumbnail.trim();
+    if (t && t.indexOf('http') === 0) return t;
   }
   
-  /* 🔥 Skeleton mientras carga */
-  panel.innerHTML = '<div class="news-grid destacados-grid">' + renderSkeletons(8) + '</div>';
-  
-  var todas = [];
-  
-  /* 🔥 SOLO 5 categorías (no 12) */
-  for (var i = 0; i < categoriasDestacados.length; i++) {
-    var cat = categoriasDestacados[i];
-    var urls = feedsConfig[cat];
-    var porFeed = 1; /* 🔥 1 noticia por fuente (no 2) */
-    var promesas = urls.map(function(url) { return cargarFeed(url, porFeed); });
-    var resultados = await Promise.all(promesas);
-    for (var j = 0; j < resultados.length; j++) { todas = todas.concat(resultados[j]); }
+  /* 2. enclosure */
+  if (it.enclosure && it.enclosure.url) {
+    return it.enclosure.url;
   }
   
-  /* 🔥 Máximo 15 noticias (no 20) */
-  todas.sort(function() { return Math.random() - 0.5; });
-  todas = todas.slice(0, 15);
+  /* 3. media:content */
+  if (it['media:content'] && it['media:content'].url) {
+    return it['media:content'].url;
+  }
   
-  /* 🔥 Guardar en cache */
-  destacadosCache = todas;
-  destacadosCacheTime = Date.now();
+  /* 4. content (extraer primera imagen del HTML) */
+  if (it.content) {
+    var imgMatch = it.content.match(/<img[^>]+src="([^">]+)"/);
+    if (imgMatch && imgMatch[1]) {
+      return imgMatch[1];
+    }
+  }
   
-  var html = renderDestacadosGrid(todas);
-  panel.innerHTML = html;
-  document.getElementById('cargarMasContainer').style.display = 'none';
-  return html;
+  /* 5. description (extraer primera imagen del HTML) */
+  if (it.description) {
+    var imgMatch = it.description.match(/<img[^>]+src="([^">]+)"/);
+    if (imgMatch && imgMatch[1]) {
+      return imgMatch[1];
+    }
+  }
+  
+  /* 🔥 SIN FAVICON. SIN PLACEHOLDER. Si no hay imagen, devuelve null */
+  return null;
 }
