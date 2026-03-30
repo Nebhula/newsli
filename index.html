@@ -113,7 +113,6 @@
   .nav-btn i { font-size: 24px !important; }
   .fav-counter { position: absolute !important; top: -5px !important; right: -5px !important; background: #e91e63 !important; color: #fff !important; font-size: 9px !important; padding: 2px 5px !important; border-radius: 50% !important; min-width: 16px !important; text-align: center !important; }
   
-  /* MODALES FULL SCREEN */
   .categoria-modal, .affiliate-modal, .oferta-modal, .submit-web-modal { position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important; background: rgba(0,0,0,0.98) !important; display: none !important; justify-content: center !important; align-items: center !important; z-index: 999997 !important; }
   .categoria-modal.active, .affiliate-modal.active, .oferta-modal.active, .submit-web-modal.active { display: flex !important; }
   
@@ -479,54 +478,105 @@ function cargarFeed(url, porFeed) {
     .catch(function() { return []; });
 }
 
-/* 🔥 DESTACADOS - CARGAR DE TODAS LAS CATEGORÍAS - 15 NOTICIAS */
+/* 🔥 DESTACADOS - CARGA INSTANTÁNEA DESDE CACHE */
 async function cargarDestacados() {
   var panel = document.getElementById('panel-destacados');
   
-  /* 1. MOSTRAR CACHE INMEDIATO SI EXISTE (4 horas) */
+  /* 1. CACHE INMEDIATO (24 HORAS) - CARGA INSTANTÁNEA */
   var cacheLocal = localStorage.getItem('destacadosCache');
   var cacheTime = localStorage.getItem('destacadosCacheTime');
-  if (cacheLocal && cacheTime && (Date.now() - parseInt(cacheTime) < 14400000)) {
+  if (cacheLocal && cacheTime && (Date.now() - parseInt(cacheTime) < 86400000)) {
     var datosCache = JSON.parse(cacheLocal);
     panel.innerHTML = renderDestacadosGrid(datosCache);
     document.getElementById('cargarMasContainer').style.display = 'none';
+    /* Actualizar en segundo plano sin bloquear */
+    actualizarDestacadosEnSegundoPlano();
     return;
   }
   
-  /* 2. Skeleton mientras carga */
-  panel.innerHTML = '<div class="news-grid destacados-grid">' + renderSkeletons(8) + '</div>';
+  /* 2. Si no hay cache, mostrar skeleton y cargar */
+  panel.innerHTML = '<div class="news-grid destacados-grid">' + renderSkeletons(9) + '</div>';
   
-  /* 3. Cargar de TODAS las categorías */
+  /* 3. Cargar en paralelo TODAS las categorías con Promise.all */
   var todas = [];
   var cats = Object.keys(feedsConfig);
+  var promesas = [];
   
   for (var i = 0; i < cats.length; i++) {
-    var cat = cats[i];
-    var urls = feedsConfig[cat];
+    var urls = feedsConfig[cats[i]];
     for (var j = 0; j < urls.length; j++) {
-      try {
-        var items = await cargarFeed(urls[j], 1);
-        if (items && items.length > 0) {
-          todas = todas.concat(items);
-        }
-      } catch(e) {
-        console.log('Error cargando ' + urls[j]);
-      }
+      promesas.push(cargarFeed(urls[j], 1));
     }
   }
   
-  /* 4. Mezclar y coger 15 */
-  todas.sort(function() { return Math.random() - 0.5; });
+  /* Ejecutar todas las promesas en paralelo */
+  var resultados = await Promise.all(promesas);
+  
+  for (var i = 0; i < resultados.length; i++) {
+    if (resultados[i] && resultados[i].length > 0) {
+      todas = todas.concat(resultados[i]);
+    }
+  }
+  
+  /* Mezclar y limitar a 15 */
+  for (var i = todas.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = todas[i];
+    todas[i] = todas[j];
+    todas[j] = temp;
+  }
   todas = todas.slice(0, 15);
   
-  /* 5. Guardar cache */
+  /* Guardar cache */
   localStorage.setItem('destacadosCache', JSON.stringify(todas));
   localStorage.setItem('destacadosCacheTime', Date.now());
   
   var html = renderDestacadosGrid(todas);
   panel.innerHTML = html;
   document.getElementById('cargarMasContainer').style.display = 'none';
-  return html;
+}
+
+/* Actualizar destacados en segundo plano sin bloquear UI */
+function actualizarDestacadosEnSegundoPlano() {
+  setTimeout(async function() {
+    var todas = [];
+    var cats = Object.keys(feedsConfig);
+    var promesas = [];
+    
+    for (var i = 0; i < cats.length; i++) {
+      var urls = feedsConfig[cats[i]];
+      for (var j = 0; j < urls.length; j++) {
+        promesas.push(cargarFeed(urls[j], 1));
+      }
+    }
+    
+    var resultados = await Promise.all(promesas);
+    for (var i = 0; i < resultados.length; i++) {
+      if (resultados[i] && resultados[i].length > 0) {
+        todas = todas.concat(resultados[i]);
+      }
+    }
+    
+    for (var i = todas.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var temp = todas[i];
+      todas[i] = todas[j];
+      todas[j] = temp;
+    }
+    todas = todas.slice(0, 15);
+    
+    localStorage.setItem('destacadosCache', JSON.stringify(todas));
+    localStorage.setItem('destacadosCacheTime', Date.now());
+    
+    /* Si el panel sigue activo, actualizar silenciosamente */
+    var panel = document.getElementById('panel-destacados');
+    if (panel && panel.classList.contains('active')) {
+      var nuevaHtml = renderDestacadosGrid(todas);
+      if (nuevaHtml !== panel.innerHTML) {
+        panel.innerHTML = nuevaHtml;
+      }
+    }
+  }, 100);
 }
 
 function renderSkeletons(cantidad) {
