@@ -501,27 +501,27 @@ async function traducirTexto(card, btn) {
     return;
   }
   
-  var originalText = btn.innerHTML;
   btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Traduciendo...';
   btn.disabled = true;
   
   try {
-    var res = await fetch(TRANSLATOR_WORKER_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text: texto })
-    });
-    
+    // Google Translate API - directo, sin workers
+    var url = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=es&dt=t&q=' + encodeURIComponent(texto);
+    var res = await fetch(url);
     var data = await res.json();
     
-    if (data.translated && data.translated !== texto) {
+    if (data && data[0]) {
+      // Unir todos los fragmentos traducidos
+      var translatedText = data[0].map(function(item) { return item[0]; }).join('');
+      
       var excerptDiv = card.querySelector('.news-excerpt');
       if (excerptDiv) {
         var translatedDiv = document.createElement('div');
         translatedDiv.className = 'translated-text';
-        translatedDiv.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;"><strong><i class="fas fa-language"></i> Traducción:</strong><button class="close-translation" onclick="this.closest(\'.translated-text\').remove()" style="background:none;border:none;color:#5a5f6e;cursor:pointer;font-size:12px;"><i class="fas fa-times"></i></button></div>' + data.translated;
+        translatedDiv.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;"><strong><i class="fas fa-language"></i> Traducción:</strong><button class="close-translation" onclick="this.closest(\'.translated-text\').remove()" style="background:none;border:none;color:#5a5f6e;cursor:pointer;font-size:12px;"><i class="fas fa-times"></i></button></div>' + translatedText;
         excerptDiv.insertAdjacentElement('afterend', translatedDiv);
       }
+      
       btn.innerHTML = '<i class="fas fa-check"></i> Traducido';
       btn.style.background = '#4caf5020';
       btn.style.borderColor = '#4caf50';
