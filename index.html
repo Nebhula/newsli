@@ -1,392 +1,47 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Widget Noticias</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 100%; height: 100%; overflow-x: hidden; background: #0a0c15; font-family: Arial, sans-serif; }
-  </style>
-</head>
-<body>
+/* 🔥 SOLO 5 CATEGORÍAS PRINCIPALES (no 12) */
+var categoriasDestacados = ['tecnologia', 'games', 'deportes', 'cine', 'mascotas'];
 
-<link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css' rel='stylesheet'/>
-<link href='https://socnas-proxy.josema-mera37.workers.dev' rel='preconnect'/>
+/* 🔥 CACHE MÁS AGRESIVO PARA DESTACADOS - 4 HORAS */
+var DESTACADOS_CACHE_DURATION = 4 * 60 * 60 * 1000;
+var destacadosCache = null;
+var destacadosCacheTime = 0;
 
-<style>
-  body, .news-aggregator { background: #0a0c15 !important; }
-  .news-aggregator { width: 100% !important; max-width: 100% !important; margin: 0 auto !important; padding: 10px 5px 70px 5px !important; font-family: Arial, sans-serif !important; box-sizing: border-box !important; }
-  
-  .tabs-nav-wrap { display: flex !important; gap: 8px !important; margin-bottom: 20px !important; border-bottom: 2px solid #1e2a3a !important; padding: 8px 5px !important; overflow-x: auto !important; white-space: nowrap !important; position: sticky !important; top: 0 !important; z-index: 1 !important; background: #0a0c15 !important; }
-  .tab-btn-wrap { padding: 10px 14px !important; background: #11131f !important; border: 1px solid #1e2a3a !important; border-radius: 8px !important; cursor: pointer !important; font-size: 13px !important; font-weight: 600 !important; color: #8a8f9e !important; }
-  .tab-btn-wrap:hover { background: #1a1f2e !important; color: #fff !important; }
-  .tab-btn-wrap.active { background: #e91e63 !important; color: #fff !important; }
-  
-  .tab-panel-wrap { display: none !important; }
-  .tab-panel-wrap.active { display: block !important; }
-  
-  .news-grid { column-count: 3 !important; column-gap: 15px !important; width: 100% !important; }
-  @media (max-width: 900px) { .news-grid { column-count: 2 !important; } }
-  @media (max-width: 600px) { .news-grid { column-count: 1 !important; } }
-  
-  .news-grid.destacados-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 15px !important; }
-  @media (max-width: 900px) { .news-grid.destacados-grid { grid-template-columns: repeat(2, 1fr) !important; } }
-  @media (max-width: 600px) { .news-grid.destacados-grid { grid-template-columns: 1fr !important; } }
-  
-  .news-card { background: #11131f !important; border-radius: 12px !important; overflow: hidden !important; box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important; display: inline-flex !important; flex-direction: column !important; width: 100% !important; break-inside: avoid !important; margin-bottom: 15px !important; border: 1px solid #1e2a3a !important; }
-  .news-card:hover { transform: translateY(-4px) !important; border-color: #e91e63 !important; }
-  
-  .podium-first { border: 3px solid #FFD700 !important; box-shadow: 0 0 20px rgba(255, 215, 0, 0.4) !important; }
-  
-  .news-image-wrapper { width: 100% !important; min-height: 150px !important; background: #1a1f2e !important; position: relative !important; }
-  .news-image { width: 100% !important; aspect-ratio: 16/9 !important; object-fit: cover !important; display: block !important; }
-  
-  .card-actions { position: absolute !important; top: 8px !important; right: 8px !important; display: flex !important; gap: 6px !important; z-index: 10 !important; }
-  .favorite-btn, .share-btn { width: 32px !important; height: 32px !important; border-radius: 50% !important; border: none !important; cursor: pointer !important; display: flex !important; align-items: center !important; justify-content: center !important; font-size: 14px !important; background: rgba(0,0,0,0.7) !important; color: #ccc !important; }
-  .favorite-btn.active { color: #e91e63 !important; }
-  
-  .affiliate-btn { background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%) !important; color: #fff !important; border: none !important; padding: 4px 12px !important; border-radius: 20px !important; font-size: 12px !important; font-weight: 700 !important; cursor: pointer !important; }
-  
-  .read-more-btn { background: #e91e63 !important; color: white !important; padding: 5px 12px !important; border-radius: 20px !important; text-decoration: none !important; font-size: 11px !important; }
-  
-  .news-content { padding: 12px !important; }
-  .news-title { font-size: 14px !important; font-weight: 600 !important; color: #f0f0f0 !important; text-decoration: none !important; margin-bottom: 6px !important; display: -webkit-box !important; -webkit-line-clamp: 2 !important; -webkit-box-orient: vertical !important; overflow: hidden !important; }
-  .news-excerpt { font-size: 13px !important; color: #8a8f9e !important; line-height: 1.5 !important; margin-bottom: 10px !important; display: -webkit-box !important; -webkit-line-clamp: 3 !important; -webkit-box-orient: vertical !important; overflow: hidden !important; }
-  
-  .categoria-badge { display: inline-block !important; font-size: 11px !important; padding: 3px 10px !important; border-radius: 12px !important; background: rgba(233,30,99,0.15) !important; color: #e91e63 !important; margin-right: 8px !important; }
-  
-  .news-meta { font-size: 11px !important; color: #5a5f6e !important; padding-top: 8px !important; border-top: 1px solid #1e2a3a !important; display: flex !important; justify-content: space-between !important; align-items: center !important; }
-  .source-favicon { width: 16px !important; height: 16px !important; margin-right: 5px !important; }
-  
-  .loading-section { text-align: center !important; padding: 40px 20px !important; color: #8a8f9e !important; }
-  
-  .cargar-mas-container { text-align: center !important; padding: 20px !important; }
-  .cargar-mas-btn { background: #e91e63 !important; color: #fff !important; border: none !important; padding: 14px 40px !important; border-radius: 30px !important; font-size: 14px !important; cursor: pointer !important; }
-  
-  .bottom-nav-bar { position: fixed !important; bottom: 0 !important; left: 0 !important; right: 0 !important; background: #0a0c15 !important; border-top: 1px solid #1e2a3a !important; display: flex !important; justify-content: space-around !important; padding: 10px !important; z-index: 2000 !important; }
-  .nav-btn { background: none !important; border: none !important; color: #8a8f9e !important; font-size: 24px !important; cursor: pointer !important; padding: 10px !important; }
-  .nav-btn:hover { color: #e91e63 !important; }
-  .fav-counter { position: absolute !important; top: 0 !important; right: 0 !important; background: #e91e63 !important; color: #fff !important; font-size: 9px !important; padding: 2px 5px !important; border-radius: 50% !important; }
-  
-  /* MODAL */
-  .categoria-modal { position: fixed !important; top: 0 !important; left: 0 !important; width: 100% !important; height: 100% !important; background: rgba(0,0,0,0.98) !important; display: none !important; justify-content: center !important; align-items: center !important; z-index: 9999 !important; }
-  .categoria-modal.active { display: flex !important; }
-  .categoria-modal-content { background: #0a0c15 !important; width: 100% !important; max-width: 500px !important; border-radius: 16px !important; margin: 20px !important; }
-  .categoria-modal-header { background: linear-gradient(135deg, #e91e63, #ff6b9d) !important; padding: 20px !important; text-align: center !important; border-radius: 16px 16px 0 0 !important; }
-  .categoria-modal-header h3 { color: #fff !important; margin: 0 !important; }
-  .close-modal { position: absolute !important; top: 15px !important; right: 20px !important; color: #fff !important; font-size: 28px !important; cursor: pointer !important; background: none !important; border: none !important; }
-  .categoria-modal-body { padding: 20px !important; }
-  .categoria-list { display: grid !important; gap: 10px !important; }
-  .categoria-item { display: flex !important; align-items: center !important; padding: 15px !important; background: #11131f !important; border-radius: 8px !important; cursor: pointer !important; border: 2px solid #1e2a3a !important; }
-  .categoria-item:hover { border-color: #e91e63 !important; }
-  .categoria-item input { margin-right: 10px !important; }
-  .categoria-modal-footer { padding: 20px !important; display: flex !important; justify-content: center !important; gap: 10px !important; border-top: 1px solid #1e2a3a !important; }
-  .btn-guardar { background: #e91e63 !important; color: #fff !important; border: none !important; padding: 12px 30px !important; border-radius: 25px !important; cursor: pointer !important; }
-  .btn-cancelar { background: #1e2a3a !important; color: #8a8f9e !important; border: none !important; padding: 12px 30px !important; border-radius: 25px !important; cursor: pointer !important; }
-  
-  /* OFERTA MODAL */
-  .oferta-modal { position: fixed !important; top: 0 !important; left: 0 !important; width: 100% !important; height: 100% !important; background: rgba(0,0,0,0.95) !important; display: none !important; justify-content: center !important; align-items: center !important; z-index: 9999 !important; }
-  .oferta-modal.active { display: flex !important; }
-  .oferta-modal-content { background: #11131f !important; border-radius: 16px !important; width: 90% !important; max-width: 400px !important; padding: 30px !important; text-align: center !important; position: relative !important; }
-  .oferta-modal-close { position: absolute !important; top: 15px !important; right: 20px !important; color: #fff !important; font-size: 28px !important; cursor: pointer !important; background: none !important; border: none !important; }
-  .oferta-modal-img { width: 100% !important; max-width: 250px !important; border-radius: 12px !important; margin-bottom: 20px !important; }
-  .oferta-modal-title { font-size: 20px !important; color: #f0f0f0 !important; margin-bottom: 10px !important; }
-  .oferta-modal-desc { font-size: 14px !important; color: #8a8f9e !important; margin-bottom: 20px !important; }
-  .oferta-modal-btn { display: inline-block !important; background: #ff9800 !important; color: #fff !important; padding: 14px 30px !important; border-radius: 25px !important; text-decoration: none !important; font-weight: 700 !important; }
-  
-  .toast-container { position: fixed !important; bottom: 80px !important; left: 50% !important; transform: translateX(-50%) !important; z-index: 10000 !important; }
-  .toast { background: rgba(0,0,0,0.95) !important; color: #fff !important; padding: 12px 20px !important; border-radius: 8px !important; margin-bottom: 8px !important; border-left: 3px solid #e91e63 !important; }
-  
-  .empty-favorites { text-align: center !important; padding: 50px !important; color: #8a8f9e !important; }
-</style>
-
-<div class='news-aggregator' id='news-widget'>
-  <div class='toast-container' id='toastContainer'></div>
-  
-  <div class='tabs-nav-wrap' id='tabsNav'>
-    <button class='tab-btn-wrap active' onclick='cambiarTab("destacados")'>Destacados</button>
-    <button class='tab-btn-wrap' onclick='cambiarTab("tecnologia")'>Tecnología</button>
-    <button class='tab-btn-wrap' onclick='cambiarTab("deportes")'>Deportes</button>
-    <button class='tab-btn-wrap' onclick='cambiarTab("games")'>Games</button>
-    <button class='tab-btn-wrap' onclick='cambiarTab("cine")'>Cine</button>
-    <button class='tab-btn-wrap' onclick='cambiarTab("mascotas")'>Mascotas</button>
-  </div>
-  
-  <div class='tab-panel-wrap active' id='panel-destacados'><div class='loading-section'>Cargando...</div></div>
-  <div class='tab-panel-wrap' id='panel-tecnologia'><div class='loading-section'>Cargando...</div></div>
-  <div class='tab-panel-wrap' id='panel-deportes'><div class='loading-section'>Cargando...</div></div>
-  <div class='tab-panel-wrap' id='panel-games'><div class='loading-section'>Cargando...</div></div>
-  <div class='tab-panel-wrap' id='panel-cine'><div class='loading-section'>Cargando...</div></div>
-  <div class='tab-panel-wrap' id='panel-mascotas'><div class='loading-section'>Cargando...</div></div>
-  
-  <div class='cargar-mas-container' id='cargarMasContainer' style='display:none;'>
-    <button class='cargar-mas-btn' onclick='cargarMas()'>Cargar más</button>
-  </div>
-</div>
-
-<!-- MODAL FAVORITOS -->
-<div class='categoria-modal' id='categoriaModal'>
-  <div class='categoria-modal-content'>
-    <div class='categoria-modal-header'>
-      <h3>Guardar en favoritos</h3>
-      <button class='close-modal' onclick='cerrarModalCategoria()'>×</button>
-    </div>
-    <div class='categoria-modal-body'>
-      <div class='categoria-list' id='categoriaList'></div>
-    </div>
-    <div class='categoria-modal-footer'>
-      <button class='btn-cancelar' onclick='cerrarModalCategoria()'>Cancelar</button>
-      <button class='btn-guardar' onclick='guardarFavorito()'>Guardar</button>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL OFERTAS -->
-<div class='oferta-modal' id='ofertaModal'>
-  <div class='oferta-modal-content'>
-    <button class='oferta-modal-close' onclick='cerrarOfertaModal()'>×</button>
-    <img class='oferta-modal-img' id='ofertaImg' src=''/>
-    <h3 class='oferta-modal-title' id='ofertaTitle'></h3>
-    <p class='oferta-modal-desc' id='ofertaDesc'></p>
-    <a class='oferta-modal-btn' id='ofertaLink' href='#' target='_blank'>Ver en Amazon</a>
-  </div>
-</div>
-
-<div class='bottom-nav-bar'>
-  <button class='nav-btn' onclick='irAlHome()'><i class='fas fa-home'></i></button>
-  <button class='nav-btn' onclick='mostrarFavoritos()'><i class='fas fa-heart'></i><span class='fav-counter' id='favCounter'>0</span></button>
-</div>
-
-<script>
-var workerProxyUrl = 'https://socnas-proxy.josema-mera37.workers.dev';
-
-/* 🔥 AFILIADOS - KEYWORDS ESPECÍFICAS */
-var afiliados = {
-  'iphone': { 
-    keywords: ['iphone 15','iphone 16','comprar iphone','oferta iphone'], 
-    foto: 'https://m.media-amazon.com/images/I/71xb2xkN5qL._AC_SL1500_.jpg', 
-    titulo: 'iPhone en Amazon', 
-    descripcion: 'El último iPhone', 
-    enlace: 'https://amazon.es/dp/B0CHX3TW6T?tag=TU-ID-AFILIADO-21' 
-  },
-  'ps5': { 
-    keywords: ['ps5','playstation 5','comprar ps5'], 
-    foto: 'https://m.media-amazon.com/images/I/51w+R0uLc+L._AC_SL1500_.jpg', 
-    titulo: 'PlayStation 5', 
-    descripcion: 'Consola Sony', 
-    enlace: 'https://amazon.es/dp/B0CL5KNB9M?tag=TU-ID-AFILIADO-21' 
-  },
-  'game': { 
-    keywords: ['comprar juego','oferta videojuego','fifa','call of duty'], 
-    foto: 'https://m.media-amazon.com/images/I/71bhWgQK-cL._AC_SL1500_.jpg', 
-    titulo: 'Videojuegos', 
-    descripcion: 'Mejores precios', 
-    enlace: 'https://amazon.es/videojuegos?tag=TU-ID-AFILIADO-21' 
-  }
-};
-
-function buscarAfiliado(t) { 
-  var tl = t.toLowerCase(); 
-  for (var k in afiliados) { 
-    for (var i = 0; i < afiliados[k].keywords.length; i++) { 
-      if (tl.indexOf(afiliados[k].keywords[i]) !== -1) return k; 
-    } 
-  } 
-  return null; 
-}
-
-/* FEEDS */
-var feedsConfig = {
-  'tecnologia': ['https://www.xataka.com/feedburner.xml'],
-  'deportes': ['http://feeds.bbci.co.uk/sport/rss.xml'],
-  'games': ['https://www.vandal.net/rss'],
-  'cine': ['https://variety.com/feed/'],
-  'mascotas': ['https://wamiz.es/rss/articles']
-};
-
-var favoritos = JSON.parse(localStorage.getItem('favoritos') || '[]');
-var noticiaPendiente = null;
-
-function actualizarContadorFavoritos() {
-  document.getElementById('favCounter').textContent = favoritos.length;
-}
-
-/* CARGAR FEED */
-function cargarFeed(url) {
-  return fetch(workerProxyUrl + '/?url=' + encodeURIComponent(url))
-    .then(r => r.json())
-    .then(d => d.status === 'ok' ? d.items : []);
-}
-
-/* DESTACADOS - SIMPLE */
+/* 🔥 CARGAR DESTACADOS - OPTIMIZADO */
 async function cargarDestacados() {
   var panel = document.getElementById('panel-destacados');
-  panel.innerHTML = '<div class="loading-section">Cargando...</div>';
+  
+  /* 🔥 Mostrar cache INMEDIATO si existe */
+  if (destacadosCache && destacadosCacheTime && (Date.now() - destacadosCacheTime < DESTACADOS_CACHE_DURATION)) {
+    panel.innerHTML = renderDestacadosGrid(destacadosCache);
+    document.getElementById('cargarMasContainer').style.display = 'none';
+    return;
+  }
+  
+  /* 🔥 Skeleton mientras carga */
+  panel.innerHTML = '<div class="news-grid destacados-grid">' + renderSkeletons(8) + '</div>';
   
   var todas = [];
-  var cats = Object.keys(feedsConfig);
   
-  /* Cargar todas las categorías */
-  for (var i = 0; i < cats.length; i++) {
-    var items = await cargarFeed(feedsConfig[cats[i]][0]);
-    todas = todas.concat(items.slice(0, 2));
+  /* 🔥 SOLO 5 categorías (no 12) */
+  for (var i = 0; i < categoriasDestacados.length; i++) {
+    var cat = categoriasDestacados[i];
+    var urls = feedsConfig[cat];
+    var porFeed = 1; /* 🔥 1 noticia por fuente (no 2) */
+    var promesas = urls.map(function(url) { return cargarFeed(url, porFeed); });
+    var resultados = await Promise.all(promesas);
+    for (var j = 0; j < resultados.length; j++) { todas = todas.concat(resultados[j]); }
   }
   
-  todas.sort(() => Math.random() - 0.5);
-  panel.innerHTML = renderGrid(todas.slice(0, 12), 'destacados');
+  /* 🔥 Máximo 15 noticias (no 20) */
+  todas.sort(function() { return Math.random() - 0.5; });
+  todas = todas.slice(0, 15);
+  
+  /* 🔥 Guardar en cache */
+  destacadosCache = todas;
+  destacadosCacheTime = Date.now();
+  
+  var html = renderDestacadosGrid(todas);
+  panel.innerHTML = html;
   document.getElementById('cargarMasContainer').style.display = 'none';
-}
-
-/* CATEGORÍA */
-async function cargarCategoria(cat) {
-  var panel = document.getElementById('panel-' + cat);
-  panel.innerHTML = '<div class="loading-section">Cargando...</div>';
-  
-  var items = await cargarFeed(feedsConfig[cat][0]);
-  panel.innerHTML = renderGrid(items.slice(0, 10), cat);
-  document.getElementById('cargarMasContainer').style.display = 'none';
-}
-
-/* RENDER GRID */
-function renderGrid(items, cat) {
-  if (!items || items.length === 0) return '<div class="empty-favorites">Sin noticias</div>';
-  
-  var html = '<div class="news-grid' + (cat === 'destacados' ? ' destacados-grid' : '') + '">';
-  
-  for (var i = 0; i < items.length; i++) {
-    var it = items[i];
-    var img = it.thumbnail || '';
-    var afi = buscarAfiliado(it.title);
-    var afiBtn = afi ? '<button class="affiliate-btn" onclick="abrirOferta(\'' + afi + '\')">🏷️ Oferta</button>' : '';
-    var esFav = favoritos.some(f => f.url === it.link);
-    var podium = (cat === 'destacados' && i === 0) ? ' podium-first' : '';
-    
-    html += '<div class="news-card' + podium + '">';
-    html += '<div class="news-image-wrapper">';
-    if (img) html += '<img class="news-image" src="' + img + '" loading="lazy">';
-    html += '<div class="card-actions">';
-    html += '<button class="favorite-btn' + (esFav ? ' active' : '') + '" onclick="toggleFav(this,\'' + it.link.replace(/'/g, "\\'") + '\',\'' + it.title.replace(/'/g, "\\'") + '\')"><i class="' + (esFav ? 'fas' : 'far') + ' fa-heart"></i></button>';
-    html += '</div></div>';
-    html += '<div class="news-content">';
-    html += '<a class="news-title" href="' + it.link + '" target="_blank">' + it.title + '</a>';
-    html += '<p class="news-excerpt">' + (it.description || '').substring(0, 150) + '...</p>';
-    html += '<div class="news-meta">';
-    html += '<span class="categoria-badge">' + cat + '</span>';
-    html += '<span>' + it.source + '</span>';
-    html += '</div>';
-    html += '<div style="margin-top:10px;display:flex;gap:5px;flex-wrap:wrap;">' + afiBtn + '<a href="' + it.link + '" target="_blank" class="read-more-btn">Leer más</a></div>';
-    html += '</div></div>';
-  }
-  
-  html += '</div>';
   return html;
 }
-
-/* FAVORITOS */
-function toggleFav(btn, url, title) {
-  var idx = favoritos.findIndex(f => f.url === url);
-  if (idx === -1) {
-    favoritos.push({ url: url, title: title });
-    btn.classList.add('active');
-    btn.querySelector('i').className = 'fas fa-heart';
-    showToast('Guardado en favoritos');
-  } else {
-    favoritos.splice(idx, 1);
-    btn.classList.remove('active');
-    btn.querySelector('i').className = 'far fa-heart';
-    showToast('Eliminado de favoritos');
-  }
-  localStorage.setItem('favoritos', JSON.stringify(favoritos));
-  actualizarContadorFavoritos();
-}
-
-function mostrarFavoritos() {
-  var panel = document.getElementById('panel-destacados');
-  if (favoritos.length === 0) {
-    panel.innerHTML = '<div class="empty-favorites"><h3>Vacío</h3><p>Guarda noticias con el corazón</p></div>';
-  } else {
-    panel.innerHTML = renderGrid(favoritos, 'favoritos');
-  }
-  setActiveTab('destacados');
-}
-
-function toggleFavConCategoria(btn, url, title) {
-  toggleFav(btn, url, title);
-}
-
-/* MODAL FAVORITOS */
-function abrirModalCategoria(url, title) {
-  noticiaPendiente = { url: url, title: title };
-  document.getElementById('categoriaModal').classList.add('active');
-}
-
-function cerrarModalCategoria() {
-  document.getElementById('categoriaModal').classList.remove('active');
-  noticiaPendiente = null;
-}
-
-function guardarFavorito() {
-  if (noticiaPendiente) {
-    toggleFavConCategoria(null, noticiaPendiente.url, noticiaPendiente.title);
-  }
-  cerrarModalCategoria();
-}
-
-/* OFERTAS */
-function abrirOferta(key) {
-  var af = afiliados[key];
-  if (!af) return;
-  document.getElementById('ofertaImg').src = af.foto;
-  document.getElementById('ofertaTitle').textContent = af.titulo;
-  document.getElementById('ofertaDesc').textContent = af.descripcion;
-  document.getElementById('ofertaLink').href = af.enlace;
-  document.getElementById('ofertaModal').classList.add('active');
-}
-
-function cerrarOfertaModal() {
-  document.getElementById('ofertaModal').classList.remove('active');
-}
-
-/* TABS */
-function cambiarTab(cat) {
-  document.querySelectorAll('.tab-btn-wrap').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.tab-panel-wrap').forEach(p => p.classList.remove('active'));
-  
-  event.target.classList.add('active');
-  document.getElementById('panel-' + cat).classList.add('active');
-  
-  if (cat === 'destacados') cargarDestacados();
-  else cargarCategoria(cat);
-}
-
-function setActiveTab(cat) {
-  document.querySelectorAll('.tab-btn-wrap').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.tab-panel-wrap').forEach(p => p.classList.remove('active'));
-  document.querySelector('[onclick*="' + cat + '"]').classList.add('active');
-  document.getElementById('panel-' + cat).classList.add('active');
-}
-
-function cargarMas() {
-  showToast('Más noticias próximamente');
-}
-
-function irAlHome() {
-  window.location.href = window.location.origin + window.location.pathname;
-}
-
-function showToast(msg) {
-  var t = document.createElement('div');
-  t.className = 'toast';
-  t.textContent = msg;
-  document.getElementById('toastContainer').appendChild(t);
-  setTimeout(() => t.remove(), 3000);
-}
-
-/* INICIO */
-cargarDestacados();
-actualizarContadorFavoritos();
-</script>
-
-</body>
-</html>
