@@ -2,358 +2,186 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Widget Noticias - Test</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Widget Noticias</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 100%; height: 100%; overflow-x: hidden; background: #0a0c15; font-family: Arial, sans-serif; font-size: 16px; -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+    html, body { width: 100%; height: 100%; overflow-x: hidden; background: #0a0c15; font-family: Arial, sans-serif; }
   </style>
 </head>
 <body>
 
 <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css' rel='stylesheet'/>
 <link href='https://socnas-proxy.josema-mera37.workers.dev' rel='preconnect'/>
-<link href='https://socnas-proxy.josema-mera37.workers.dev' rel='dns-prefetch'/>
 
 <style>
   body, .news-aggregator { background: #0a0c15 !important; }
-  .news-aggregator { width: 100% !important; max-width: 100% !important; margin: 0 auto !important; padding: 10px 5px 70px 5px !important; font-family: Arial, sans-serif !important; box-sizing: border-box !important; position: relative !important; background: #0a0c15 !important; }
-  .tabs-nav-wrap { display: flex !important; gap: 8px !important; margin-bottom: 20px !important; border-bottom: 2px solid #1e2a3a !important; padding: 8px 5px !important; overflow-x: auto !important; white-space: nowrap !important; scrollbar-width: thin !important; scrollbar-color: #e91e63 #1e2a3a !important; position: sticky !important; top: 0 !important; z-index: 1 !important; background: #0a0c15 !important; scroll-behavior: smooth !important; }
-  .tabs-nav-wrap::-webkit-scrollbar { height: 5px !important; }
-  .tabs-nav-wrap::-webkit-scrollbar-track { background: #1e2a3a !important; border-radius: 3px !important; }
-  .tabs-nav-wrap::-webkit-scrollbar-thumb { background: #e91e63 !important; border-radius: 3px !important; }
-  .tab-btn-wrap { padding: 10px 14px !important; background: #11131f !important; border: 1px solid #1e2a3a !important; border-radius: 8px !important; cursor: pointer !important; font-size: 13px !important; font-weight: 600 !important; color: #8a8f9e !important; transition: all 0.2s ease !important; display: inline-flex !important; align-items: center !important; gap: 6px !important; flex-shrink: 0 !important; }
-  .tab-btn-wrap:hover { background: #1a1f2e !important; color: #fff !important; border-color: #e91e63 !important; }
-  .tab-btn-wrap.active { background: #e91e63 !important; color: #fff !important; border-color: #e91e63 !important; }
-  .tab-btn-wrap i { font-size: 14px !important; }
-  .tab-panel-wrap { display: none !important; }
-  .tab-panel-wrap.active { display: block !important; animation: fadeInWrap 0.3s ease !important; }
-  @keyframes fadeInWrap { from { opacity: 0; } to { opacity: 1; } }
+  .news-aggregator { width: 100% !important; max-width: 100% !important; margin: 0 auto !important; padding: 10px 5px 70px 5px !important; font-family: Arial, sans-serif !important; box-sizing: border-box !important; }
   
-  /* SKELETON LOADING */
-  .skeleton-card { background: #11131f !important; border-radius: 12px !important; overflow: hidden !important; border: 1px solid #1e2a3a !important; margin-bottom: 15px !important; break-inside: avoid !important; }
-  .skeleton-image { width: 100% !important; height: 169px !important; background: linear-gradient(90deg, #1a1f2e 25%, #2a2f3e 50%, #1a1f2e 75%) !important; background-size: 200% 100% !important; animation: skeleton-loading 1.5s infinite !important; }
-  .skeleton-content { padding: 12px !important; }
-  .skeleton-title { height: 20px !important; background: linear-gradient(90deg, #1a1f2e 25%, #2a2f3e 50%, #1a1f2e 75%) !important; background-size: 200% 100% !important; animation: skeleton-loading 1.5s infinite !important; border-radius: 4px !important; margin-bottom: 10px !important; }
-  .skeleton-text { height: 14px !important; background: linear-gradient(90deg, #1a1f2e 25%, #2a2f3e 50%, #1a1f2e 75%) !important; background-size: 200% 100% !important; animation: skeleton-loading 1.5s infinite !important; border-radius: 4px !important; margin-bottom: 6px !important; }
-  @keyframes skeleton-loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+  .tabs-nav-wrap { display: flex !important; gap: 8px !important; margin-bottom: 20px !important; border-bottom: 2px solid #1e2a3a !important; padding: 8px 5px !important; overflow-x: auto !important; white-space: nowrap !important; position: sticky !important; top: 0 !important; z-index: 1 !important; background: #0a0c15 !important; }
+  .tab-btn-wrap { padding: 10px 14px !important; background: #11131f !important; border: 1px solid #1e2a3a !important; border-radius: 8px !important; cursor: pointer !important; font-size: 13px !important; font-weight: 600 !important; color: #8a8f9e !important; }
+  .tab-btn-wrap:hover { background: #1a1f2e !important; color: #fff !important; }
+  .tab-btn-wrap.active { background: #e91e63 !important; color: #fff !important; }
+  
+  .tab-panel-wrap { display: none !important; }
+  .tab-panel-wrap.active { display: block !important; }
   
   .news-grid { column-count: 3 !important; column-gap: 15px !important; width: 100% !important; }
   @media (max-width: 900px) { .news-grid { column-count: 2 !important; } }
   @media (max-width: 600px) { .news-grid { column-count: 1 !important; } }
   
-  .news-grid.destacados-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 15px !important; width: 100% !important; }
+  .news-grid.destacados-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 15px !important; }
   @media (max-width: 900px) { .news-grid.destacados-grid { grid-template-columns: repeat(2, 1fr) !important; } }
   @media (max-width: 600px) { .news-grid.destacados-grid { grid-template-columns: 1fr !important; } }
   
-  .news-card { background: #11131f !important; border-radius: 12px !important; overflow: hidden !important; box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important; transition: all 0.3s ease !important; display: inline-flex !important; flex-direction: column !important; width: 100% !important; position: relative !important; break-inside: avoid !important; margin-bottom: 15px !important; border: 1px solid #1e2a3a !important; content-visibility: auto !important; contain-intrinsic-size: 0 400px !important; }
-  .news-card:hover { transform: translateY(-4px) !important; box-shadow: 0 12px 28px rgba(0,0,0,0.4), 0 0 0 1px #e91e63 !important; border-color: #e91e63 !important; }
-  @media (max-width: 600px) { .news-card { box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important; } .news-card:hover { transform: translateY(-2px) !important; } }
+  .news-card { background: #11131f !important; border-radius: 12px !important; overflow: hidden !important; box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important; display: inline-flex !important; flex-direction: column !important; width: 100% !important; break-inside: avoid !important; margin-bottom: 15px !important; border: 1px solid #1e2a3a !important; }
+  .news-card:hover { transform: translateY(-4px) !important; border-color: #e91e63 !important; }
   
-  .podium-first { border: 3px solid #FFD700 !important; box-shadow: 0 0 20px rgba(255, 215, 0, 0.4) !important; animation: podiumGlow 2s ease-in-out infinite !important; }
-  @keyframes podiumGlow { 0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.4); } 50% { box-shadow: 0 0 35px rgba(255, 215, 0, 0.7); } }
+  .podium-first { border: 3px solid #FFD700 !important; box-shadow: 0 0 20px rgba(255, 215, 0, 0.4) !important; }
   
-  .news-image-wrapper { width: 100% !important; height: auto !important; min-height: 150px !important; background: #1a1f2e !important; overflow: hidden !important; position: relative !important; }
-  .news-image-wrapper[data-has-image="false"] { background: #1a1f2e !important; }
+  .news-image-wrapper { width: 100% !important; min-height: 150px !important; background: #1a1f2e !important; position: relative !important; }
   .news-image { width: 100% !important; aspect-ratio: 16/9 !important; object-fit: cover !important; display: block !important; }
-  .news-image[src=""] { display: none !important; }
   
-  .card-actions { position: absolute !important; top: 8px !important; right: 8px !important; display: flex !important; gap: 6px !important; z-index: 10 !important; flex-wrap: wrap !important; justify-content: flex-end !important; }
-  .favorite-btn, .share-btn { width: 32px !important; height: 32px !important; border-radius: 50% !important; border: none !important; cursor: pointer !important; display: flex !important; align-items: center !important; justify-content: center !important; font-size: 14px !important; transition: all 0.2s ease !important; box-shadow: 0 2px 4px rgba(0,0,0,0.3) !important; background: rgba(0,0,0,0.7) !important; backdrop-filter: blur(4px) !important; color: #ccc !important; }
-  .favorite-btn:hover, .share-btn:hover { transform: scale(1.1) !important; background: rgba(0,0,0,0.9) !important; }
+  .card-actions { position: absolute !important; top: 8px !important; right: 8px !important; display: flex !important; gap: 6px !important; z-index: 10 !important; }
+  .favorite-btn, .share-btn { width: 32px !important; height: 32px !important; border-radius: 50% !important; border: none !important; cursor: pointer !important; display: flex !important; align-items: center !important; justify-content: center !important; font-size: 14px !important; background: rgba(0,0,0,0.7) !important; color: #ccc !important; }
   .favorite-btn.active { color: #e91e63 !important; }
-  .share-btn:hover { color: #1e88e5 !important; }
   
-  .translate-btn { width: 32px !important; height: 32px !important; border-radius: 50% !important; border: none !important; cursor: pointer !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; font-size: 14px !important; transition: all 0.2s ease !important; box-shadow: 0 2px 4px rgba(0,0,0,0.3) !important; background: rgba(0,0,0,0.7) !important; backdrop-filter: blur(4px) !important; color: #1e88e5 !important; }
-  .translate-btn:hover { transform: scale(1.1) !important; color: #42a5f5 !important; background: rgba(0,0,0,0.9) !important; }
-  .translate-btn.translating { animation: pulse 1s infinite; pointer-events: none; opacity: 0.7; }
-  @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+  .affiliate-btn { background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%) !important; color: #fff !important; border: none !important; padding: 4px 12px !important; border-radius: 20px !important; font-size: 12px !important; font-weight: 700 !important; cursor: pointer !important; }
   
-  .affiliate-btn { width: auto !important; height: 30px !important; border-radius: 20px !important; border: 2px solid #ff9800 !important; background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%) !important; color: #fff !important; cursor: pointer !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; gap: 5px !important; padding: 4px 12px !important; font-size: 12px !important; font-weight: 700 !important; transition: all 0.2s ease !important; box-shadow: 0 2px 8px rgba(255,152,0,0.3) !important; }
-  .affiliate-btn:hover { transform: scale(1.08) !important; box-shadow: 0 4px 15px rgba(255,152,0,0.5) !important; }
-  .affiliate-btn i { font-size: 14px !important; }
+  .read-more-btn { background: #e91e63 !important; color: white !important; padding: 5px 12px !important; border-radius: 20px !important; text-decoration: none !important; font-size: 11px !important; }
   
-  .read-more-btn { background: #e91e63 !important; color: white !important; padding: 5px 12px !important; border-radius: 20px !important; text-decoration: none !important; font-size: 11px !important; font-weight: 600 !important; display: inline-flex !important; align-items: center !important; gap: 5px !important; transition: all 0.2s ease !important; border: none !important; cursor: pointer !important; }
-  .read-more-btn:hover { background: #c2185b !important; transform: scale(1.02) !important; color: white !important; }
-  .read-more-btn i { font-size: 10px !important; transition: transform 0.2s ease !important; }
-  .read-more-btn:hover i { transform: translateX(3px) !important; }
+  .news-content { padding: 12px !important; }
+  .news-title { font-size: 14px !important; font-weight: 600 !important; color: #f0f0f0 !important; text-decoration: none !important; margin-bottom: 6px !important; display: -webkit-box !important; -webkit-line-clamp: 2 !important; -webkit-box-orient: vertical !important; overflow: hidden !important; }
+  .news-excerpt { font-size: 13px !important; color: #8a8f9e !important; line-height: 1.5 !important; margin-bottom: 10px !important; display: -webkit-box !important; -webkit-line-clamp: 3 !important; -webkit-box-orient: vertical !important; overflow: hidden !important; }
   
-  .news-content { padding: 12px !important; display: flex !important; flex-direction: column !important; width: 100% !important; box-sizing: border-box !important; }
-  .news-title { font-size: 14px !important; font-weight: 600 !important; color: #f0f0f0 !important; text-decoration: none !important; line-height: 1.4 !important; margin-bottom: 6px !important; display: -webkit-box !important; -webkit-line-clamp: 2 !important; -webkit-box-orient: vertical !important; overflow: hidden !important; cursor: pointer !important; }
-  .news-title:hover { color: #e91e63 !important; }
-  .news-excerpt { font-size: 13px !important; color: #8a8f9e !important; line-height: 1.5 !important; margin-bottom: 10px !important; display: -webkit-box !important; -webkit-line-clamp: 6 !important; -webkit-box-orient: vertical !important; overflow: hidden !important; word-wrap: break-word !important; }
+  .categoria-badge { display: inline-block !important; font-size: 11px !important; padding: 3px 10px !important; border-radius: 12px !important; background: rgba(233,30,99,0.15) !important; color: #e91e63 !important; margin-right: 8px !important; }
   
-  .translated-text { background: #11131f !important; padding: 10px 12px !important; border-radius: 8px !important; margin-top: 10px !important; font-size: 12px !important; line-height: 1.5 !important; border-left: 3px solid #1e88e5 !important; animation: fadeIn 0.3s ease !important; color: #8a8f9e !important; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+  .news-meta { font-size: 11px !important; color: #5a5f6e !important; padding-top: 8px !important; border-top: 1px solid #1e2a3a !important; display: flex !important; justify-content: space-between !important; align-items: center !important; }
+  .source-favicon { width: 16px !important; height: 16px !important; margin-right: 5px !important; }
   
-  .categoria-badge { display: inline-flex !important; align-items: center !important; gap: 5px !important; font-size: 11px !important; font-weight: 600 !important; padding: 3px 10px !important; border-radius: 12px !important; margin-right: 8px !important; background: rgba(233,30,99,0.15) !important; color: #e91e63 !important; white-space: nowrap !important; }
-  .categoria-badge i { font-size: 12px !important; }
+  .loading-section { text-align: center !important; padding: 40px 20px !important; color: #8a8f9e !important; }
   
-  .news-meta { font-size: 11px !important; color: #5a5f6e !important; padding-top: 8px !important; border-top: 1px solid #1e2a3a !important; display: flex !important; justify-content: space-between !important; align-items: center !important; flex-wrap: wrap !important; gap: 10px !important; }
-  .news-meta .source-info { display: flex !important; align-items: center !important; gap: 8px !important; color: #6a6f7e !important; flex-wrap: wrap !important; }
-  .source-favicon { width: 32px !important; height: 32px !important; border-radius: 6px !important; background: #1a1f2e !important; }
+  .cargar-mas-container { text-align: center !important; padding: 20px !important; }
+  .cargar-mas-btn { background: #e91e63 !important; color: #fff !important; border: none !important; padding: 14px 40px !important; border-radius: 30px !important; font-size: 14px !important; cursor: pointer !important; }
   
-  .loading-section { text-align: center !important; padding: 40px 20px !important; color: #8a8f9e !important; line-height: 1.6 !important; font-size: 14px !important; }
-  .empty-favorites { text-align: center !important; padding: 50px 25px !important; background: #11131f !important; border-radius: 12px !important; border: 2px dashed #1e2a3a !important; margin: 20px 10px !important; }
-  .empty-favorites i { font-size: 48px !important; color: #e91e63 !important; margin-bottom: 20px !important; display: block !important; }
-  .empty-favorites h3 { font-size: 16px !important; font-weight: 600 !important; color: #f0f0f0 !important; margin-bottom: 12px !important; line-height: 1.4 !important; }
-  .empty-favorites p { font-size: 13px !important; color: #8a8f9e !important; line-height: 1.6 !important; margin: 0 !important; max-width: 300px !important; margin: 0 auto !important; }
-  
-  .cargar-mas-container { text-align: center !important; padding: 20px !important; margin-top: 10px !important; }
-  .cargar-mas-btn { background: linear-gradient(135deg, #e91e63 0%, #ff6b9d 100%) !important; color: #fff !important; border: none !important; padding: 14px 40px !important; border-radius: 30px !important; font-size: 14px !important; font-weight: 600 !important; cursor: pointer !important; transition: all 0.2s ease !important; box-shadow: 0 4px 12px rgba(233,30,99,0.3) !important; display: inline-flex !important; align-items: center !important; gap: 8px !important; }
-  .cargar-mas-btn:hover { transform: translateY(-2px) !important; box-shadow: 0 6px 20px rgba(233,30,99,0.4) !important; }
-  .cargar-mas-btn:disabled { opacity: 0.5 !important; cursor: not-allowed !important; transform: none !important; }
-  .cargar-mas-btn i { font-size: 16px !important; }
-  
-  #panel-destacados { padding-bottom: 40px !important; }
-  
-  .bottom-nav-bar { position: fixed !important; bottom: 0 !important; left: 0 !important; right: 0 !important; background: #0a0c15 !important; border-top: 1px solid #1e2a3a !important; display: flex !important; align-items: center !important; justify-content: space-around !important; padding: 10px 5px !important; z-index: 2000 !important; transition: transform 0.3s ease !important; }
-  .bottom-nav-bar.nav-hidden { transform: translateY(100%) !important; }
-  .nav-btn { background: none !important; border: none !important; cursor: pointer !important; padding: 10px 15px !important; color: #8a8f9e !important; position: relative !important; display: flex !important; align-items: center !important; justify-content: center !important; transition: all 0.2s ease !important; min-width: 50px !important; }
+  .bottom-nav-bar { position: fixed !important; bottom: 0 !important; left: 0 !important; right: 0 !important; background: #0a0c15 !important; border-top: 1px solid #1e2a3a !important; display: flex !important; justify-content: space-around !important; padding: 10px !important; z-index: 2000 !important; }
+  .nav-btn { background: none !important; border: none !important; color: #8a8f9e !important; font-size: 24px !important; cursor: pointer !important; padding: 10px !important; }
   .nav-btn:hover { color: #e91e63 !important; }
-  .nav-btn i { font-size: 24px !important; }
-  .fav-counter { position: absolute !important; top: -5px !important; right: -5px !important; background: #e91e63 !important; color: #fff !important; font-size: 9px !important; padding: 2px 5px !important; border-radius: 50% !important; min-width: 16px !important; text-align: center !important; }
+  .fav-counter { position: absolute !important; top: 0 !important; right: 0 !important; background: #e91e63 !important; color: #fff !important; font-size: 9px !important; padding: 2px 5px !important; border-radius: 50% !important; }
   
-  /* MODALES */
-  .categoria-modal, .affiliate-modal, .oferta-modal, .submit-web-modal { position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important; background: rgba(0,0,0,0.98) !important; display: none !important; justify-content: center !important; align-items: center !important; z-index: 999997 !important; }
-  .categoria-modal.active, .affiliate-modal.active, .oferta-modal.active, .submit-web-modal.active { display: flex !important; }
+  /* MODAL */
+  .categoria-modal { position: fixed !important; top: 0 !important; left: 0 !important; width: 100% !important; height: 100% !important; background: rgba(0,0,0,0.98) !important; display: none !important; justify-content: center !important; align-items: center !important; z-index: 9999 !important; }
+  .categoria-modal.active { display: flex !important; }
+  .categoria-modal-content { background: #0a0c15 !important; width: 100% !important; max-width: 500px !important; border-radius: 16px !important; margin: 20px !important; }
+  .categoria-modal-header { background: linear-gradient(135deg, #e91e63, #ff6b9d) !important; padding: 20px !important; text-align: center !important; border-radius: 16px 16px 0 0 !important; }
+  .categoria-modal-header h3 { color: #fff !important; margin: 0 !important; }
+  .close-modal { position: absolute !important; top: 15px !important; right: 20px !important; color: #fff !important; font-size: 28px !important; cursor: pointer !important; background: none !important; border: none !important; }
+  .categoria-modal-body { padding: 20px !important; }
+  .categoria-list { display: grid !important; gap: 10px !important; }
+  .categoria-item { display: flex !important; align-items: center !important; padding: 15px !important; background: #11131f !important; border-radius: 8px !important; cursor: pointer !important; border: 2px solid #1e2a3a !important; }
+  .categoria-item:hover { border-color: #e91e63 !important; }
+  .categoria-item input { margin-right: 10px !important; }
+  .categoria-modal-footer { padding: 20px !important; display: flex !important; justify-content: center !important; gap: 10px !important; border-top: 1px solid #1e2a3a !important; }
+  .btn-guardar { background: #e91e63 !important; color: #fff !important; border: none !important; padding: 12px 30px !important; border-radius: 25px !important; cursor: pointer !important; }
+  .btn-cancelar { background: #1e2a3a !important; color: #8a8f9e !important; border: none !important; padding: 12px 30px !important; border-radius: 25px !important; cursor: pointer !important; }
   
-  .categoria-modal-content, .affiliate-modal-content, .oferta-modal-content, .submit-web-content { background: #11131f !important; border-radius: 16px !important; width: 90% !important; max-width: 500px !important; max-height: 90vh !important; overflow-y: auto !important; position: relative !important; margin: 20px !important; border: 1px solid #1e2a3a !important; }
+  /* OFERTA MODAL */
+  .oferta-modal { position: fixed !important; top: 0 !important; left: 0 !important; width: 100% !important; height: 100% !important; background: rgba(0,0,0,0.95) !important; display: none !important; justify-content: center !important; align-items: center !important; z-index: 9999 !important; }
+  .oferta-modal.active { display: flex !important; }
+  .oferta-modal-content { background: #11131f !important; border-radius: 16px !important; width: 90% !important; max-width: 400px !important; padding: 30px !important; text-align: center !important; position: relative !important; }
+  .oferta-modal-close { position: absolute !important; top: 15px !important; right: 20px !important; color: #fff !important; font-size: 28px !important; cursor: pointer !important; background: none !important; border: none !important; }
+  .oferta-modal-img { width: 100% !important; max-width: 250px !important; border-radius: 12px !important; margin-bottom: 20px !important; }
+  .oferta-modal-title { font-size: 20px !important; color: #f0f0f0 !important; margin-bottom: 10px !important; }
+  .oferta-modal-desc { font-size: 14px !important; color: #8a8f9e !important; margin-bottom: 20px !important; }
+  .oferta-modal-btn { display: inline-block !important; background: #ff9800 !important; color: #fff !important; padding: 14px 30px !important; border-radius: 25px !important; text-decoration: none !important; font-weight: 700 !important; }
   
-  .categoria-modal-header, .submit-web-header { background: linear-gradient(135deg, #e91e63 0%, #ff6b9d 100%) !important; color: #fff !important; padding: 20px !important; text-align: center !important; }
-  .categoria-modal-header h3 { margin: 0 !important; font-size: 20px !important; color: #fff !important; display: flex !important; align-items: center !important; justify-content: center !important; gap: 10px !important; }
-  .submit-web-header h2 { font-size: 24px !important; font-weight: 700 !important; margin: 0 0 10px 0 !important; line-height: 1.3 !important; }
-  .submit-web-header p { font-size: 14px !important; margin: 0 !important; opacity: 0.95 !important; line-height: 1.5 !important; }
+  .toast-container { position: fixed !important; bottom: 80px !important; left: 50% !important; transform: translateX(-50%) !important; z-index: 10000 !important; }
+  .toast { background: rgba(0,0,0,0.95) !important; color: #fff !important; padding: 12px 20px !important; border-radius: 8px !important; margin-bottom: 8px !important; border-left: 3px solid #e91e63 !important; }
   
-  .close-modal, .affiliate-modal-close, .oferta-modal-close, .submit-web-close { position: absolute !important; top: 15px !important; right: 20px !important; background: none !important; border: none !important; color: #fff !important; font-size: 28px !important; cursor: pointer !important; }
-  .affiliate-modal-close, .oferta-modal-close, .submit-web-close { width: 44px !important; height: 44px !important; border-radius: 50% !important; background: rgba(233,30,99,0.2) !important; border: 2px solid #e91e63 !important; display: flex !important; align-items: center !important; justify-content: center !important; }
-  .affiliate-modal-close:hover, .oferta-modal-close:hover, .submit-web-close:hover, .close-modal:hover { background: #e91e63 !important; color: #fff !important; transform: scale(1.1) !important; }
-  
-  .categoria-modal-body, .affiliate-modal-body, .oferta-modal-body, .submit-web-form { padding: 30px 20px !important; }
-  .affiliate-modal-body, .oferta-modal-body { text-align: center !important; }
-  
-  .categoria-list { max-height: none !important; margin-bottom: 30px !important; display: grid !important; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)) !important; gap: 12px !important; }
-  .categoria-item { display: flex !important; align-items: center !important; justify-content: space-between !important; padding: 15px !important; background: #11131f !important; border-radius: 12px !important; cursor: pointer !important; transition: all 0.2s ease !important; border: 2px solid #1e2a3a !important; }
-  .categoria-item:hover { background: #1a1f2e !important; transform: translateY(-2px) !important; border-color: #e91e63 !important; }
-  .categoria-item.selected { background: #e91e63 !important; color: #fff !important; border-color: #fff !important; }
-  .categoria-item.selected span { color: #fff !important; }
-  .categoria-item.selected span i { color: #fff !important; }
-  .categoria-item input { margin-right: 12px !important; transform: scale(1.2) !important; cursor: pointer !important; accent-color: #e91e63 !important; width: 18px !important; height: 18px !important; }
-  .categoria-item span { font-size: 16px !important; font-weight: 500 !important; display: flex !important; align-items: center !important; gap: 10px !important; cursor: pointer !important; color: #f0f0f0 !important; flex: 1 !important; }
-  .categoria-item span i { color: #e91e63 !important; font-size: 18px !important; width: 24px !important; text-align: center !important; }
-  .categoria-delete-btn { background: none !important; border: none !important; color: #5a5f6e !important; cursor: pointer !important; font-size: 16px !important; padding: 5px 8px !important; border-radius: 6px !important; transition: all 0.2s ease !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; }
-  .categoria-delete-btn:hover { background: rgba(233,30,99,0.2) !important; color: #e91e63 !important; }
-  .categoria-delete-btn:disabled { opacity: 0.3 !important; cursor: not-allowed !important; }
-  
-  .nueva-categoria-section { margin-top: 20px !important; padding-top: 20px !important; border-top: 2px solid #1e2a3a !important; }
-  .nueva-categoria-section h4 { margin: 0 0 15px 0 !important; font-size: 16px !important; color: #e91e63 !important; }
-  .nueva-categoria-input { display: flex !important; gap: 12px !important; flex-wrap: wrap !important; }
-  .nueva-categoria-input input { flex: 1 !important; padding: 14px !important; border: 2px solid #1e2a3a !important; border-radius: 12px !important; font-size: 16px !important; background: #11131f !important; color: #fff !important; min-width: 200px !important; }
-  .nueva-categoria-input input:focus { outline: none !important; border-color: #e91e63 !important; }
-  .nueva-categoria-input input::placeholder { color: #5a5f6e !important; }
-  .nueva-categoria-input button { background: #e91e63 !important; color: #fff !important; border: none !important; padding: 14px 25px !important; border-radius: 12px !important; cursor: pointer !important; font-size: 16px !important; font-weight: 600 !important; display: flex !important; align-items: center !important; gap: 8px !important; white-space: nowrap !important; }
-  .nueva-categoria-input button:hover { background: #c2185b !important; transform: scale(1.02) !important; }
-  
-  .categoria-modal-footer { padding: 20px !important; border-top: 1px solid #1e2a3a !important; display: flex !important; justify-content: center !important; gap: 15px !important; background: #0a0c15 !important; position: sticky !important; bottom: 0 !important; }
-  .categoria-modal-footer button { padding: 14px 30px !important; border-radius: 40px !important; cursor: pointer !important; border: none !important; font-size: 16px !important; font-weight: 600 !important; transition: all 0.2s ease !important; }
-  .btn-cancelar { background: #1e2a3a !important; color: #8a8f9e !important; }
-  .btn-cancelar:hover { background: #2a3a4a !important; color: #fff !important; }
-  .btn-guardar { background: #e91e63 !important; color: #fff !important; }
-  .btn-guardar:hover { background: #c2185b !important; transform: scale(1.02) !important; }
-  
-  .affiliate-modal-img, .oferta-modal-img { width: 100% !important; max-width: 280px !important; height: auto !important; border-radius: 12px !important; margin-bottom: 25px !important; box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important; }
-  .affiliate-modal-title, .oferta-modal-title { font-size: 22px !important; font-weight: 700 !important; margin-bottom: 15px !important; color: #f0f0f0 !important; line-height: 1.3 !important; }
-  .affiliate-modal-desc, .oferta-modal-desc { font-size: 15px !important; color: #8a8f9e !important; margin-bottom: 30px !important; line-height: 1.6 !important; }
-  .affiliate-modal-btn, .oferta-modal-btn { display: inline-block !important; background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%) !important; color: #fff !important; padding: 16px 40px !important; border-radius: 50px !important; text-decoration: none !important; font-weight: 700 !important; font-size: 16px !important; transition: all 0.2s ease !important; box-shadow: 0 4px 15px rgba(255,152,0,0.3) !important; }
-  .affiliate-modal-btn:hover, .oferta-modal-btn:hover { transform: scale(1.05) !important; box-shadow: 0 6px 20px rgba(255,152,0,0.5) !important; }
-  .affiliate-modal-disclaimer, .oferta-modal-disclaimer { font-size: 12px !important; color: #5a5f6e !important; margin-top: 20px !important; line-height: 1.4 !important; }
-  
-  .submit-web-form { padding: 30px 25px !important; }
-  .form-group { margin-bottom: 20px !important; }
-  .form-group label { display: block !important; font-size: 14px !important; font-weight: 600 !important; margin-bottom: 8px !important; color: #f0f0f0 !important; line-height: 1.4 !important; }
-  .form-group input, .form-group select, .form-group textarea { width: 100% !important; padding: 12px !important; border: 2px solid #1e2a3a !important; border-radius: 8px !important; font-size: 14px !important; box-sizing: border-box !important; font-family: Arial, sans-serif !important; background: #0a0c15 !important; color: #f0f0f0 !important; }
-  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: #e91e63 !important; outline: none !important; }
-  .submit-btn { width: 100% !important; padding: 14px !important; background: linear-gradient(135deg, #e91e63 0%, #ff6b9d 100%) !important; color: #fff !important; border: none !important; border-radius: 50px !important; font-weight: 700 !important; cursor: pointer !important; font-size: 15px !important; margin-top: 10px !important; }
-  .submit-btn:hover { opacity: 0.9 !important; transform: scale(1.02) !important; }
-  
-  .categoria-fav-header { display: flex !important; justify-content: space-between !important; align-items: center !important; margin-top: 20px !important; margin-bottom: 10px !important; padding-bottom: 5px !important; border-bottom: 2px solid #e91e63 !important; }
-  .categoria-fav-header h3 { margin: 0 !important; font-size: 16px !important; color: #e91e63 !important; display: flex !important; align-items: center !important; gap: 8px !important; }
-  .categoria-fav-header span { font-size: 12px !important; color: #5a5f6e !important; }
-  .fav-card { display: flex !important; align-items: center !important; justify-content: space-between !important; background: #11131f !important; border-radius: 8px !important; padding: 12px !important; margin-bottom: 8px !important; box-shadow: 0 1px 3px rgba(0,0,0,0.3) !important; border: 1px solid #1e2a3a !important; }
-  .fav-card-info { flex: 1 !important; }
-  .fav-card-title { font-size: 13px !important; font-weight: 600 !important; color: #f0f0f0 !important; text-decoration: none !important; display: block !important; }
-  .fav-card-title:hover { color: #e91e63 !important; }
-  .fav-card-meta { font-size: 10px !important; color: #5a5f6e !important; margin-top: 4px !important; }
-  .fav-card-remove { background: none !important; border: none !important; color: #5a5f6e !important; cursor: pointer !important; font-size: 16px !important; padding: 8px !important; transition: all 0.2s ease !important; }
-  .fav-card-remove:hover { color: #e91e63 !important; transform: scale(1.1) !important; }
-  
-  .toast-container { position: fixed !important; bottom: 80px !important; left: 50% !important; transform: translateX(-50%) !important; z-index: 10000 !important; width: 90% !important; max-width: 350px !important; }
-  .toast { background: rgba(0,0,0,0.95) !important; color: #fff !important; padding: 12px 16px !important; border-radius: 8px !important; font-size: 13px !important; margin-bottom: 8px !important; display: flex !important; align-items: center !important; gap: 8px !important; line-height: 1.4 !important; border-left: 3px solid #e91e63 !important; }
+  .empty-favorites { text-align: center !important; padding: 50px !important; color: #8a8f9e !important; }
 </style>
 
 <div class='news-aggregator' id='news-widget'>
   <div class='toast-container' id='toastContainer'></div>
+  
   <div class='tabs-nav-wrap' id='tabsNav'>
-    <button class='tab-btn-wrap' onclick='cambiarTab("destacados")'><i class='fas fa-fire'></i> Destacados</button>
-    <button class='tab-btn-wrap' onclick='cambiarTab("tecnologia")'><i class='fas fa-laptop'></i> Tecnologia</button>
-    <button class='tab-btn-wrap' onclick='cambiarTab("deportes")'><i class='fas fa-futbol'></i> Deportes</button>
-    <button class='tab-btn-wrap' onclick='cambiarTab("mascotas")'><i class='fas fa-paw'></i> Mascotas</button>
-    <button class='tab-btn-wrap' onclick='cambiarTab("terror")'><i class='fas fa-ghost'></i> Terror</button>
-    <button class='tab-btn-wrap' onclick='cambiarTab("cine")'><i class='fas fa-film'></i> Cine</button>
-    <button class='tab-btn-wrap' onclick='cambiarTab("cocina")'><i class='fas fa-utensils'></i> Cocina</button>
-    <button class='tab-btn-wrap' onclick='cambiarTab("games")'><i class='fas fa-gamepad'></i> Games</button>
-    <button class='tab-btn-wrap' onclick='cambiarTab("viajes")'><i class='fas fa-plane'></i> Viajes</button>
-    <button class='tab-btn-wrap' onclick='cambiarTab("moda")'><i class='fas fa-tshirt'></i> Moda</button>
-    <button class='tab-btn-wrap' onclick='cambiarTab("musica")'><i class='fas fa-music'></i> Musica</button>
-    <button class='tab-btn-wrap' onclick='cambiarTab("ciencia")'><i class='fas fa-flask'></i> Ciencia</button>
+    <button class='tab-btn-wrap active' onclick='cambiarTab("destacados")'>Destacados</button>
+    <button class='tab-btn-wrap' onclick='cambiarTab("tecnologia")'>Tecnología</button>
+    <button class='tab-btn-wrap' onclick='cambiarTab("deportes")'>Deportes</button>
+    <button class='tab-btn-wrap' onclick='cambiarTab("games")'>Games</button>
+    <button class='tab-btn-wrap' onclick='cambiarTab("cine")'>Cine</button>
+    <button class='tab-btn-wrap' onclick='cambiarTab("mascotas")'>Mascotas</button>
   </div>
-  <div class='tab-panel-wrap' id='panel-favoritos'><div class='loading-section'>Cargando favoritos...</div></div>
-  <div class='tab-panel-wrap' id='panel-destacados'><div class='loading-section'>Cargando...</div></div>
+  
+  <div class='tab-panel-wrap active' id='panel-destacados'><div class='loading-section'>Cargando...</div></div>
   <div class='tab-panel-wrap' id='panel-tecnologia'><div class='loading-section'>Cargando...</div></div>
   <div class='tab-panel-wrap' id='panel-deportes'><div class='loading-section'>Cargando...</div></div>
-  <div class='tab-panel-wrap' id='panel-mascotas'><div class='loading-section'>Cargando...</div></div>
-  <div class='tab-panel-wrap' id='panel-terror'><div class='loading-section'>Cargando...</div></div>
-  <div class='tab-panel-wrap' id='panel-cine'><div class='loading-section'>Cargando...</div></div>
-  <div class='tab-panel-wrap' id='panel-cocina'><div class='loading-section'>Cargando...</div></div>
   <div class='tab-panel-wrap' id='panel-games'><div class='loading-section'>Cargando...</div></div>
-  <div class='tab-panel-wrap' id='panel-viajes'><div class='loading-section'>Cargando...</div></div>
-  <div class='tab-panel-wrap' id='panel-moda'><div class='loading-section'>Cargando...</div></div>
-  <div class='tab-panel-wrap' id='panel-musica'><div class='loading-section'>Cargando...</div></div>
-  <div class='tab-panel-wrap' id='panel-ciencia'><div class='loading-section'>Cargando...</div></div>
+  <div class='tab-panel-wrap' id='panel-cine'><div class='loading-section'>Cargando...</div></div>
+  <div class='tab-panel-wrap' id='panel-mascotas'><div class='loading-section'>Cargando...</div></div>
+  
   <div class='cargar-mas-container' id='cargarMasContainer' style='display:none;'>
-    <button class='cargar-mas-btn' id='cargarMasBtn' onclick='cargarMasManual()'>
-      <i class='fas fa-plus-circle'></i> Cargar más noticias
-    </button>
+    <button class='cargar-mas-btn' onclick='cargarMas()'>Cargar más</button>
   </div>
 </div>
 
+<!-- MODAL FAVORITOS -->
 <div class='categoria-modal' id='categoriaModal'>
   <div class='categoria-modal-content'>
     <div class='categoria-modal-header'>
-      <h3><i class='fas fa-folder-plus'></i> Guardar en favoritos</h3>
-      <button class='close-modal' onclick='cerrarModalCategoria()'><i class='fas fa-times'></i></button>
+      <h3>Guardar en favoritos</h3>
+      <button class='close-modal' onclick='cerrarModalCategoria()'>×</button>
     </div>
     <div class='categoria-modal-body'>
       <div class='categoria-list' id='categoriaList'></div>
-      <div class='nueva-categoria-section'>
-        <h4><i class='fas fa-plus-circle'></i> Crear nueva categoría</h4>
-        <div class='nueva-categoria-input'>
-          <input id='nuevaCategoriaInput' placeholder='Ej: VANGAL, Mis favoritas, etc...' type='text'/>
-          <button onclick='agregarNuevaCategoria()'><i class='fas fa-plus'></i> Crear</button>
-        </div>
-      </div>
     </div>
     <div class='categoria-modal-footer'>
       <button class='btn-cancelar' onclick='cerrarModalCategoria()'>Cancelar</button>
-      <button class='btn-guardar' onclick='guardarFavoritoConCategoria()'>Guardar favorito</button>
+      <button class='btn-guardar' onclick='guardarFavorito()'>Guardar</button>
     </div>
   </div>
 </div>
 
+<!-- MODAL OFERTAS -->
 <div class='oferta-modal' id='ofertaModal'>
-  <button class='oferta-modal-close' onclick='cerrarOfertaModal()'><i class='fas fa-times'></i></button>
   <div class='oferta-modal-content'>
-    <div class='oferta-modal-body'>
-      <img alt='Producto' class='oferta-modal-img' id='ofertaModalImg' src=''/>
-      <h3 class='oferta-modal-title' id='ofertaModalTitle'></h3>
-      <p class='oferta-modal-desc' id='ofertaModalDesc'></p>
-      <a class='oferta-modal-btn' href='#' id='ofertaModalLink' rel='nofollow noopener' target='_blank'>Ver en Amazon</a>
-      <p class='oferta-modal-disclaimer'><i class='fas fa-info-circle'></i> Enlace afiliado - Sin coste extra para ti</p>
-    </div>
+    <button class='oferta-modal-close' onclick='cerrarOfertaModal()'>×</button>
+    <img class='oferta-modal-img' id='ofertaImg' src=''/>
+    <h3 class='oferta-modal-title' id='ofertaTitle'></h3>
+    <p class='oferta-modal-desc' id='ofertaDesc'></p>
+    <a class='oferta-modal-btn' id='ofertaLink' href='#' target='_blank'>Ver en Amazon</a>
   </div>
 </div>
 
-<div class='affiliate-modal' id='affiliateModal'>
-  <button class='affiliate-modal-close' onclick='cerrarModal()'><i class='fas fa-times'></i></button>
-  <div class='affiliate-modal-content'>
-    <div class='affiliate-modal-body'>
-      <img alt='Producto' class='affiliate-modal-img' id='modalImg' src=''/>
-      <h3 class='affiliate-modal-title' id='modalTitle'></h3>
-      <p class='affiliate-modal-desc' id='modalDesc'></p>
-      <a class='affiliate-modal-btn' href='#' id='modalLink' rel='nofollow noopener' target='_blank'>Ver en Amazon</a>
-      <p class='affiliate-modal-disclaimer'>Enlace afiliado - Sin coste extra para ti</p>
-    </div>
-  </div>
-</div>
-
-<div class='submit-web-modal' id='submitWebModal'>
-  <button class='submit-web-close' onclick='cerrarFormularioWeb()'><i class='fas fa-times'></i></button>
-  <div class='submit-web-content'>
-    <div class='submit-web-header'><h2>AÑADE TU WEB</h2><p>Envia tu pagina web para que la añadamos</p></div>
-    <div class='submit-web-form'>
-      <div class='form-group'><label>Nombre de tu web</label><input id='webName' placeholder='Ej: Mi Blog' type='text'/></div>
-      <div class='form-group'><label>URL</label><input id='webUrl' placeholder='https://miweb.com' type='url'/></div>
-      <div class='form-group'><label>Categoria</label><select id='webCategory'><option value=''>Selecciona</option><option value='Tecnologia'>Tecnologia</option><option value='Mascotas'>Mascotas</option><option value='Games'>Games</option><option value='Otro'>Otro</option></select></div>
-      <div class='form-group'><label>Email</label><input id='webEmail' placeholder='tu@email.com' type='email'/></div>
-      <button class='submit-btn' onclick='enviarFormularioWeb()'>ENVIAR POR WHATSAPP</button>
-    </div>
-  </div>
-</div>
-
-<div class='bottom-nav-bar' id='bottomNavBar'>
+<div class='bottom-nav-bar'>
   <button class='nav-btn' onclick='irAlHome()'><i class='fas fa-home'></i></button>
-  <button class='nav-btn' onclick='abrirFormularioWeb()'><i class='fas fa-plus'></i></button>
-  <button class='nav-btn' onclick='mostrarFavoritosDesdeNav()'>
-    <i class='fas fa-heart'></i>
-    <span class='fav-counter' id='favCounter'>0</span>
-  </button>
+  <button class='nav-btn' onclick='mostrarFavoritos()'><i class='fas fa-heart'></i><span class='fav-counter' id='favCounter'>0</span></button>
 </div>
 
 <script>
-var TRANSLATOR_WORKER_URL = 'https://traductor-worker.josema-mera37.workers.dev';
 var workerProxyUrl = 'https://socnas-proxy.josema-mera37.workers.dev';
-var RSS_CACHE_DURATION = 2 * 60 * 60 * 1000;
 
-var categoriasPorDefecto = ["Tecnología", "Deportes", "Mascotas", "Terror", "Cine", "Cocina", "Games", "Viajes", "Moda", "Música", "Ciencia", "General"];
-var MAX_ITEMS = 18;
-var ITEMS_INICIALES = 16;
-
-/* NAV AUTO-HIDE */
-var lastScrollY = window.scrollY;
-var navBar = document.getElementById('bottomNavBar');
-window.addEventListener('scroll', function() {
-  var currentScrollY = window.scrollY;
-  if (Math.abs(currentScrollY - lastScrollY) < 10) { lastScrollY = currentScrollY; return; }
-  if (currentScrollY > lastScrollY) { navBar.classList.add('nav-hidden'); } 
-  else { navBar.classList.remove('nav-hidden'); }
-  lastScrollY = currentScrollY;
-}, { passive: true });
-
-/* 🔥 AFILIADOS - KEYWORDS ESPECÍFICAS (NO GENÉRICAS) */
+/* 🔥 AFILIADOS - KEYWORDS ESPECÍFICAS */
 var afiliados = {
   'iphone': { 
-    keywords: ['iphone 15','iphone 16','iphone 14 pro','comprar iphone','oferta iphone','iphone amazon','iphone 13'], 
+    keywords: ['iphone 15','iphone 16','comprar iphone','oferta iphone'], 
     foto: 'https://m.media-amazon.com/images/I/71xb2xkN5qL._AC_SL1500_.jpg', 
     titulo: 'iPhone en Amazon', 
-    descripcion: 'El último iPhone con cámara profesional.', 
+    descripcion: 'El último iPhone', 
     enlace: 'https://amazon.es/dp/B0CHX3TW6T?tag=TU-ID-AFILIADO-21' 
   },
-  'playstation': { 
-    keywords: ['ps5','playstation 5','comprar ps5','oferta ps5','dualsense','pack ps5','ps5 slim'], 
+  'ps5': { 
+    keywords: ['ps5','playstation 5','comprar ps5'], 
     foto: 'https://m.media-amazon.com/images/I/51w+R0uLc+L._AC_SL1500_.jpg', 
-    titulo: 'PlayStation 5 en Amazon', 
-    descripcion: 'La consola de Sony con gráficos 4K.', 
+    titulo: 'PlayStation 5', 
+    descripcion: 'Consola Sony', 
     enlace: 'https://amazon.es/dp/B0CL5KNB9M?tag=TU-ID-AFILIADO-21' 
   },
-  'xbox': { 
-    keywords: ['xbox series x','xbox series s','comprar xbox','oferta xbox','game pass','control xbox'], 
-    foto: 'https://m.media-amazon.com/images/I/61SUj2aKoEL._AC_SL1500_.jpg', 
-    titulo: 'Xbox Series X en Amazon', 
-    descripcion: 'La Xbox más potente.', 
-    enlace: 'https://amazon.es/dp/B08H75RTZ8?tag=TU-ID-AFILIADO-21' 
-  },
-  'nintendo': { 
-    keywords: ['nintendo switch','switch oled','comprar switch','oferta switch','zelda switch','pokemon switch'], 
-    foto: 'https://m.media-amazon.com/images/I/61-PblYntsL._AC_SL1500_.jpg', 
-    titulo: 'Nintendo Switch en Amazon', 
-    descripcion: 'La consola híbrida.', 
-    enlace: 'https://amazon.es/dp/B07VGRJDFY?tag=TU-ID-AFILIADO-21' 
-  },
   'game': { 
-    keywords: ['comprar juego','oferta videojuego','juego amazon','videojuego oferta','edición coleccionista','fifa 24','call of duty','gta'], 
+    keywords: ['comprar juego','oferta videojuego','fifa','call of duty'], 
     foto: 'https://m.media-amazon.com/images/I/71bhWgQK-cL._AC_SL1500_.jpg', 
-    titulo: 'Videojuegos en Amazon', 
-    descripcion: 'Los mejores juegos al mejor precio.', 
+    titulo: 'Videojuegos', 
+    descripcion: 'Mejores precios', 
     enlace: 'https://amazon.es/videojuegos?tag=TU-ID-AFILIADO-21' 
   }
 };
@@ -362,496 +190,202 @@ function buscarAfiliado(t) {
   var tl = t.toLowerCase(); 
   for (var k in afiliados) { 
     for (var i = 0; i < afiliados[k].keywords.length; i++) { 
-      if (tl.indexOf(afiliados[k].keywords[i]) !== -1) { 
-        return k; 
-      } 
+      if (tl.indexOf(afiliados[k].keywords[i]) !== -1) return k; 
     } 
   } 
   return null; 
 }
 
-function abrirOfertaModal(key) {
-  var af = afiliados[key];
-  if (!af) return;
-  document.getElementById('ofertaModalImg').src = af.foto;
-  document.getElementById('ofertaModalTitle').textContent = af.titulo;
-  document.getElementById('ofertaModalDesc').textContent = af.descripcion;
-  document.getElementById('ofertaModalLink').href = af.enlace;
-  document.getElementById('ofertaModal').classList.add('active');
-  document.body.style.overflow = 'hidden';
-}
+/* FEEDS */
+var feedsConfig = {
+  'tecnologia': ['https://www.xataka.com/feedburner.xml'],
+  'deportes': ['http://feeds.bbci.co.uk/sport/rss.xml'],
+  'games': ['https://www.vandal.net/rss'],
+  'cine': ['https://variety.com/feed/'],
+  'mascotas': ['https://wamiz.es/rss/articles']
+};
 
-function cerrarOfertaModal() { 
-  document.getElementById('ofertaModal').classList.remove('active'); 
-  document.body.style.overflow = ''; 
-}
-
-function abrirModal(p) { 
-  document.getElementById('modalImg').src = p.foto; 
-  document.getElementById('modalTitle').textContent = p.titulo; 
-  document.getElementById('modalDesc').textContent = p.descripcion; 
-  document.getElementById('affiliateModal').classList.add('active'); 
-  document.body.style.overflow = 'hidden'; 
-}
-
-function cerrarModal() { 
-  document.getElementById('affiliateModal').classList.remove('active'); 
-  document.body.style.overflow = ''; 
-}
-
-document.addEventListener('click', function(e) { 
-  if (e.target === document.getElementById('ofertaModal')) cerrarOfertaModal();
-  if (e.target === document.getElementById('affiliateModal')) cerrarModal(); 
-});
-
-/* FAVORITOS */
-var iconosCategorias = { "Tecnología": "fas fa-laptop", "Deportes": "fas fa-futbol", "Mascotas": "fas fa-paw", "Terror": "fas fa-ghost", "Cine": "fas fa-film", "Cocina": "fas fa-utensils", "Games": "fas fa-gamepad", "Viajes": "fas fa-plane", "Moda": "fas fa-tshirt", "Música": "fas fa-music", "Ciencia": "fas fa-flask", "General": "fas fa-folder" };
-function getIconoCategoria(categoria) { return iconosCategorias[categoria] || "fas fa-folder"; }
-function getCategorias() { 
-  var cats = localStorage.getItem('misCategorias'); 
-  if (cats) { var p = JSON.parse(cats); return categoriasPorDefecto.concat(p.filter(function(c) { return categoriasPorDefecto.indexOf(c) === -1; })); }
-  return categoriasPorDefecto.slice(); 
-}
-function guardarCategorias(cats) { var p = cats.filter(function(c) { return categoriasPorDefecto.indexOf(c) === -1; }); localStorage.setItem('misCategorias', JSON.stringify(p)); }
-function getFavsPorCategoria() { var f = localStorage.getItem('misFavoritosPorCategoria'); if (f) return JSON.parse(f); var e = {}; var c = getCategorias(); for (var i = 0; i < c.length; i++) { e[c[i]] = []; } return e; }
-function guardarFavsPorCategoria(f) { localStorage.setItem('misFavoritosPorCategoria', JSON.stringify(f)); }
-function noticiaEsFavorita(url) { var f = getFavsPorCategoria(); var c = Object.keys(f); for (var i = 0; i < c.length; i++) { for (var j = 0; j < f[c[i]].length; j++) { if (f[c[i]][j].u === url) return true; } } return false; }
-function getCategoriaDeNoticia(url) { var f = getFavsPorCategoria(); var c = Object.keys(f); for (var i = 0; i < c.length; i++) { for (var j = 0; j < f[c[i]].length; j++) { if (f[c[i]][j].u === url) return c[i]; } } return null; }
-function contarTotalFavoritos() { var f = getFavsPorCategoria(); var t = 0; var c = Object.keys(f); for (var i = 0; i < c.length; i++) { t += f[c[i]].length; } return t; }
-function actualizarContadorFavoritos() { var c = document.getElementById('favCounter'); if (c) c.textContent = contarTotalFavoritos(); }
-
+var favoritos = JSON.parse(localStorage.getItem('favoritos') || '[]');
 var noticiaPendiente = null;
 
-function abrirModalCategoria(noticia) {
-  noticiaPendiente = noticia;
-  var modal = document.getElementById('categoriaModal');
-  var lista = document.getElementById('categoriaList');
-  var cats = getCategorias();
-  lista.innerHTML = '';
-  for (var i = 0; i < cats.length; i++) {
-    var div = document.createElement('div');
-    div.className = 'categoria-item';
-    var icono = getIconoCategoria(cats[i]);
-    var esDefecto = categoriasPorDefecto.indexOf(cats[i]) !== -1;
-    var delBtn = esDefecto ? '' : '<button class="categoria-delete-btn" onclick="eliminarCategoria(\'' + cats[i].replace(/'/g, "\\'") + '\')"><i class="fas fa-trash"></i></button>';
-    div.innerHTML = '<div style="display:flex;align-items:center;flex:1;"><input type="radio" name="categoria" value="' + cats[i] + '"> <span><i class="' + icono + '"></i> ' + cats[i] + '</span></div>' + delBtn;
-    div.onclick = (function(cat) { return function(e) { if (e.target.type !== 'radio' && !e.target.closest('.categoria-delete-btn')) { var r = this.querySelectorAll('input'); for (var x = 0; x < r.length; x++) { r[x].checked = false; } this.querySelector('input').checked = true; } }; })(cats[i]);
-    lista.appendChild(div);
-  }
-  modal.classList.add('active');
-  document.body.style.overflow = 'hidden';
+function actualizarContadorFavoritos() {
+  document.getElementById('favCounter').textContent = favoritos.length;
 }
 
-function cerrarModalCategoria() { 
-  document.getElementById('categoriaModal').classList.remove('active'); 
-  noticiaPendiente = null; 
-  document.body.style.overflow = ''; 
-}
-
-function eliminarCategoria(cat) {
-  if (categoriasPorDefecto.indexOf(cat) !== -1) { showToast('No se puede eliminar'); return; }
-  if (!confirm('¿Eliminar "' + cat + '"?')) return;
-  var f = getFavsPorCategoria(); var c = getCategorias();
-  if (f[cat] && f[cat].length > 0) { if (!f['General']) f['General'] = []; f['General'] = f['General'].concat(f[cat]); delete f[cat]; }
-  var idx = c.indexOf(cat); if (idx > -1) c.splice(idx, 1);
-  guardarFavsPorCategoria(f); guardarCategorias(c); showToast('Eliminada');
-  abrirModalCategoria(noticiaPendiente);
-}
-
-function agregarNuevaCategoria() {
-  var inp = document.getElementById('nuevaCategoriaInput'); var n = inp.value.trim();
-  if (!n) { showToast('Escribe un nombre'); return; }
-  var c = getCategorias(); if (c.indexOf(n) !== -1) { showToast('Ya existe'); return; }
-  c.push(n); guardarCategorias(c); var f = getFavsPorCategoria(); f[n] = []; guardarFavsPorCategoria(f);
-  var lista = document.getElementById('categoriaList'); var div = document.createElement('div'); div.className = 'categoria-item';
-  div.innerHTML = '<div style="display:flex;align-items:center;flex:1;"><input type="radio" name="categoria" value="' + n + '"> <span><i class="fas fa-folder"></i> ' + n + '</span></div><button class="categoria-delete-btn" onclick="eliminarCategoria(\'' + n.replace(/'/g, "\\'") + '\')"><i class="fas fa-trash"></i></button>';
-  lista.appendChild(div); inp.value = ''; showToast('Creada');
-}
-
-function guardarFavoritoConCategoria() {
-  var sel = document.querySelector('#categoriaList input:checked');
-  if (!sel) { showToast('Selecciona categoría'); return; }
-  var cat = sel.value; var n = noticiaPendiente; if (!n) return;
-  var f = getFavsPorCategoria(); var existe = false; var cats = Object.keys(f);
-  for (var i = 0; i < cats.length; i++) { for (var j = 0; j < f[cats[i]].length; j++) { if (f[cats[i]][j].u === n.u) { existe = true; break; } } }
-  if (existe) { showToast('Ya está en favoritos'); cerrarModalCategoria(); return; }
-  f[cat].push(n); guardarFavsPorCategoria(f);
-  var cards = document.querySelectorAll('.news-card');
-  for (var i = 0; i < cards.length; i++) { if (cards[i].getAttribute('data-url') === n.u) { var btn = cards[i].querySelector('.favorite-btn'); if (btn) { btn.className = 'favorite-btn active'; btn.innerHTML = '<i class="fas fa-heart"></i>'; } break; } }
-  actualizarContadorFavoritos(); showToast('Guardado en ' + cat); cerrarModalCategoria();
-}
-
-function eliminarFavorito(url, cat) {
-  var f = getFavsPorCategoria(); f[cat] = f[cat].filter(function(it) { return it.u !== url; }); guardarFavsPorCategoria(f);
-  var cards = document.querySelectorAll('.news-card');
-  for (var i = 0; i < cards.length; i++) { if (cards[i].getAttribute('data-url') === url) { var btn = cards[i].querySelector('.favorite-btn'); if (btn) { btn.className = 'favorite-btn'; btn.innerHTML = '<i class="far fa-heart"></i>'; } break; } }
-  actualizarContadorFavoritos(); showToast('Eliminado'); if (document.querySelector('.tab-panel-wrap.active').id === 'panel-favoritos') { showFavs(); }
-}
-
-function toggleFavConCategoria(btn) {
-  var card = btn.closest('.news-card'); var url = card.getAttribute('data-url');
-  if (noticiaEsFavorita(url)) { 
-    if (confirm('¿Eliminar de favoritos?')) { 
-      var cat = getCategoriaDeNoticia(url); 
-      if (cat) eliminarFavorito(url, cat); 
-    } 
-    return; 
-  }
-  var noticia = { u: url, t: card.getAttribute('data-title'), i: card.getAttribute('data-img'), s: card.getAttribute('data-source'), l: card.getAttribute('data-logo'), d: card.getAttribute('data-date'), c: card.getAttribute('data-desc') };
-  abrirModalCategoria(noticia);
-}
-
-function showFavs() {
-  var panel = document.getElementById('panel-favoritos');
-  var f = getFavsPorCategoria(); var c = getCategorias(); var t = contarTotalFavoritos();
-  document.getElementById('cargarMasContainer').style.display = 'none';
-  if (t === 0) { panel.innerHTML = '<div class="empty-favorites"><i class="fas fa-heart"></i><h3>Vacío</h3><p>Guarda noticias con el corazón</p></div>'; return; }
-  var html = '';
-  for (var i = 0; i < c.length; i++) { var cat = c[i]; var n = f[cat] || []; if (n.length > 0) { var icon = getIconoCategoria(cat); html += '<div class="categoria-fav-header"><h3><i class="' + icon + '"></i> ' + cat + '</h3><span>' + n.length + '</span></div>'; for (var j = 0; j < n.length; j++) { var x = n[j]; html += '<div class="fav-card"><div class="fav-card-info"><a class="fav-card-title" href="' + x.u + '" target="_blank">' + x.t + '</a><div class="fav-card-meta">' + (x.d ? timeAgo(x.d) : '') + ' · ' + (x.s || '') + '</div></div><button class="fav-card-remove" onclick="eliminarFavorito(\'' + x.u.replace(/'/g, "\\'") + '\', \'' + cat.replace(/'/g, "\\'") + '\')"><i class="fas fa-trash"></i></button></div>'; } } }
-  panel.innerHTML = html; actualizarContadorFavoritos();
-}
-
-function mostrarFavoritosDesdeNav() { 
-  window.scrollTo({top:0,behavior:'smooth'}); 
-  setTimeout(function() { 
-    document.querySelectorAll('.tab-btn-wrap,.tab-panel-wrap').forEach(function(e) { e.classList.remove('active'); }); 
-    document.getElementById('panel-favoritos').classList.add('active'); 
-    showFavs(); 
-  }, 500); 
-}
-
-/* UTILIDADES */
-function showToast(m) { var t = document.createElement('div'); t.className = 'toast'; t.textContent = m; document.getElementById('toastContainer').appendChild(t); setTimeout(function() { t.remove(); }, 3000); }
-function timeAgo(d) { var s = Math.floor((new Date() - new Date(d)) / 1000); return s < 60 ? 'Ahora' : s < 3600 ? Math.floor(s / 60) + 'm' : Math.floor(s / 3600) + 'h'; }
-function stripHtml(h) { var t = document.createElement('div'); t.innerHTML = h || ''; return t.textContent || t.innerText || ''; }
-function truncateText(t, l) { var c = (t || '').trim(); return c.length <= l ? c : c.substring(0, l) + '...'; }
-function irAlHome() { window.location.href = window.location.origin + window.location.pathname; }
-function getSourceName(u) { try { var a = document.createElement('a'); a.href = u; return a.hostname.replace('www.', '').split('.')[0]; } catch (e) { return ''; } }
-function getSourceLogo(u) { try { var a = document.createElement('a'); a.href = u; return 'https://www.google.com/s2/favicons?domain=' + a.hostname + '&sz=64'; } catch (e) { return ''; } }
-
-/* IMÁGENES - SOLO REALES */
-function extractImage(it) {
-  if (it.thumbnail && typeof it.thumbnail === 'string') { var t = it.thumbnail.trim(); if (t && t.indexOf('http') === 0) return t; }
-  if (it.enclosure && it.enclosure.url) return it.enclosure.url;
-  if (it['media:content'] && it['media:content'].url) return it['media:content'].url;
-  if (it.content) { var m = it.content.match(/<img[^>]+src="([^">]+)"/); if (m && m[1]) return m[1]; }
-  if (it.description) { var m = it.description.match(/<img[^>]+src="([^">]+)"/); if (m && m[1]) return m[1]; }
-  return null;
-}
-
-/* TRADUCTOR */
-function shouldShowTranslateBtn(title, desc) {
-  var t = (title + ' ' + (desc || '')).toLowerCase();
-  var words = ['the','be','to','of','and','a','in','that','have','i','it','for','not','on','with','he','as','you','do','at','this','but','his','by','from','they','we','say','her','she','or','an','will','my','one','all','would','there','their','what','so','up','out','if','about','who','get','which','go','me','when','make','can','like','time','no','just','him','know','take','people','into','year','your','good','some','could','them','see','other','than','then','now','look','only','come','its','over','think','also','back','after','use','two','how','our','work','first','well','way','even','new','want','because','any','these','give','day','most','us'];
-  var c = 0; for (var i = 0; i < words.length; i++) { if (t.indexOf(' ' + words[i] + ' ') !== -1 || t.indexOf(words[i] + ' ') === 0) { c++; if (c >= 5) return true; } } return false;
-}
-async function traducirTexto(card, btn) {
-  var title = card.getAttribute('data-title') || ''; var desc = card.getAttribute('data-desc') || ''; var texto = (title + ' ' + desc).substring(0, 5000);
-  var existing = card.querySelector('.translated-text'); if (existing) { existing.remove(); btn.innerHTML = '<i class="fas fa-globe"></i>'; btn.style.color = '#2196f3'; return; }
-  var orig = btn.innerHTML; btn.classList.add('translating'); btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'; btn.disabled = true;
-  try {
-    var res = await fetch(TRANSLATOR_WORKER_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text: texto }) });
-    var data = await res.json();
-    if (data.translated && data.translated !== texto) {
-      var ex = card.querySelector('.news-excerpt'); if (ex) {
-        var div = document.createElement('div'); div.className = 'translated-text'; div.innerHTML = '<strong>Traducción:</strong><br>' + data.translated;
-        ex.insertAdjacentElement('afterend', div); btn.innerHTML = '<i class="fas fa-check"></i>'; btn.style.color = '#4caf50';
-        setTimeout(function() { btn.innerHTML = '<i class="fas fa-globe"></i>'; btn.style.color = '#2196f3'; btn.disabled = false; btn.classList.remove('translating'); }, 3000);
-      }
-    } else { throw new Error('Error'); }
-  } catch (e) { btn.innerHTML = '<i class="fas fa-exclamation-triangle"></i>'; btn.style.color = '#f44336'; setTimeout(function() { btn.innerHTML = orig; btn.style.color = '#2196f3'; btn.disabled = false; btn.classList.remove('translating'); }, 2000); showToast('Error al traducir'); }
-}
-
-/* CACHE 2 HORAS */
-var rssCache = {}, rssCacheTime = {};
-function getRssCache(cat) { var now = Date.now(); if (rssCache[cat] && rssCacheTime[cat] && (now - rssCacheTime[cat] < RSS_CACHE_DURATION)) return rssCache[cat]; try { var s = localStorage.getItem('rssCache_' + cat); if (s) { var p = JSON.parse(s); if (Date.now() - p.time < RSS_CACHE_DURATION) { rssCache[cat] = p.data; rssCacheTime[cat] = p.time; return p.data; } } } catch (e) {} return null; }
-function setRssCache(cat, data) { rssCache[cat] = data; rssCacheTime[cat] = Date.now(); try { localStorage.setItem('rssCache_' + cat, JSON.stringify({  data, time: Date.now() })); } catch (e) {} }
-function loadRssCacheFromStorage() { try { for (var i = 0; i < localStorage.length; i++) { var k = localStorage.key(i); if (k && k.indexOf('rssCache_') === 0) { var s = localStorage.getItem(k); if (s) { var p = JSON.parse(s); if (Date.now() - p.time < RSS_CACHE_DURATION) { var c = k.replace('rssCache_', ''); rssCache[c] = p.data; rssCacheTime[c] = p.time; } } } } } catch (e) {} }
-
-/* FEEDS */
-var feedsConfig = { 'tecnologia': ['https://www.xataka.com/feedburner.xml','https://www.genbeta.com/feedburner.xml','https://www.adslzone.net/feed/'], 'deportes': ['http://feeds.bbci.co.uk/sport/rss.xml','https://www.espn.com/espn/rss/news','https://feeds.abcnews.com/abcnews/sportsheadlines'], 'mascotas': ['https://www.socnas.org/feeds/posts/default?alt=rss','https://wamiz.es/rss/articles','https://www.veggieanimals.com/es/blog/rss/ultimas-entradas'], 'terror': ['https://www.bloody-disgusting.com/feed/','https://www.dreadcentral.com/feed/','https://www.ihorror.com/feed/','https://www.abandomoviez.net/rss.php'], 'cine': ['https://variety.com/feed/','https://www.hollywoodreporter.com/feed/','https://www.indiewire.com/feed/'], 'cocina': ['https://www.directoalpaladar.com/feedburner.xml','https://www.recetasnestle.es/rss'], 'games': ['https://www.vandal.net/rss','https://www.malavida.com/es/rss','https://www.gamespot.com/feeds/news/'], 'viajes': ['https://www.traveler.es/feed','https://www.elviajeperfecto.es/feed','https://www.abc.es/viajar/rss/','https://www.elpais.com/rss/tema/viajes.xml'], 'moda': ['https://www.vogue.es/feed','https://www.elle.com/es/rss/'], 'musica': ['https://www.los40.com/rss/los40.xml','https://www.rockaxis.com/rss'], 'ciencia': ['https://www.muyinteresante.es/rss','https://www.nationalgeographic.com/es/rss'] };
-var categoriasOrden = ['destacados','tecnologia','deportes','mascotas','terror','cine','cocina','games','viajes','moda','musica','ciencia'];
-var cargado = {}, datosGuardados = {}, visiblesPorTab = {}, cargandoMas = {};
-
-function cargarFeed(url, porFeed) {
+/* CARGAR FEED */
+function cargarFeed(url) {
   return fetch(workerProxyUrl + '/?url=' + encodeURIComponent(url))
-    .then(function(r) { return r.json(); })
-    .then(function(d) { if (d.status !== 'ok') return []; return d.items.slice(0, porFeed).map(function(it) { it.sourceName = getSourceName(it.link); it.sourceLogo = getSourceLogo(it.link); return it; }); })
-    .catch(function() { return []; });
+    .then(r => r.json())
+    .then(d => d.status === 'ok' ? d.items : []);
 }
 
-/* SKELETON */
-function renderSkeletons(cantidad) {
-  var html = '';
-  for (var i = 0; i < cantidad; i++) {
-    html += '<div class="skeleton-card"><div class="skeleton-image"></div><div class="skeleton-content"><div class="skeleton-title"></div><div class="skeleton-text"></div><div class="skeleton-text"></div><div class="skeleton-text"></div></div></div>';
-  }
-  return html;
-}
-
-/* DESTACADOS - CARGA PROGRESIVA */
-/* 🔥 CARGA DESTACADOS - PROGRESIVA REAL */
+/* DESTACADOS - SIMPLE */
 async function cargarDestacados() {
   var panel = document.getElementById('panel-destacados');
+  panel.innerHTML = '<div class="loading-section">Cargando...</div>';
   
-  /* 🔥 1. Mostrar cache INMEDIATO si existe (sin esperar) */
-  var cacheLocal = localStorage.getItem('destacadosCache');
-  var cacheTime = localStorage.getItem('destacadosCacheTime');
-  if (cacheLocal && cacheTime && (Date.now() - parseInt(cacheTime) < 7200000)) {
-    var datosCache = JSON.parse(cacheLocal);
-    panel.innerHTML = renderDestacadosGrid(datosCache);
-    document.getElementById('cargarMasContainer').style.display = 'none';
-    /* Actualizar en segundo plano */
-    cargarDestacadosSegundoPlano();
-    return;
-  }
-  
-  /* 🔥 2. Skeleton inicial */
-  panel.innerHTML = '<div class="news-grid destacados-grid">' + renderSkeletons(8) + '</div>';
-  
-  /* 🔥 3. Cargar fuentes UNA POR UNA y mostrar progresivamente */
   var todas = [];
   var cats = Object.keys(feedsConfig);
   
+  /* Cargar todas las categorías */
   for (var i = 0; i < cats.length; i++) {
-    var cat = cats[i];
-    var urls = feedsConfig[cat];
-    
-    /* Cargar cada fuente individualmente */
-    for (var j = 0; j < urls.length; j++) {
-      try {
-        var data = await cargarFeed(urls[j], 1);
-        todas = todas.concat(data);
-        
-        /* 🔥 Mostrar CADA VEZ que llega una fuente (progresivo real) */
-        if (todas.length >= 3) {
-          todas.sort(function() { return Math.random() - 0.5; });
-          var parcial = todas.slice(0, Math.min(15, todas.length));
-          panel.innerHTML = renderDestacadosGrid(parcial);
-        }
-      } catch(e) {
-        console.log('Error cargando ' + urls[j]);
-      }
-    }
+    var items = await cargarFeed(feedsConfig[cats[i]][0]);
+    todas = todas.concat(items.slice(0, 2));
   }
   
-  /* 🔥 4. Resultado final */
-  todas.sort(function() { return Math.random() - 0.5; });
-  todas = todas.slice(0, 15);
-  
-  /* Guardar cache */
-  localStorage.setItem('destacadosCache', JSON.stringify(todas));
-  localStorage.setItem('destacadosCacheTime', Date.now());
-  
-  panel.innerHTML = renderDestacadosGrid(todas);
+  todas.sort(() => Math.random() - 0.5);
+  panel.innerHTML = renderGrid(todas.slice(0, 12), 'destacados');
   document.getElementById('cargarMasContainer').style.display = 'none';
 }
 
-/* 🔥 Actualizar cache en segundo plano */
-function cargarDestacadosSegundoPlano() {
-  setTimeout(function() {
-    var todas = [];
-    var cats = Object.keys(feedsConfig);
-    var promesas = [];
-    
-    for (var i = 0; i < cats.length; i++) {
-      var urls = feedsConfig[cats[i]];
-      for (var j = 0; j < urls.length; j++) {
-        promesas.push(cargarFeed(urls[j], 1));
-      }
-    }
-    
-    Promise.all(promesas).then(function(resultados) {
-      for (var k = 0; k < resultados.length; k++) {
-        todas = todas.concat(resultados[k]);
-      }
-      todas.sort(function() { return Math.random() - 0.5; });
-      todas = todas.slice(0, 15);
-      localStorage.setItem('destacadosCache', JSON.stringify(todas));
-      localStorage.setItem('destacadosCacheTime', Date.now());
-    });
-  }, 100);
+/* CATEGORÍA */
+async function cargarCategoria(cat) {
+  var panel = document.getElementById('panel-' + cat);
+  panel.innerHTML = '<div class="loading-section">Cargando...</div>';
+  
+  var items = await cargarFeed(feedsConfig[cat][0]);
+  panel.innerHTML = renderGrid(items.slice(0, 10), cat);
+  document.getElementById('cargarMasContainer').style.display = 'none';
 }
 
-/* CATEGORÍAS RSS */
-async function renderNewsGrid(items, mostrar, catId) {
-  var conImg = items.filter(function(it) { return extractImage(it); });
-  if (conImg.length === 0) conImg = items;
-  var html = '<div class="news-grid">';
-  for (var i = 0; i < Math.min(mostrar, conImg.length); i++) {
-    var it = conImg[i], img = extractImage(it), imgSrc = img ? img : '', hasImg = img ? 'true' : 'false';
-    var esFav = noticiaEsFavorita(it.link);
+/* RENDER GRID */
+function renderGrid(items, cat) {
+  if (!items || items.length === 0) return '<div class="empty-favorites">Sin noticias</div>';
+  
+  var html = '<div class="news-grid' + (cat === 'destacados' ? ' destacados-grid' : '') + '">';
+  
+  for (var i = 0; i < items.length; i++) {
+    var it = items[i];
+    var img = it.thumbnail || '';
     var afi = buscarAfiliado(it.title);
-    var afiBtn = afi ? '<button class="affiliate-btn" onclick="abrirOfertaModal(\'' + afi + '\')"><i class="fas fa-tag"></i> Oferta</button>' : '';
-    var showTr = shouldShowTranslateBtn(it.title, it.description);
-    var trBtn = showTr ? '<button class="translate-btn" onclick="(function(b){var c=b.closest(\'.news-card\');if(c)traducirTexto(c,b);})(this)"><i class="fas fa-globe"></i></button>' : '';
-    var catNom = catId.charAt(0).toUpperCase() + catId.slice(1);
-    var catIcon = getIconoCategoria(catNom);
-    html += '<article class="news-card cat-' + catId + '" data-url="' + it.link + '" data-title="' + it.title.replace(/"/g, '"') + '" data-img="' + imgSrc + '" data-source="' + (it.sourceName || '') + '" data-logo="' + (it.sourceLogo || '') + '" data-date="' + (it.pubDate || '') + '" data-desc="' + stripHtml(it.description || '').replace(/"/g, '"') + '">';
-    html += '<div class="news-image-wrapper" data-has-image="' + hasImg + '">';
-    if (img) { html += '<img class="news-image" src="' + imgSrc + '" loading="lazy" onerror="this.style.display=\'none\';this.parentNode.setAttribute(\'data-has-image\',\'false\');">'; }
-    html += '<div class="card-actions"><button class="favorite-btn' + (esFav ? ' active' : '') + '" onclick="toggleFavConCategoria(this)"><i class="' + (esFav ? 'fas' : 'far') + ' fa-heart"></i></button><button class="share-btn" onclick="shareIt(\'' + it.link.replace(/'/g, "\\'") + '\',\'' + it.title.replace(/'/g, "\\'") + '\',this)"><i class="fas fa-share-alt"></i></button>' + trBtn + '</div></div>';
-    html += '<div class="news-content"><a class="news-title" href="' + it.link + '" target="_blank">' + it.title + '</a>';
-    html += '<p class="news-excerpt">' + truncateText(stripHtml(it.description), 300) + '</p>';
-    html += '<div class="news-meta"><div class="source-info"><span class="categoria-badge"><i class="' + catIcon + '"></i> ' + catNom + '</span>' + (it.sourceLogo ? '<img class="source-favicon" src="' + it.sourceLogo + '">' : '') + '<span>' + timeAgo(it.pubDate) + ' - ' + it.sourceName + '</span></div><div style="display:flex;gap:6px;align-items:center;">' + afiBtn + '<a href="' + it.link + '" target="_blank" class="read-more-btn"><i class="fas fa-arrow-right"></i> Seguir leyendo</a></div></div></div></article>';
+    var afiBtn = afi ? '<button class="affiliate-btn" onclick="abrirOferta(\'' + afi + '\')">🏷️ Oferta</button>' : '';
+    var esFav = favoritos.some(f => f.url === it.link);
+    var podium = (cat === 'destacados' && i === 0) ? ' podium-first' : '';
+    
+    html += '<div class="news-card' + podium + '">';
+    html += '<div class="news-image-wrapper">';
+    if (img) html += '<img class="news-image" src="' + img + '" loading="lazy">';
+    html += '<div class="card-actions">';
+    html += '<button class="favorite-btn' + (esFav ? ' active' : '') + '" onclick="toggleFav(this,\'' + it.link.replace(/'/g, "\\'") + '\',\'' + it.title.replace(/'/g, "\\'") + '\')"><i class="' + (esFav ? 'fas' : 'far') + ' fa-heart"></i></button>';
+    html += '</div></div>';
+    html += '<div class="news-content">';
+    html += '<a class="news-title" href="' + it.link + '" target="_blank">' + it.title + '</a>';
+    html += '<p class="news-excerpt">' + (it.description || '').substring(0, 150) + '...</p>';
+    html += '<div class="news-meta">';
+    html += '<span class="categoria-badge">' + cat + '</span>';
+    html += '<span>' + it.source + '</span>';
+    html += '</div>';
+    html += '<div style="margin-top:10px;display:flex;gap:5px;flex-wrap:wrap;">' + afiBtn + '<a href="' + it.link + '" target="_blank" class="read-more-btn">Leer más</a></div>';
+    html += '</div></div>';
   }
+  
   html += '</div>';
   return html;
 }
 
-async function cargarTab(id, forzar) {
-  var panel = document.getElementById('panel-' + id);
-  if (!panel) return;
-  if (id === 'favoritos') { showFavs(); return; }
-  if (id === 'destacados') { await cargarDestacados(); return; }
-  
-  panel.innerHTML = '<div class="news-grid">' + renderSkeletons(8) + '</div>';
-  
-  var cache = getRssCache(id);
-  if (cache && !forzar) {
-    datosGuardados[id] = cache; cargado[id] = true;
-    visiblesPorTab[id] = Math.min(ITEMS_INICIALES, cache.length);
-    var html = await renderNewsGrid(cache, visiblesPorTab[id], id);
-    panel.innerHTML = html;
-    actualizarFeedEnSegundoPlano(id);
-    actualizarBotonCargarMas(id);
-    return;
+/* FAVORITOS */
+function toggleFav(btn, url, title) {
+  var idx = favoritos.findIndex(f => f.url === url);
+  if (idx === -1) {
+    favoritos.push({ url: url, title: title });
+    btn.classList.add('active');
+    btn.querySelector('i').className = 'fas fa-heart';
+    showToast('Guardado en favoritos');
+  } else {
+    favoritos.splice(idx, 1);
+    btn.classList.remove('active');
+    btn.querySelector('i').className = 'far fa-heart';
+    showToast('Eliminado de favoritos');
   }
-  
-  var urls = feedsConfig[id];
-  if (!urls) return;
-  var porFeed = Math.floor(MAX_ITEMS / urls.length);
-  var promesas = urls.map(function(url) { return cargarFeed(url, porFeed); });
-  Promise.all(promesas).then(function(res) {
-    var todos = [];
-    for (var i = 0; i < res.length; i++) { todos = todos.concat(res[i]); }
-    todos.sort(function(a, b) { return new Date(b.pubDate) - new Date(a.pubDate); });
-    datosGuardados[id] = todos; cargado[id] = true;
-    visiblesPorTab[id] = Math.min(ITEMS_INICIALES, todos.length);
-    setRssCache(id, todos);
-    renderNewsGrid(todos, visiblesPorTab[id], id).then(function(html) { panel.innerHTML = html; actualizarBotonCargarMas(id); });
-    cargandoMas[id] = false;
-  });
+  localStorage.setItem('favoritos', JSON.stringify(favoritos));
+  actualizarContadorFavoritos();
 }
 
-function actualizarFeedEnSegundoPlano(cat) {
-  setTimeout(function() {
-    var urls = feedsConfig[cat]; if (!urls) return;
-    var porFeed = Math.floor(MAX_ITEMS / urls.length);
-    var promesas = urls.map(function(url) { return cargarFeed(url, porFeed); });
-    Promise.all(promesas).then(function(res) {
-      var todos = [];
-      for (var i = 0; i < res.length; i++) { todos = todos.concat(res[i]); }
-      todos.sort(function(a, b) { return new Date(b.pubDate) - new Date(a.pubDate); });
-      setRssCache(cat, todos); datosGuardados[cat] = todos; cargado[cat] = true;
-      var panel = document.getElementById('panel-' + cat);
-      if (panel && panel.classList.contains('active')) {
-        visiblesPorTab[cat] = Math.min(ITEMS_INICIALES, todos.length);
-        renderNewsGrid(todos, visiblesPorTab[cat], cat).then(function(html) { panel.innerHTML = html; actualizarBotonCargarMas(cat); });
-      }
-    });
-  }, 100);
+function mostrarFavoritos() {
+  var panel = document.getElementById('panel-destacados');
+  if (favoritos.length === 0) {
+    panel.innerHTML = '<div class="empty-favorites"><h3>Vacío</h3><p>Guarda noticias con el corazón</p></div>';
+  } else {
+    panel.innerHTML = renderGrid(favoritos, 'favoritos');
+  }
+  setActiveTab('destacados');
+}
+
+function toggleFavConCategoria(btn, url, title) {
+  toggleFav(btn, url, title);
+}
+
+/* MODAL FAVORITOS */
+function abrirModalCategoria(url, title) {
+  noticiaPendiente = { url: url, title: title };
+  document.getElementById('categoriaModal').classList.add('active');
+}
+
+function cerrarModalCategoria() {
+  document.getElementById('categoriaModal').classList.remove('active');
+  noticiaPendiente = null;
+}
+
+function guardarFavorito() {
+  if (noticiaPendiente) {
+    toggleFavConCategoria(null, noticiaPendiente.url, noticiaPendiente.title);
+  }
+  cerrarModalCategoria();
+}
+
+/* OFERTAS */
+function abrirOferta(key) {
+  var af = afiliados[key];
+  if (!af) return;
+  document.getElementById('ofertaImg').src = af.foto;
+  document.getElementById('ofertaTitle').textContent = af.titulo;
+  document.getElementById('ofertaDesc').textContent = af.descripcion;
+  document.getElementById('ofertaLink').href = af.enlace;
+  document.getElementById('ofertaModal').classList.add('active');
+}
+
+function cerrarOfertaModal() {
+  document.getElementById('ofertaModal').classList.remove('active');
+}
+
+/* TABS */
+function cambiarTab(cat) {
+  document.querySelectorAll('.tab-btn-wrap').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel-wrap').forEach(p => p.classList.remove('active'));
+  
+  event.target.classList.add('active');
+  document.getElementById('panel-' + cat).classList.add('active');
+  
+  if (cat === 'destacados') cargarDestacados();
+  else cargarCategoria(cat);
+}
+
+function setActiveTab(cat) {
+  document.querySelectorAll('.tab-btn-wrap').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel-wrap').forEach(p => p.classList.remove('active'));
+  document.querySelector('[onclick*="' + cat + '"]').classList.add('active');
+  document.getElementById('panel-' + cat).classList.add('active');
 }
 
 function cargarMas() {
-  var panel = document.querySelector('.tab-panel-wrap.active'); if (!panel) return;
-  var id = panel.id.replace('panel-', '');
-  if (id === 'favoritos' || id === 'destacados') return;
-  if (cargandoMas[id]) return;
-  if (visiblesPorTab[id] >= datosGuardados[id].length) return;
-  cargandoMas[id] = true;
-  visiblesPorTab[id] = (visiblesPorTab[id] || ITEMS_INICIALES) + ITEMS_INICIALES;
-  renderNewsGrid(datosGuardados[id], visiblesPorTab[id], id).then(function(html) { panel.innerHTML = html; });
-  cargandoMas[id] = false;
+  showToast('Más noticias próximamente');
 }
 
-function cambiarTab(id) {
-  window.scrollTo(0, 0);
-  document.documentElement.scrollTop = 0;
-  document.body.scrollTop = 0;
-  var evt = window.event;
-  document.querySelectorAll('.tab-btn-wrap').forEach(function(b) { b.classList.remove('active'); });
-  document.querySelectorAll('.tab-panel-wrap').forEach(function(p) { p.classList.remove('active'); });
-  if (evt && evt.currentTarget) evt.currentTarget.classList.add('active');
-  document.getElementById('panel-' + id).classList.add('active');
-  document.getElementById('cargarMasContainer').style.display = 'none';
-  cargarTab(id);
+function irAlHome() {
+  window.location.href = window.location.origin + window.location.pathname;
 }
 
-function actualizarBotonCargarMas(id) {
-  var c = document.getElementById('cargarMasContainer');
-  var b = document.getElementById('cargarMasBtn');
-  if (!c || !b) return;
-  if (id === 'favoritos' || id === 'destacados') { c.style.display = 'none'; return; }
-  if (visiblesPorTab[id] >= datosGuardados[id].length) { c.style.display = 'none'; }
-  else { c.style.display = 'block'; b.disabled = false; b.innerHTML = '<i class="fas fa-plus-circle"></i> Cargar más noticias'; }
+function showToast(msg) {
+  var t = document.createElement('div');
+  t.className = 'toast';
+  t.textContent = msg;
+  document.getElementById('toastContainer').appendChild(t);
+  setTimeout(() => t.remove(), 3000);
 }
 
-function cargarMasManual() {
-  var panel = document.querySelector('.tab-panel-wrap.active'); if (!panel) return;
-  var id = panel.id.replace('panel-', '');
-  if (id === 'favoritos' || id === 'destacados') return;
-  if (cargandoMas[id]) return;
-  if (visiblesPorTab[id] >= datosGuardados[id].length) return;
-  var btn = document.getElementById('cargarMasBtn');
-  if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Cargando...'; }
-  cargandoMas[id] = true;
-  visiblesPorTab[id] = (visiblesPorTab[id] || ITEMS_INICIALES) + ITEMS_INICIALES;
-  renderNewsGrid(datosGuardados[id], visiblesPorTab[id], id).then(function(html) { panel.innerHTML = html; cargandoMas[id] = false; actualizarBotonCargarMas(id); });
-}
-
-function shareIt(url, title, btn) {
-  if (navigator.share) { navigator.share({ title: title, url: url }); return; }
-  var menu = document.createElement('div');
-  menu.style.cssText = 'position:absolute;top:100%;right:0;background:#1a1a1a;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,0.5);padding:8px;z-index:10000;';
-  menu.innerHTML = '<a href="https://wa.me/?text=' + encodeURIComponent(title + ' ' + url) + '" target="_blank" style="display:block;padding:10px;color:#25d366;text-decoration:none;">WhatsApp</a>';
-  btn.parentNode.appendChild(menu);
-  setTimeout(function() { menu.remove(); }, 3000);
-}
-
-function abrirFormularioWeb() { document.getElementById('submitWebModal').classList.add('active'); }
-function cerrarFormularioWeb() { document.getElementById('submitWebModal').classList.remove('active'); }
-function enviarFormularioWeb() {
-  var name = document.getElementById('webName').value.trim(), url = document.getElementById('webUrl').value.trim(), cat = document.getElementById('webCategory').value, email = document.getElementById('webEmail').value.trim();
-  if (!name || !url || !cat || !email) { showToast('Completa los campos'); return; }
-  var msg = 'Nueva Web\n' + name + '\n' + url + '\n' + cat + '\n' + email;
-  window.open('https://wa.me/34677163664?text=' + encodeURIComponent(msg), '_blank');
-  cerrarFormularioWeb(); showToast('Enviado');
-  document.getElementById('webName').value = ''; document.getElementById('webUrl').value = ''; document.getElementById('webCategory').value = ''; document.getElementById('webEmail').value = '';
-}
-
-/* INICIALIZACIÓN */
-(function() {
-  loadRssCacheFromStorage();
-  var cat = 'destacados';
-  var btn = document.querySelector('.tab-btn-wrap[onclick*="' + cat + '"]');
-  var panel = document.getElementById('panel-' + cat);
-  if (btn && panel) { btn.classList.add('active'); panel.classList.add('active'); cargarTab(cat); actualizarContadorFavoritos(); }
-  setTimeout(function() { cargarTab('tecnologia', false); }, 300);
-})();
-
-/* SWIPE */
-(function() {
-  var w = document.getElementById('news-widget'); if (!w) return;
-  var sX = 0, sY = 0, eX = 0, eY = 0;
-  w.addEventListener('touchstart', function(e) { sX = e.changedTouches[0].screenX; sY = e.changedTouches[0].screenY; }, { passive: true });
-  w.addEventListener('touchend', function(e) { eX = e.changedTouches[0].screenX; eY = e.changedTouches[0].screenY; var dX = eX - sX, dY = eY - sY; if (Math.abs(dY) > 30) return; if (Math.abs(dX) < 50) return; var tab = document.querySelector('.tab-btn-wrap.active'); if (!tab) return; var on = tab.getAttribute('onclick'); if (!on) return; var m = on.match(/cambiarTab\('([^']+)'\)/); if (!m) return; var cur = m[1]; var idx = categoriasOrden.indexOf(cur); var ni = dX > 0 ? idx - 1 : idx + 1; if (ni < 0) ni = categoriasOrden.length - 1; if (ni >= categoriasOrden.length) ni = 0; var nc = categoriasOrden[ni]; var btns = document.querySelectorAll('.tab-btn-wrap'); for (var i = 0; i < btns.length; i++) { var o = btns[i].getAttribute('onclick'); if (o && o.indexOf(nc) !== -1) { btns[i].click(); setTimeout(function() { btns[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }); }, 100); break; } } }, { passive: true });
-})();
-
-/* SCROLL INFINITO */
-(function() {
-  var sc = false; var isMob = window.innerWidth <= 600; var d = isMob ? 350 : 200;
-  window.addEventListener('scroll', function() {
-    if (sc) return; sc = true;
-    setTimeout(function() {
-      var p = document.querySelector('.tab-panel-wrap.active');
-      if (!p || p.id === 'panel-favoritos' || p.id === 'panel-destacados') { sc = false; return; }
-      var id = p.id.replace('panel-', ''), st = window.pageYOffset || document.documentElement.scrollTop, sh = document.documentElement.scrollHeight, ch = window.innerHeight;
-      if (st + ch >= sh - 100) { cargarMas(); }
-      sc = false;
-    }, d);
-  }, { passive: true });
-})();
+/* INICIO */
+cargarDestacados();
+actualizarContadorFavoritos();
 </script>
 
 </body>
