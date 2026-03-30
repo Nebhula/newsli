@@ -305,8 +305,36 @@ var categoriasPorDefecto = ["Tecnología", "Deportes", "Mascotas", "Terror", "Ci
 var MAX_ITEMS = 18;
 var ITEMS_INICIALES = 16;
 
-/* 🔥 SOLO 5 CATEGORÍAS PRINCIPALES PARA DESTACADOS (menos peticiones) */
-var destacadosCategorias = ['tecnologia', 'games', 'deportes', 'cine', 'mascotas'];
+/* 🔥 TODAS LAS CATEGORÍAS DISPONIBLES */
+var todasCategorias = ['tecnologia', 'deportes', 'mascotas', 'terror', 'cine', 'cocina', 'games', 'viajes', 'moda', 'musica', 'ciencia'];
+
+/* 🔥 ROTACIÓN AUTOMÁTICA - 3 CATEGORÍAS POR DÍA */
+function obtenerCategoriasRotativas() {
+  var hoy = new Date().toDateString(); /* Ej: "Mon Jan 15 2024" */
+  var cacheKey = 'destacadosCategorias_' + hoy;
+  var categoriasGuardadas = localStorage.getItem(cacheKey);
+  
+  if (categoriasGuardadas) {
+    return JSON.parse(categoriasGuardadas);
+  }
+  
+  /* Nuevo día = nuevas categorías */
+  var indiceDia = new Date().getDate() % 4; /* 4 grupos de 3 categorías */
+  
+  var grupos = [
+    ['tecnologia', 'games', 'deportes'],      /* Grupo 1 */
+    ['cine', 'mascotas', 'terror'],           /* Grupo 2 */
+    ['viajes', 'moda', 'ciencia'],            /* Grupo 3 */
+    ['tecnologia', 'cine', 'viajes']          /* Grupo 4 (mix) */
+  ];
+  
+  var seleccionadas = grupos[indiceDia];
+  localStorage.setItem(cacheKey, JSON.stringify(seleccionadas));
+  
+  return seleccionadas;
+}
+
+var destacadosCategorias = obtenerCategoriasRotativas();
 
 var lastScrollY = window.scrollY;
 var navBar = document.getElementById('bottomNavBar');
@@ -573,7 +601,7 @@ function cargarFeed(url, porFeed) {
     .catch(function() { return []; });
 }
 
-/* 🔥 DESTACADOS RÁPIDOS - SOLO 5 CATEGORÍAS + 1 NOTICIA POR FUENTE */
+/* 🔥 DESTACADOS ROTATIVOS - 3 CATEGORÍAS POR DÍA */
 async function cargarDestacados() {
   var panel = document.getElementById('panel-destacados');
   
@@ -584,7 +612,6 @@ async function cargarDestacados() {
     var datosCache = JSON.parse(cacheLocal);
     panel.innerHTML = renderDestacadosGrid(datosCache);
     document.getElementById('cargarMasContainer').style.display = 'none';
-    /* Actualizar en segundo plano */
     cargarDestacadosSegundoPlano();
     return;
   }
@@ -592,22 +619,22 @@ async function cargarDestacados() {
   /* 2. Skeleton mientras carga */
   panel.innerHTML = '<div class="news-grid destacados-grid">' + renderSkeletons(8) + '</div>';
   
-  /* 3. Cargar SOLO 5 categorías principales + 1 noticia por fuente */
+  /* 3. Cargar SOLO 3 categorías rotativas + 1 noticia por fuente */
   var todas = [];
+  var cats = destacadosCategorias; /* 🔥 Las 3 del día */
   
-  for (var i = 0; i < destacadosCategorias.length; i++) {
-    var cat = destacadosCategorias[i];
+  for (var i = 0; i < cats.length; i++) {
+    var cat = cats[i];
     var urls = feedsConfig[cat];
-    var porFeed = 1; /* 🔥 SOLO 1 por fuente (antes 2) */
+    var porFeed = 1;
     var promesas = urls.map(function(url) { return cargarFeed(url, porFeed); });
     var resultados = await Promise.all(promesas);
     for (var j = 0; j < resultados.length; j++) { todas = todas.concat(resultados[j]); }
   }
   
   todas.sort(function() { return Math.random() - 0.5; });
-  todas = todas.slice(0, 15); /* 🔥 Máximo 15 noticias */
+  todas = todas.slice(0, 12);
   
-  /* 4. Guardar cache (4 horas) */
   localStorage.setItem('destacadosCache', JSON.stringify(todas));
   localStorage.setItem('destacadosCacheTime', Date.now());
   
@@ -617,18 +644,18 @@ async function cargarDestacados() {
   return html;
 }
 
-/* 🔥 ACTUALIZAR CACHE EN SEGUNDO PLANO */
 function cargarDestacadosSegundoPlano() {
   setTimeout(function() {
     var todas = [];
-    for (var i = 0; i < destacadosCategorias.length; i++) {
-      var cat = destacadosCategorias[i];
+    var cats = destacadosCategorias;
+    for (var i = 0; i < cats.length; i++) {
+      var cat = cats[i];
       var urls = feedsConfig[cat];
       for (var j = 0; j < urls.length; j++) {
         cargarFeed(urls[j], 1).then(function(items) {
           todas = todas.concat(items);
-          if (todas.length >= 15) {
-            todas = todas.slice(0, 15);
+          if (todas.length >= 12) {
+            todas = todas.slice(0, 12);
             localStorage.setItem('destacadosCache', JSON.stringify(todas));
             localStorage.setItem('destacadosCacheTime', Date.now());
           }
@@ -638,7 +665,6 @@ function cargarDestacadosSegundoPlano() {
   }, 100);
 }
 
-/* 🔥 SKELETON LOADING */
 function renderSkeletons(cantidad) {
   var html = '';
   for (var i = 0; i < cantidad; i++) {
