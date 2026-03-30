@@ -482,13 +482,16 @@ function cargarFeed(url, porFeed) {
 async function cargarDestacados() {
   var panel = document.getElementById('panel-destacados');
   
+  // 🔥 OCULTAR BOTÓN DE CARGAR MÁS EN DESTACADOS
+  var cargarMasContainer = document.getElementById('cargarMasContainer');
+  if (cargarMasContainer) cargarMasContainer.style.display = 'none';
+  
   /* 1. CACHE INMEDIATO (24 HORAS) - CARGA INSTANTÁNEA */
   var cacheLocal = localStorage.getItem('destacadosCache');
   var cacheTime = localStorage.getItem('destacadosCacheTime');
   if (cacheLocal && cacheTime && (Date.now() - parseInt(cacheTime) < 86400000)) {
     var datosCache = JSON.parse(cacheLocal);
     panel.innerHTML = renderDestacadosGrid(datosCache);
-    document.getElementById('cargarMasContainer').style.display = 'none';
     /* Actualizar en segundo plano sin bloquear */
     actualizarDestacadosEnSegundoPlano();
     return;
@@ -533,7 +536,6 @@ async function cargarDestacados() {
   
   var html = renderDestacadosGrid(todas);
   panel.innerHTML = html;
-  document.getElementById('cargarMasContainer').style.display = 'none';
 }
 
 /* Actualizar destacados en segundo plano sin bloquear UI */
@@ -724,7 +726,15 @@ function cambiarTab(id) {
   document.querySelectorAll('.tab-panel-wrap').forEach(function(p) { p.classList.remove('active'); });
   if (evt && evt.currentTarget) evt.currentTarget.classList.add('active');
   document.getElementById('panel-' + id).classList.add('active');
-  document.getElementById('cargarMasContainer').style.display = 'none';
+  
+  // 🔥 OCULTAR BOTÓN DE CARGAR MÁS EN DESTACADOS Y FAVORITOS
+  var cargarMasContainer = document.getElementById('cargarMasContainer');
+  if (id === 'destacados' || id === 'favoritos') {
+    if (cargarMasContainer) cargarMasContainer.style.display = 'none';
+  } else {
+    if (cargarMasContainer) cargarMasContainer.style.display = 'block';
+  }
+  
   cargarTab(id);
 }
 
