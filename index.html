@@ -113,7 +113,6 @@
   .nav-btn i { font-size: 24px !important; }
   .fav-counter { position: absolute !important; top: -5px !important; right: -5px !important; background: #e91e63 !important; color: #fff !important; font-size: 9px !important; padding: 2px 5px !important; border-radius: 50% !important; min-width: 16px !important; text-align: center !important; }
   
-  /* MODALES FULL SCREEN */
   .categoria-modal, .affiliate-modal, .oferta-modal, .submit-web-modal { position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important; background: rgba(0,0,0,0.98) !important; display: none !important; justify-content: center !important; align-items: center !important; z-index: 999997 !important; }
   .categoria-modal.active, .affiliate-modal.active, .oferta-modal.active, .submit-web-modal.active { display: flex !important; }
   
@@ -465,7 +464,7 @@ async function traducirTexto(card, btn) {
 
 var rssCache = {}, rssCacheTime = {};
 function getRssCache(cat) { var now = Date.now(); if (rssCache[cat] && rssCacheTime[cat] && (now - rssCacheTime[cat] < RSS_CACHE_DURATION)) return rssCache[cat]; try { var s = localStorage.getItem('rssCache_' + cat); if (s) { var p = JSON.parse(s); if (Date.now() - p.time < RSS_CACHE_DURATION) { rssCache[cat] = p.data; rssCacheTime[cat] = p.time; return p.data; } } } catch (e) {} return null; }
-function setRssCache(cat, data) { rssCache[cat] = data; rssCacheTime[cat] = Date.now(); try { localStorage.setItem('rssCache_' + cat, JSON.stringify({  data, time: Date.now() })); } catch (e) {} }
+function setRssCache(cat, data) { rssCache[cat] = data; rssCacheTime[cat] = Date.now(); try { localStorage.setItem('rssCache_' + cat, JSON.stringify({ data: data, time: Date.now() })); } catch (e) {} }
 function loadRssCacheFromStorage() { try { for (var i = 0; i < localStorage.length; i++) { var k = localStorage.key(i); if (k && k.indexOf('rssCache_') === 0) { var s = localStorage.getItem(k); if (s) { var p = JSON.parse(s); if (Date.now() - p.time < RSS_CACHE_DURATION) { var c = k.replace('rssCache_', ''); rssCache[c] = p.data; rssCacheTime[c] = p.time; } } } } } catch (e) {} }
 
 var feedsConfig = { 'tecnologia': ['https://www.xataka.com/feedburner.xml','https://www.genbeta.com/feedburner.xml','https://www.adslzone.net/feed/'], 'deportes': ['http://feeds.bbci.co.uk/sport/rss.xml','https://www.espn.com/espn/rss/news','https://feeds.abcnews.com/abcnews/sportsheadlines'], 'mascotas': ['https://www.socnas.org/feeds/posts/default?alt=rss','https://wamiz.es/rss/articles','https://www.veggieanimals.com/es/blog/rss/ultimas-entradas'], 'terror': ['https://www.bloody-disgusting.com/feed/','https://www.dreadcentral.com/feed/','https://www.ihorror.com/feed/','https://www.abandomoviez.net/rss.php'], 'cine': ['https://variety.com/feed/','https://www.hollywoodreporter.com/feed/','https://www.indiewire.com/feed/'], 'cocina': ['https://www.directoalpaladar.com/feedburner.xml','https://www.recetasnestle.es/rss'], 'games': ['https://www.vandal.net/rss','https://www.malavida.com/es/rss','https://www.gamespot.com/feeds/news/'], 'viajes': ['https://www.traveler.es/feed','https://www.elviajeperfecto.es/feed','https://www.abc.es/viajar/rss/','https://www.elpais.com/rss/tema/viajes.xml'], 'moda': ['https://www.vogue.es/feed','https://www.elle.com/es/rss/'], 'musica': ['https://www.los40.com/rss/los40.xml','https://www.rockaxis.com/rss'], 'ciencia': ['https://www.muyinteresante.es/rss','https://www.nationalgeographic.com/es/rss'] };
@@ -479,60 +478,105 @@ function cargarFeed(url, porFeed) {
     .catch(function() { return []; });
 }
 
-/* 🔥 DESTACADOS - CARGA RÁPIDA EN PARALELO - 15 NOTICIAS - SIN BOTÓN */
+/* 🔥 DESTACADOS - CARGA INSTANTÁNEA DESDE CACHE */
 async function cargarDestacados() {
   var panel = document.getElementById('panel-destacados');
   
-  /* 🔥 OCULTAR BOTÓN - SIEMPRE, DESDE EL INICIO */
-  document.getElementById('cargarMasContainer').style.display = 'none';
-  
-  /* 1. MOSTRAR CACHE INMEDIATO SI EXISTE (4 horas) */
+  /* 1. CACHE INMEDIATO (24 HORAS) - CARGA INSTANTÁNEA */
   var cacheLocal = localStorage.getItem('destacadosCache');
   var cacheTime = localStorage.getItem('destacadosCacheTime');
-  if (cacheLocal && cacheTime && (Date.now() - parseInt(cacheTime) < 14400000)) {
+  if (cacheLocal && cacheTime && (Date.now() - parseInt(cacheTime) < 86400000)) {
     var datosCache = JSON.parse(cacheLocal);
     panel.innerHTML = renderDestacadosGrid(datosCache);
+    document.getElementById('cargarMasContainer').style.display = 'none';
+    /* Actualizar en segundo plano sin bloquear */
+    actualizarDestacadosEnSegundoPlano();
     return;
   }
   
-  /* 2. Skeleton mientras carga */
-  panel.innerHTML = '<div class="news-grid destacados-grid">' + renderSkeletons(8) + '</div>';
+  /* 2. Si no hay cache, mostrar skeleton y cargar */
+  panel.innerHTML = '<div class="news-grid destacados-grid">' + renderSkeletons(9) + '</div>';
   
-  /* 3. Cargar TODAS las feeds EN PARALELO (no secuencial) */
-  var todasPromesas = [];
+  /* 3. Cargar en paralelo TODAS las categorías con Promise.all */
+  var todas = [];
   var cats = Object.keys(feedsConfig);
+  var promesas = [];
   
   for (var i = 0; i < cats.length; i++) {
     var urls = feedsConfig[cats[i]];
     for (var j = 0; j < urls.length; j++) {
-      todasPromesas.push(cargarFeed(urls[j], 1));
+      promesas.push(cargarFeed(urls[j], 1));
     }
   }
   
-  /* Esperar todas a la vez (PARALELO) */
-  var resultados = await Promise.all(todasPromesas);
+  /* Ejecutar todas las promesas en paralelo */
+  var resultados = await Promise.all(promesas);
   
-  /* Concatenar resultados */
-  var todas = [];
-  for (var k = 0; k < resultados.length; k++) {
-    if (resultados[k] && resultados[k].length > 0) {
-      todas = todas.concat(resultados[k]);
+  for (var i = 0; i < resultados.length; i++) {
+    if (resultados[i] && resultados[i].length > 0) {
+      todas = todas.concat(resultados[i]);
     }
   }
   
-  /* 4. Mezclar y coger 15 */
-  todas.sort(function() { return Math.random() - 0.5; });
+  /* Mezclar y limitar a 15 */
+  for (var i = todas.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = todas[i];
+    todas[i] = todas[j];
+    todas[j] = temp;
+  }
   todas = todas.slice(0, 15);
   
-  /* 5. Guardar cache */
+  /* Guardar cache */
   localStorage.setItem('destacadosCache', JSON.stringify(todas));
   localStorage.setItem('destacadosCacheTime', Date.now());
   
   var html = renderDestacadosGrid(todas);
   panel.innerHTML = html;
-  
-  /* 🔥 OCULTAR BOTÓN - OTRA VEZ POR SEGURIDAD */
   document.getElementById('cargarMasContainer').style.display = 'none';
+}
+
+/* Actualizar destacados en segundo plano sin bloquear UI */
+function actualizarDestacadosEnSegundoPlano() {
+  setTimeout(async function() {
+    var todas = [];
+    var cats = Object.keys(feedsConfig);
+    var promesas = [];
+    
+    for (var i = 0; i < cats.length; i++) {
+      var urls = feedsConfig[cats[i]];
+      for (var j = 0; j < urls.length; j++) {
+        promesas.push(cargarFeed(urls[j], 1));
+      }
+    }
+    
+    var resultados = await Promise.all(promesas);
+    for (var i = 0; i < resultados.length; i++) {
+      if (resultados[i] && resultados[i].length > 0) {
+        todas = todas.concat(resultados[i]);
+      }
+    }
+    
+    for (var i = todas.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var temp = todas[i];
+      todas[i] = todas[j];
+      todas[j] = temp;
+    }
+    todas = todas.slice(0, 15);
+    
+    localStorage.setItem('destacadosCache', JSON.stringify(todas));
+    localStorage.setItem('destacadosCacheTime', Date.now());
+    
+    /* Si el panel sigue activo, actualizar silenciosamente */
+    var panel = document.getElementById('panel-destacados');
+    if (panel && panel.classList.contains('active')) {
+      var nuevaHtml = renderDestacadosGrid(todas);
+      if (nuevaHtml !== panel.innerHTML) {
+        panel.innerHTML = nuevaHtml;
+      }
+    }
+  }, 100);
 }
 
 function renderSkeletons(cantidad) {
