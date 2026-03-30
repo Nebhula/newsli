@@ -121,7 +121,7 @@
   .cargar-mas-btn:disabled { opacity: 0.5 !important; cursor: not-allowed !important; transform: none !important; }
   .cargar-mas-btn i { font-size: 16px !important; }
   
-  /* 🔥 BARRA INFERIOR CON CARRUSEL */
+  /* 🔥 BARRA INFERIOR CON CARRUSEL CENTRADO */
   .bottom-nav-bar { 
     position: fixed !important; 
     bottom: 0 !important; 
@@ -129,9 +129,10 @@
     right: 0 !important; 
     background: #0a0c15 !important; 
     border-top: 1px solid #1e2a3a !important; 
-    display: flex !important; 
-    align-items: center !important; 
-    padding: 10px 5px !important; 
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;  /* 🔥 CENTRA TODO EL GRUPO */
+    padding: 12px 5px !important; 
     z-index: 2000 !important; 
     gap: 0 !important;
   }
@@ -143,7 +144,7 @@
     margin-right: 5px !important;
   }
   .nav-carousel {
-    flex: 1 !important;
+    width: auto !important;  /* 🔥 NO ocupa todo el espacio */
     display: flex !important;
     align-items: center !important;
     gap: 10px !important;
@@ -172,11 +173,11 @@
     min-width: 50px !important;
   }
   .nav-btn:hover { color: #e91e63 !important; }
-  .nav-btn i { font-size: 32px !important; }
-  .nav-btn-center { background: none !important; width: auto !important; height: auto !important; border-radius: 0 !important; color: #8a8f9e !important; display: flex !important; align-items: center !important; justify-content: center !important; font-size: 22px !important; padding: 8px !important; flex-shrink: 0 !important; transition: all 0.2s ease !important; }
+  .nav-btn i { font-size: 28px !important; }  /* 🔥 ICONOS MÁS GRANDES */
+  .nav-btn-center { background: none !important; width: auto !important; height: auto !important; border-radius: 0 !important; color: #8a8f9e !important; display: flex !important; align-items: center !important; justify-content: center !important; font-size: 28px !important; padding: 8px !important; flex-shrink: 0 !important; transition: all 0.2s ease !important; }
   .nav-btn-center:hover { color: #e91e63 !important; transform: scale(1.1) !important; }
   .fav-counter { position: absolute !important; top: -2px !important; right: -8px !important; background: #e91e63 !important; color: #fff !important; font-size: 9px !important; padding: 1px 4px !important; border-radius: 8px !important; min-width: 16px !important; text-align: center !important; }
-  .nav-icon-custom { width: 24px !important; height: 24px !important; object-fit: contain !important; display: inline-block !important; vertical-align: middle !important; }
+  .nav-icon-custom { width: 32px !important; height: 32px !important; object-fit: contain !important; display: inline-block !important; vertical-align: middle !important; }  /* 🔥 ICONOS MÁS GRANDES */
   
   .affiliate-modal { position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important; background: rgba(0,0,0,0.95) !important; display: none !important; justify-content: center !important; align-items: center !important; z-index: 999999 !important; }
   .affiliate-modal.active { display: flex !important; }
@@ -394,6 +395,12 @@ if (!USUARIO_ID) { USUARIO_ID = 'user_' + Math.random().toString(36).substr(2, 1
 
 var categoriasPorDefecto = ["Tecnología", "Deportes", "Mascotas", "Terror", "Cine", "Cocina", "Games", "Viajes", "Moda", "Música", "Ciencia", "General"];
 
+/* ============================================
+   🔥 CONFIGURACIÓN DE CARGA
+   ============================================ */
+var MAX_ITEMS = 18;        // Máximo total por pestaña
+var ITEMS_INICIALES = 16;  // 🔥 Cantidad por carga (inicial + cada click)
+
 function guardarUltimaNoticia() {
   var cards = document.querySelectorAll('.news-card');
   var mejorCard = null;
@@ -511,7 +518,14 @@ function eliminarFavorito(url, categoria) {
   actualizarContadorFavoritos(); showToast('Eliminado de favoritos'); if (document.querySelector('.tab-panel-wrap.active').id === 'panel-favoritos') { showFavs(); }
 }
 function showFavs() {
-  var panel = document.getElementById('panel-favoritos'); var favs = getFavsPorCategoria(); var cats = getCategorias(); var total = contarTotalFavoritos();
+  var panel = document.getElementById('panel-favoritos');
+  var favs = getFavsPorCategoria();
+  var cats = getCategorias();
+  var total = contarTotalFavoritos();
+  
+  /* 🔥 OCULTAR BOTÓN CARGAR MÁS EN FAVORITOS */
+  document.getElementById('cargarMasContainer').style.display = 'none';
+  
   if (total === 0) { panel.innerHTML = '<div class="empty-favorites"><i class="fas fa-heart"></i><h3>Tus favoritos están vacíos</h3><p>Haz clic en el corazón de cualquier noticia para guardarla en la categoría que prefieras.</p></div>'; return; }
   var html = '<div class="favoritos-organizados">';
   for (var i = 0; i < cats.length; i++) { var cat = cats[i]; var noticias = favs[cat] || []; if (noticias.length > 0) { var icono = getIconoCategoria(cat); html += '<div class="categoria-fav-header"><h3><i class="' + icono + '"></i> ' + cat + '</h3><span>' + noticias.length + ' noticia' + (noticias.length !== 1 ? 's' : '') + '</span></div>'; for (var j = 0; j < noticias.length; j++) { var n = noticias[j]; html += '<div class="fav-card"><div class="fav-card-info"><a class="fav-card-title" href="' + n.u + '" target="_blank">' + n.t + '</a><div class="fav-card-meta"><i class="far fa-clock"></i> ' + (n.d ? timeAgo(n.d) : '') + ' · <i class="fas fa-globe"></i> ' + (n.s || 'Fuente') + '</div></div><button class="fav-card-remove" onclick="eliminarFavorito(\'' + n.u.replace(/'/g, "\\'") + '\', \'' + cat.replace(/'/g, "\\'") + '\')"><i class="fas fa-trash-alt"></i></button></div>'; } } }
@@ -570,7 +584,7 @@ function cerrarModal() { document.getElementById('affiliateModal').classList.rem
 document.addEventListener('click',function(e){if(e.target===document.getElementById('affiliateModal'))cerrarModal();});
 var feedsConfig = { 'tecnologia': ['https://www.xataka.com/feedburner.xml','https://www.genbeta.com/feedburner.xml','https://www.adslzone.net/feed/'], 'deportes': ['http://feeds.bbci.co.uk/sport/rss.xml','https://www.espn.com/espn/rss/news','https://feeds.abcnews.com/abcnews/sportsheadlines'], 'mascotas': ['https://www.socnas.org/feeds/posts/default?alt=rss','https://wamiz.es/rss/articles','https://www.veggieanimals.com/es/blog/rss/ultimas-entradas'], 'terror': ['https://www.bloody-disgusting.com/feed/','https://www.dreadcentral.com/feed/','https://www.ihorror.com/feed/','https://www.abandomoviez.net/rss.php'], 'cine': ['https://variety.com/feed/','https://www.hollywoodreporter.com/feed/','https://www.indiewire.com/feed/'], 'cocina': ['https://www.directoalpaladar.com/feedburner.xml','https://www.recetasnestle.es/rss'], 'games': ['https://www.vandal.net/rss','https://www.malavida.com/es/rss','https://www.gamespot.com/feeds/news/'], 'viajes': ['https://www.traveler.es/feed','https://www.elviajeperfecto.es/feed','https://www.abc.es/viajar/rss/','https://www.elpais.com/rss/tema/viajes.xml'], 'moda': ['https://www.vogue.es/feed','https://www.elle.com/es/rss/'], 'musica': ['https://www.los40.com/rss/los40.xml','https://www.rockaxis.com/rss'], 'ciencia': ['https://www.muyinteresante.es/rss','https://www.nationalgeographic.com/es/rss'] };
 var categoriasOrden = ['mas-votadas','tecnologia','deportes','mascotas','terror','cine','cocina','games','viajes','moda','musica','ciencia'];
-var MAX_ITEMS=18, ITEMS_INICIALES=16, cargado={}, datosGuardados={}, visiblesPorTab={}, cargandoMas={};
+var cargado={}, datosGuardados={}, visiblesPorTab={}, cargandoMas={};
 function showToast(m){var t=document.createElement('div');t.className='toast';t.textContent=m;document.getElementById('toastContainer').appendChild(t);setTimeout(function(){t.remove();},3000);}
 function extractImage(it){if(it.thumbnail&&typeof it.thumbnail==='string'){var t=it.thumbnail.trim();if(t&&t.indexOf('http')===0)return t;}return null;}
 function getSourceName(u){try{var a=document.createElement('a');a.href=u;return a.hostname.replace('www.','').split('.')[0];}catch(e){return'';}}
@@ -602,7 +616,8 @@ async function cargarTab(id, forzarActualizacion) {
   if(id === 'favoritos') { showFavs(); return; } 
   if(id === 'mas-votadas') { 
     panel.innerHTML = await cargarMasVotadas(); 
-    actualizarBotonCargarMas(id);
+    /* 🔥 OCULTAR BOTÓN EN MAS VOTADAS */
+    document.getElementById('cargarMasContainer').style.display = 'none';
     return; 
   } 
   var cache = getRssCache(id); 
@@ -659,6 +674,7 @@ function actualizarBotonCargarMas(id) {
   var btn = document.getElementById('cargarMasBtn');
   if(!btnContainer || !btn) return;
   
+  /* 🔥 OCULTAR EN MAS VOTADAS Y FAVORITOS */
   if(id === 'favoritos' || id === 'mas-votadas') {
     btnContainer.style.display = 'none';
     return;
