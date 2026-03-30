@@ -39,15 +39,49 @@
   .tab-panel-wrap { display: none !important; }
   .tab-panel-wrap.active { display: block !important; animation: fadeInWrap 0.3s ease !important; }
   @keyframes fadeInWrap { from { opacity: 0; } to { opacity: 1; } }
-  .news-info-bar { display: flex !important; justify-content: space-between !important; align-items: center !important; margin-bottom: 15px !important; padding: 10px 12px !important; background: #11131f !important; border-radius: 8px !important; font-size: 12px !important; color: #8a8f9e !important; border: 1px solid #1e2a3a !important; }
-  .news-count { font-weight: 600 !important; color: #e91e63 !important; font-size: 12px !important; }
   
-  /* 🔥 GRID NORMAL (Tecnología, Deportes, etc.) */
+  /* 🔥 SKELETON LOADING */
+  .skeleton-card {
+    background: #11131f !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    border: 1px solid #1e2a3a !important;
+    margin-bottom: 15px !important;
+    break-inside: avoid !important;
+  }
+  .skeleton-image {
+    width: 100% !important;
+    height: 169px !important;
+    background: linear-gradient(90deg, #1a1f2e 25%, #2a2f3e 50%, #1a1f2e 75%) !important;
+    background-size: 200% 100% !important;
+    animation: skeleton-loading 1.5s infinite !important;
+  }
+  .skeleton-content { padding: 12px !important; }
+  .skeleton-title {
+    height: 20px !important;
+    background: linear-gradient(90deg, #1a1f2e 25%, #2a2f3e 50%, #1a1f2e 75%) !important;
+    background-size: 200% 100% !important;
+    animation: skeleton-loading 1.5s infinite !important;
+    border-radius: 4px !important;
+    margin-bottom: 10px !important;
+  }
+  .skeleton-text {
+    height: 14px !important;
+    background: linear-gradient(90deg, #1a1f2e 25%, #2a2f3e 50%, #1a1f2e 75%) !important;
+    background-size: 200% 100% !important;
+    animation: skeleton-loading 1.5s infinite !important;
+    border-radius: 4px !important;
+    margin-bottom: 6px !important;
+  }
+  @keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+  
   .news-grid { column-count: 3 !important; column-gap: 15px !important; width: 100% !important; }
   @media (max-width: 900px) { .news-grid { column-count: 2 !important; } }
   @media (max-width: 600px) { .news-grid { column-count: 1 !important; } }
   
-  /* 🔥 GRID DESTACADOS - Orden horizontal */
   .news-grid.destacados-grid { 
     display: grid !important;
     grid-template-columns: repeat(3, 1fr) !important;
@@ -65,7 +99,6 @@
   .news-card:hover { transform: translateY(-4px) !important; box-shadow: 0 12px 28px rgba(0,0,0,0.4), 0 0 0 1px #e91e63 !important; border-color: #e91e63 !important; }
   @media (max-width: 600px) { .news-card { box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important; } .news-card:hover { transform: translateY(-2px) !important; } }
   
-  /* 🔥 PODIO - 1ª NOTICIA EN DESTACADOS */
   .podium-first {
     border: 3px solid #FFD700 !important;
     box-shadow: 0 0 20px rgba(255, 215, 0, 0.4) !important;
@@ -78,10 +111,10 @@
   
   .news-card.highlight-return-card { animation: returnHighlight 0.5s ease-in-out 3 !important; border: 3px solid #e91e63 !important; box-shadow: 0 0 0 4px rgba(233,30,99,0.5), 0 0 20px rgba(233,30,99,0.6) !important; transform: scale(1.02) !important; background: #1a1f2e !important; }
   @keyframes returnHighlight { 0% { border-color: #e91e63; box-shadow: 0 0 0 4px rgba(233,30,99,0.5); } 50% { border-color: #ff4081; box-shadow: 0 0 0 8px rgba(255,64,129,0.3); } 100% { border-color: #e91e63; box-shadow: 0 0 0 4px rgba(233,30,99,0.5); } }
+  
   .news-image-wrapper { width: 100% !important; height: auto !important; min-height: 150px !important; background: linear-gradient(135deg, #1a1f2e 0%, #0f111f 100%) !important; overflow: hidden !important; position: relative !important; }
   .news-image { width: 100% !important; aspect-ratio: 16/9 !important; object-fit: cover !important; display: block !important; background: #1a1f2e !important; }
   
-  /* 🔥 BOTONES DE ACCIÓN (sin votar) */
   .card-actions { position: absolute !important; top: 8px !important; right: 8px !important; display: flex !important; gap: 6px !important; z-index: 10 !important; flex-wrap: wrap !important; justify-content: flex-end !important; }
   .favorite-btn, .share-btn { width: 32px !important; height: 32px !important; border-radius: 50% !important; border: none !important; cursor: pointer !important; display: flex !important; align-items: center !important; justify-content: center !important; font-size: 14px !important; transition: all 0.2s ease !important; box-shadow: 0 2px 4px rgba(0,0,0,0.3) !important; background: rgba(0,0,0,0.7) !important; backdrop-filter: blur(4px) !important; color: #ccc !important; }
   .favorite-btn:hover, .share-btn:hover { transform: scale(1.1) !important; background: rgba(0,0,0,0.9) !important; }
@@ -109,7 +142,6 @@
   .translated-text { background: #11131f !important; padding: 10px 12px !important; border-radius: 8px !important; margin-top: 10px !important; font-size: 12px !important; line-height: 1.5 !important; border-left: 3px solid #1e88e5 !important; animation: fadeIn 0.3s ease !important; color: #8a8f9e !important; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
   
-  /* 🔥 ETIQUETA DE CATEGORÍA EN EL PIE DE CADA FICHA */
   .categoria-badge {
     display: inline-flex !important;
     align-items: center !important;
@@ -141,10 +173,8 @@
   .cargar-mas-btn:disabled { opacity: 0.5 !important; cursor: not-allowed !important; transform: none !important; }
   .cargar-mas-btn i { font-size: 16px !important; }
   
-  /* 🔥 ESPACIO EXTRA SOLO EN DESTACADOS (antes del nav) */
   #panel-destacados { padding-bottom: 40px !important; }
   
-  /* 🔥 BARRA INFERIOR CON ICONOS FONT AWESOME */
   .bottom-nav-bar { 
     position: fixed !important; 
     bottom: 0 !important; 
@@ -191,7 +221,6 @@
     text-align: center !important; 
   }
   
-  /* MODALES */
   .affiliate-modal { position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important; background: rgba(0,0,0,0.95) !important; display: none !important; justify-content: center !important; align-items: center !important; z-index: 999999 !important; }
   .affiliate-modal.active { display: flex !important; }
   .affiliate-modal-content { background: #11131f !important; border-radius: 16px !important; width: 90% !important; max-width: 500px !important; max-height: 90vh !important; overflow-y: auto !important; position: relative !important; margin: 20px !important; border: 1px solid #1e2a3a !important; }
@@ -232,7 +261,6 @@
   .submit-btn { width: 100% !important; padding: 14px !important; background: linear-gradient(135deg, #e91e63 0%, #ff6b9d 100%) !important; color: #fff !important; border: none !important; border-radius: 50px !important; font-weight: 700 !important; cursor: pointer !important; font-size: 15px !important; margin-top: 10px !important; }
   .submit-btn:hover { opacity: 0.9 !important; transform: scale(1.02) !important; }
   
-  /* MODAL CATEGORÍAS */
   .categoria-modal { position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important; background: rgba(0,0,0,0.98) !important; display: none !important; justify-content: center !important; align-items: center !important; z-index: 999997 !important; }
   .categoria-modal.active { display: flex !important; }
   .categoria-modal-content { background: #0a0c15 !important; width: 100% !important; max-width: 100% !important; height: 100% !important; max-height: 100% !important; overflow-y: auto !important; position: relative !important; border-radius: 0 !important; margin: 0 !important; display: flex !important; flex-direction: column !important; }
@@ -269,7 +297,6 @@
   .categoria-modal input[type="radio"] { appearance: radio !important; -webkit-appearance: radio !important; opacity: 1 !important; visibility: visible !important; display: inline-block !important; position: relative !important; }
   @media (max-width: 600px) { .categoria-list { grid-template-columns: 1fr !important; } .categoria-item { padding: 12px !important; } .categoria-modal-footer button { padding: 12px 25px !important; } .nueva-categoria-input { flex-direction: column !important; } .nueva-categoria-input button { justify-content: center !important; } }
   
-  /* FAVORITOS */
   .categoria-fav-header { display: flex !important; justify-content: space-between !important; align-items: center !important; margin-top: 20px !important; margin-bottom: 10px !important; padding-bottom: 5px !important; border-bottom: 2px solid #e91e63 !important; }
   .categoria-fav-header h3 { margin: 0 !important; font-size: 16px !important; color: #e91e63 !important; display: flex !important; align-items: center !important; gap: 8px !important; }
   .categoria-fav-header span { font-size: 12px !important; color: #5a5f6e !important; }
@@ -318,7 +345,6 @@
   </div>
 </div>
 
-<!-- MODAL PARA SELECCIONAR CATEGORÍA -->
 <div class='categoria-modal' id='categoriaModal'>
   <div class='categoria-modal-content'>
     <div class='categoria-modal-header'>
@@ -342,7 +368,6 @@
   </div>
 </div>
 
-<!-- MODAL DE OFERTAS -->
 <div class='oferta-modal' id='ofertaModal'>
   <button class='oferta-modal-close' onclick='cerrarOfertaModal()'><i class='fas fa-times'></i></button>
   <div class='oferta-modal-content'>
@@ -383,7 +408,6 @@
   </div>
 </div>
 
-<!-- BARRA INFERIOR -->
 <div class='bottom-nav-bar' id='bottomNavBar'>
   <button class='nav-btn' onclick='irAlHome()'>
     <i class='fas fa-home'></i>
@@ -401,10 +425,13 @@
 var TRANSLATOR_WORKER_URL = 'https://traductor-worker.josema-mera37.workers.dev';
 var workerProxyUrl = 'https://socnas-proxy.josema-mera37.workers.dev';
 
+/* 🔥 CACHE MÁS AGRESIVO - 2 HORAS */
+var RSS_CACHE_DURATION = 2 * 60 * 60 * 1000;
+
 var categoriasPorDefecto = ["Tecnología", "Deportes", "Mascotas", "Terror", "Cine", "Cocina", "Games", "Viajes", "Moda", "Música", "Ciencia", "General"];
 
-var MAX_ITEMS = 28;
-var ITEMS_INICIALES = 26;
+var MAX_ITEMS = 18;
+var ITEMS_INICIALES = 16;
 
 /* ============================================
    AUTO-HIDE NAV BAR
@@ -597,12 +624,105 @@ async function traducirTexto(card, btn) {
 }
 
 /* ============================================
-   CACHÉ RSS
+   🔥 CACHE AGRESIVO - 2 HORAS
    ============================================ */
-var rssCache = {}; var rssCacheTime = {}; var RSS_CACHE_DURATION = 30 * 60 * 1000;
-function getRssCache(cat) { var now = Date.now(); if (rssCache[cat] && rssCacheTime[cat] && (now - rssCacheTime[cat] < RSS_CACHE_DURATION)) { return rssCache[cat]; } return null; }
-function setRssCache(cat, data) { rssCache[cat] = data; rssCacheTime[cat] = Date.now(); try { localStorage.setItem('rssCache_' + cat, JSON.stringify({ data, time: Date.now() })); } catch(e) {} }
-function loadRssCacheFromStorage() { try { for (var cat in feedsConfig) { var stored = localStorage.getItem('rssCache_' + cat); if (stored) { var parsed = JSON.parse(stored); if (Date.now() - parsed.time < RSS_CACHE_DURATION) { rssCache[cat] = parsed.data; rssCacheTime[cat] = parsed.time; } } } } catch(e) {} }
+var rssCache = {}; 
+var rssCacheTime = {};
+
+function getRssCache(cat) { 
+  var now = Date.now(); 
+  if (rssCache[cat] && rssCacheTime[cat] && (now - rssCacheTime[cat] < RSS_CACHE_DURATION)) { 
+    return rssCache[cat]; 
+  } 
+  /* 🔥 Intentar cargar de localStorage */
+  try { 
+    var stored = localStorage.getItem('rssCache_' + cat); 
+    if (stored) { 
+      var parsed = JSON.parse(stored); 
+      if (Date.now() - parsed.time < RSS_CACHE_DURATION) { 
+        rssCache[cat] = parsed.data; 
+        rssCacheTime[cat] = parsed.time; 
+        return parsed.data; 
+      } 
+    } 
+  } catch(e) {}
+  return null; 
+}
+
+function setRssCache(cat, data) { 
+  rssCache[cat] = data; 
+  rssCacheTime[cat] = Date.now(); 
+  try { 
+    localStorage.setItem('rssCache_' + cat, JSON.stringify({  data, time: Date.now() })); 
+  } catch(e) {} 
+}
+
+function loadRssCacheFromStorage() { 
+  try { 
+    for (var i = 0; i < localStorage.length; i++) { 
+      var key = localStorage.key(i); 
+      if (key && key.indexOf('rssCache_') === 0) { 
+        var stored = localStorage.getItem(key); 
+        if (stored) { 
+          var parsed = JSON.parse(stored); 
+          if (Date.now() - parsed.time < RSS_CACHE_DURATION) { 
+            var cat = key.replace('rssCache_', ''); 
+            rssCache[cat] = parsed.data; 
+            rssCacheTime[cat] = parsed.time; 
+          } 
+        } 
+      } 
+    } 
+  } catch(e) {} 
+}
+
+/* ============================================
+   🔥 EXTRAER IMÁGENES - MÚLTIPLES CAMPOS RSS
+   ============================================ */
+function extractImage(it) {
+  /* 1. thumbnail */
+  if (it.thumbnail && typeof it.thumbnail === 'string') {
+    var t = it.thumbnail.trim();
+    if (t && t.indexOf('http') === 0) return t;
+  }
+  
+  /* 2. enclosure */
+  if (it.enclosure && it.enclosure.url) {
+    return it.enclosure.url;
+  }
+  
+  /* 3. media:content */
+  if (it['media:content'] && it['media:content'].url) {
+    return it['media:content'].url;
+  }
+  
+  /* 4. content (extraer primera imagen del HTML) */
+  if (it.content) {
+    var imgMatch = it.content.match(/<img[^>]+src="([^">]+)"/);
+    if (imgMatch && imgMatch[1]) {
+      return imgMatch[1];
+    }
+  }
+  
+  /* 5. description (extraer primera imagen del HTML) */
+  if (it.description) {
+    var imgMatch = it.description.match(/<img[^>]+src="([^">]+)"/);
+    if (imgMatch && imgMatch[1]) {
+      return imgMatch[1];
+    }
+  }
+  
+  /* 6. Fallback: favicon de la fuente */
+  if (it.link) {
+    try {
+      var a = document.createElement('a');
+      a.href = it.link;
+      return 'https://www.google.com/s2/favicons?domain=' + a.hostname + '&sz=128';
+    } catch(e) {}
+  }
+  
+  return null;
+}
 
 /* ============================================
    AFILIADOS
@@ -625,7 +745,6 @@ var cargado={}, datosGuardados={}, visiblesPorTab={}, cargandoMas={};
    UTILIDADES
    ============================================ */
 function showToast(m){var t=document.createElement('div');t.className='toast';t.textContent=m;document.getElementById('toastContainer').appendChild(t);setTimeout(function(){t.remove();},3000);}
-function extractImage(it){if(it.thumbnail&&typeof it.thumbnail==='string'){var t=it.thumbnail.trim();if(t&&t.indexOf('http')===0)return t;}return null;}
 function getSourceName(u){try{var a=document.createElement('a');a.href=u;return a.hostname.replace('www.','').split('.')[0];}catch(e){return'';}}
 function getSourceLogo(u){try{var a=document.createElement('a');a.href=u;return'https://www.google.com/s2/favicons?domain='+a.hostname+'&sz=64';}catch(e){return'';}}
 function timeAgo(d){var s=Math.floor((new Date()-new Date(d))/1000);return s<60?'Ahora':s<3600?Math.floor(s/60)+'m':Math.floor(s/3600)+'h';}
@@ -634,25 +753,69 @@ function truncateText(t,l){var c=(t||'').trim();return c.length<=l?c:c.substring
 function irAlHome() { window.location.href = window.location.origin + window.location.pathname; }
 
 /* ============================================
-   CARGAR FEED
+   🔥 SKELETON LOADING
    ============================================ */
-function cargarFeed(url,porFeed){return fetch(workerProxyUrl+'/?url='+encodeURIComponent(url)).then(function(r){return r.json();}).then(function(d){if(d.status!=='ok')return[];return d.items.slice(0,porFeed).map(function(it){it.sourceName=getSourceName(it.link);it.sourceLogo=getSourceLogo(it.link);return it;});}).catch(function(){return[];});}
+function renderSkeletons(cantidad) {
+  var html = '';
+  for (var i = 0; i < cantidad; i++) {
+    html += '<div class="skeleton-card">';
+    html += '<div class="skeleton-image"></div>';
+    html += '<div class="skeleton-content">';
+    html += '<div class="skeleton-title"></div>';
+    html += '<div class="skeleton-text"></div>';
+    html += '<div class="skeleton-text"></div>';
+    html += '<div class="skeleton-text"></div>';
+    html += '</div></div>';
+  }
+  return html;
+}
 
 /* ============================================
-   RENDER DESTACADOS (POPURRÍ 2 POR CATEGORÍA)
+   CARGAR FEED
+   ============================================ */
+function cargarFeed(url,porFeed){
+  return fetch(workerProxyUrl+'/?url='+encodeURIComponent(url))
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(d.status!=='ok') return [];
+      return d.items.slice(0,porFeed).map(function(it){
+        it.sourceName=getSourceName(it.link);
+        it.sourceLogo=getSourceLogo(it.link);
+        return it;
+      });
+    })
+    .catch(function(){ return []; });
+}
+
+/* ============================================
+   🔥 CARGA PROGRESIVA - DESTACADOS
    ============================================ */
 async function cargarDestacados(){ 
+  var panel = document.getElementById('panel-destacados');
+  
+  /* 🔥 Mostrar skeletons inmediatamente */
+  panel.innerHTML = '<div class="news-grid destacados-grid">' + renderSkeletons(12) + '</div>';
+  
   var todas = [];
   var cats = Object.keys(feedsConfig);
+  
+  /* 🔥 Cargar categorías en paralelo pero mostrar progresivamente */
+  var promesasPorCategoria = [];
   
   for (var i = 0; i < cats.length; i++) {
     var cat = cats[i];
     var urls = feedsConfig[cat];
-    var porFeed = 2;  /* 2 noticias por fuente */
+    var porFeed = 2;
     var promesas = urls.map(function(url) { return cargarFeed(url, porFeed); });
-    var resultados = await Promise.all(promesas);
-    for (var j = 0; j < resultados.length; j++) {
-      todas = todas.concat(resultados[j]);
+    promesasPorCategoria.push(Promise.all(promesas));
+  }
+  
+  /* 🔥 Esperar todas pero actualizar progresivamente */
+  var resultados = await Promise.all(promesasPorCategoria);
+  
+  for (var j = 0; j < resultados.length; j++) {
+    for (var k = 0; k < resultados[j].length; k++) {
+      todas = todas.concat(resultados[j][k]);
     }
   }
   
@@ -660,7 +823,11 @@ async function cargarDestacados(){
   todas.sort(function() { return Math.random() - 0.5; });
   todas = todas.slice(0, 20);
   
-  return renderDestacadosGrid(todas);
+  /* Renderizar final */
+  var html = renderDestacadosGrid(todas);
+  panel.innerHTML = html;
+  
+  return html;
 }
 
 function renderDestacadosGrid(items){ 
@@ -740,21 +907,26 @@ async function cargarTab(id, forzarActualizacion) {
   if(!panel) return; 
   if(id === 'favoritos') { showFavs(); return; } 
   if(id === 'destacados') { 
-    panel.innerHTML = await cargarDestacados(); 
+    await cargarDestacados(); 
     document.getElementById('cargarMasContainer').style.display = 'none';
     return; 
   } 
+  
+  /* 🔥 Mostrar skeletons primero */
+  panel.innerHTML = '<div class="news-grid">' + renderSkeletons(8) + '</div>';
+  
   var cache = getRssCache(id); 
   if (cache && !forzarActualizacion) { 
     datosGuardados[id] = cache; 
     cargado[id] = true; 
     visiblesPorTab[id] = Math.min(ITEMS_INICIALES, cache.length); 
-    panel.innerHTML = await renderNewsGrid(cache, visiblesPorTab[id], id); 
+    var html = await renderNewsGrid(cache, visiblesPorTab[id], id);
+    panel.innerHTML = html;
     actualizarFeedEnSegundoPlano(id); 
     actualizarBotonCargarMas(id);
     return; 
   } 
-  panel.innerHTML = '<div class="news-grid"><div class="loading-section">Cargando...</div></div>'; 
+  
   var urls = feedsConfig[id];
   if(!urls) return; 
   var porFeed = Math.floor(MAX_ITEMS / urls.length); 
