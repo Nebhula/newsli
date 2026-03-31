@@ -628,7 +628,7 @@ async function cargarDestacados() {
     items[i] = items[j];
     items[j] = temp;
   }
-  items = items.slice(0, 15);
+  items = items.slice(0, 40);
   
   localStorage.setItem('destacadosCache', JSON.stringify(items));
   localStorage.setItem('destacadosCacheTime', Date.now());
