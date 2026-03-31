@@ -758,7 +758,7 @@ async function cargarDestacados() {
   if (cacheLocal && cacheTime && (Date.now() - parseInt(cacheTime) < 86400000)) {
     var datosCache = JSON.parse(cacheLocal);
     datosGuardados.destacados = datosCache;
-    visiblesPorTab.destacados = Math.min(ITEMS_INICIALES, datosCache.length);
+    visiblesPorTab.destacados = datosCache.length;
     panel.innerHTML = await renderDestacadosGrid(datosCache.slice(0, visiblesPorTab.destacados));
     actualizarBotonCargarMas('destacados');
     actualizarDestacadosEnSegundoPlano();
@@ -768,7 +768,7 @@ async function cargarDestacados() {
   panel.innerHTML = '<div class="news-grid destacados-grid">' + renderSkeletons(9) + '</div>';
   var items = await cargarFeedConWorker('destacados', MAX_ITEMS);
   datosGuardados.destacados = items;
-  visiblesPorTab.destacados = Math.min(ITEMS_INICIALES, items.length);
+  visiblesPorTab.destacados = items.length;
   localStorage.setItem('destacadosCache', JSON.stringify(items));
   localStorage.setItem('destacadosCacheTime', Date.now());
   var html = await renderDestacadosGrid(items.slice(0, visiblesPorTab.destacados));
