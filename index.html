@@ -8,9 +8,10 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { width: 100%; height: 100%; overflow-x: hidden; background: #0a0c15; font-family: Arial, sans-serif; font-size: 16px; -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
   </style>
-  <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css' rel='stylesheet'/>
 </head>
 <body>
+
+<link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css' rel='stylesheet'/>
 
 <style>
   body, .news-aggregator { background: #0a0c15 !important; }
@@ -83,7 +84,8 @@
   .news-card:hover { transform: translateY(-4px) !important; box-shadow: 0 12px 28px rgba(0,0,0,0.4), 0 0 0 1px #e91e63 !important; border-color: #e91e63 !important; }
   @media (max-width: 600px) { .news-card { box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important; } .news-card:hover { transform: translateY(-2px) !important; } }
   
- 
+  .podium-first { border: 3px solid #FFD700 !important; box-shadow: 0 0 20px rgba(255, 215, 0, 0.4) !important; animation: podiumGlow 2s ease-in-out infinite !important; }
+  @keyframes podiumGlow { 0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.4); } 50% { box-shadow: 0 0 35px rgba(255, 215, 0, 0.7); } }
   
   .news-image-wrapper { width: 100% !important; height: auto !important; min-height: 150px !important; background: #1a1f2e !important; overflow: hidden !important; position: relative !important; }
   .news-image-wrapper[data-has-image="false"] { background: #1a1f2e !important; }
@@ -95,30 +97,6 @@
   .favorite-btn:hover, .share-btn:hover { transform: scale(1.1) !important; background: rgba(0,0,0,0.9) !important; }
   .favorite-btn.active { color: #e91e63 !important; }
   .share-btn:hover { color: #1e88e5 !important; }
-  
-  .translate-btn-inline {
-    background: rgba(30,136,229,0.15) !important;
-    border: 1px solid #1e88e5 !important;
-    color: #1e88e5 !important;
-    padding: 2px 8px !important;
-    border-radius: 16px !important;
-    font-size: 10px !important;
-    font-weight: 500 !important;
-    cursor: pointer !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    gap: 4px !important;
-    transition: all 0.2s ease !important;
-    margin-left: 6px !important;
-    white-space: nowrap !important;
-  }
-  .translate-btn-inline:hover {
-    background: #1e88e5 !important;
-    color: #fff !important;
-    transform: scale(1.02) !important;
-  }
-  .translate-btn-inline i { font-size: 10px !important; }
-  .translate-btn-inline:disabled { opacity: 0.6 !important; cursor: not-allowed !important; transform: none !important; }
   
   .affiliate-btn {
     background: rgba(255,152,0,0.2) !important;
@@ -175,14 +153,9 @@
   .oferta-disclaimer i { margin-right: 4px !important; }
   
   .news-content { padding: 12px !important; display: flex !important; flex-direction: column !important; width: 100% !important; box-sizing: border-box !important; }
-  .news-title { font-size: 15px !important; font-weight: 600 !important; color: #f0f0f0 !important; text-decoration: none !important; line-height: 1.4 !important; margin-bottom: 6px !important; display: -webkit-box !important; -webkit-line-clamp: 2 !important; -webkit-box-orient: vertical !important; overflow: hidden !important; cursor: pointer !important; }
+  .news-title { font-size: 14px !important; font-weight: 600 !important; color: #f0f0f0 !important; text-decoration: none !important; line-height: 1.4 !important; margin-bottom: 6px !important; display: -webkit-box !important; -webkit-line-clamp: 2 !important; -webkit-box-orient: vertical !important; overflow: hidden !important; cursor: pointer !important; }
   .news-title:hover { color: #e91e63 !important; }
-  .news-excerpt { font-size: 14px !important; color: #8a8f9e !important; line-height: 1.5 !important; margin-bottom: 10px !important; display: block !important; word-wrap: break-word !important; }
-  
-  .translated-text { background: #11131f !important; padding: 10px 12px !important; border-radius: 8px !important; margin-top: 8px !important; font-size: 14px !important; line-height: 1.5 !important; animation: fadeIn 0.3s ease !important; color: #8a8f9e !important; }
-  .translated-text .close-translation { background: none !important; border: none !important; color: #5a5f6e !important; cursor: pointer !important; font-size: 12px !important; padding: 2px 6px !important; border-radius: 12px !important; transition: all 0.2s ease !important; }
-  .translated-text .close-translation:hover { background: rgba(233,30,99,0.2) !important; color: #e91e63 !important; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+  .news-excerpt { font-size: 13px !important; color: #8a8f9e !important; line-height: 1.5 !important; margin-bottom: 10px !important; display: block !important; word-wrap: break-word !important; }
   
   .categoria-badge { display: inline-flex !important; align-items: center !important; gap: 5px !important; font-size: 11px !important; font-weight: 600 !important; padding: 3px 10px !important; border-radius: 12px !important; margin-right: 8px !important; background: rgba(233,30,99,0.15) !important; color: #e91e63 !important; white-space: nowrap !important; }
   .categoria-badge i { font-size: 12px !important; }
@@ -197,7 +170,7 @@
   .empty-favorites h3 { font-size: 16px !important; font-weight: 600 !important; color: #f0f0f0 !important; margin-bottom: 12px !important; line-height: 1.4 !important; }
   .empty-favorites p { font-size: 13px !important; color: #8a8f9e !important; line-height: 1.6 !important; margin: 0 !important; max-width: 300px !important; margin: 0 auto !important; }
   
-  .cargar-mas-container { text-align: center !important; padding: 20px !important; margin-top: -37px !important; }   
+  .cargar-mas-container { text-align: center !important; padding: 20px !important; margin-top: 10px !important; display: none !important; }
   .cargar-mas-btn { background: linear-gradient(135deg, #e91e63 0%, #ff6b9d 100%) !important; color: #fff !important; border: none !important; padding: 14px 40px !important; border-radius: 30px !important; font-size: 14px !important; font-weight: 600 !important; cursor: pointer !important; transition: all 0.2s ease !important; box-shadow: 0 4px 12px rgba(233,30,99,0.3) !important; display: inline-flex !important; align-items: center !important; gap: 8px !important; }
   .cargar-mas-btn:hover { transform: translateY(-2px) !important; box-shadow: 0 6px 20px rgba(233,30,99,0.4) !important; }
   .cargar-mas-btn:disabled { opacity: 0.5 !important; cursor: not-allowed !important; transform: none !important; }
@@ -205,12 +178,138 @@
   
   #panel-destacados { padding-bottom: 40px !important; }
   
-  .bottom-nav-bar { position: fixed !important; bottom: 0 !important; left: 0 !important; right: 0 !important; background: #0a0c15 !important; border-top: 1px solid #1e2a3a !important; display: flex !important; align-items: center !important; justify-content: space-around !important; padding: 10px 5px !important; z-index: 2000 !important; transition: transform 0.3s ease !important; }
-  .bottom-nav-bar.nav-hidden { transform: translateY(100%) !important; }
-  .nav-btn { background: none !important; border: none !important; cursor: pointer !important; padding: 10px 15px !important; color: #8a8f9e !important; position: relative !important; display: flex !important; align-items: center !important; justify-content: center !important; transition: all 0.2s ease !important; min-width: 50px !important; }
-  .nav-btn:hover { color: #e91e63 !important; }
-  .nav-btn i { font-size: 24px !important; }
-  .fav-counter { position: absolute !important; top: 4px !important; right: -5px !important; background: #e91e63 !important; color: #fff !important; font-size: 9px !important; padding: 2px 5px !important; border-radius: 50% !important; min-width: 16px !important; text-align: center !important; }
+  /* MENÚ INFERIOR CON LOGO FIJO Y CARRUSEL */
+  .bottom-nav-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #0a0c15;
+    border-top: 1px solid #1e2a3a;
+    z-index: 2000;
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .nav-content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 10px 5px;
+    gap: 10px;
+    transition: opacity 0.2s ease;
+  }
+  .nav-logo-fixed {
+    flex-shrink: 0;
+    margin-left: 5px;
+  }
+  .nav-scrollable {
+    flex: 1;
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .nav-scrollable::-webkit-scrollbar {
+    display: none;
+  }
+  .nav-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    color: #8a8f9e;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    min-width: 50px;
+    flex-shrink: 0;
+  }
+  .nav-btn:hover {
+    color: #e91e63;
+  }
+  .nav-btn i {
+    font-size: 24px;
+  }
+  .fav-counter {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #e91e63;
+    color: #fff;
+    font-size: 9px;
+    padding: 2px 5px;
+    border-radius: 50%;
+    min-width: 16px;
+    text-align: center;
+  }
+  .nav-toggle-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    position: relative;
+    top: -1px;
+  }
+  .nav-toggle-btn {
+    background: #e91e63;
+    border: none;
+    color: white;
+    width: 60px;
+    height: 24px;
+    border-radius: 0 0 12px 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  }
+  .nav-toggle-btn:hover {
+    background: #c2185b;
+    transform: scale(1.02);
+  }
+  .bottom-nav-bar.hidden {
+    transform: translateY(calc(100% - 24px));
+  }
+  .bottom-nav-bar.hidden .nav-content {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  
+  /* PC: centrar botones, sin scroll */
+  @media (min-width: 768px) {
+    .nav-content {
+      justify-content: center;
+    }
+    .nav-scrollable {
+      flex: initial;
+      overflow-x: visible;
+      white-space: normal;
+    }
+    .nav-logo-fixed {
+      margin-left: 0;
+    }
+  }
+  
+  /* MÓVIL: carrusel activo */
+  @media (max-width: 767px) {
+    .nav-content {
+      justify-content: flex-start;
+    }
+    .nav-scrollable {
+      overflow-x: auto;
+    }
+  }
   
   .categoria-modal, .affiliate-modal, .submit-web-modal { position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important; background: rgba(0,0,0,0.98) !important; display: none !important; justify-content: center !important; align-items: center !important; z-index: 999997 !important; }
   .categoria-modal.active, .affiliate-modal.active, .submit-web-modal.active { display: flex !important; }
@@ -284,161 +383,6 @@
   
   .toast-container { position: fixed !important; bottom: 80px !important; left: 50% !important; transform: translateX(-50%) !important; z-index: 10000 !important; width: 90% !important; max-width: 350px !important; }
   .toast { background: rgba(0,0,0,0.95) !important; color: #fff !important; padding: 12px 16px !important; border-radius: 8px !important; font-size: 13px !important; margin-bottom: 8px !important; display: flex !important; align-items: center !important; gap: 8px !important; line-height: 1.4 !important; border-left: 3px solid #e91e63 !important; }
-
-
-
-
-/* MENÚ INFERIOR CON CARRUSEL */
-.bottom-nav-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: #0a0c15;
-  border-top: 1px solid #1e2a3a;
-  display: flex;
-  align-items: center;
-  justify-content: center; /* Centrado en pantallas grandes */
-  padding: 10px 5px;
-  z-index: 2000;
-  transition: transform 0.3s ease;
-}
-
-/* LOGO FIJO (en móvil se mantiene a la izquierda) */
-.nav-logo-fixed {
-  flex-shrink: 0;
-  margin-left: 5px;
-}
-
-/* CONTENEDOR DE BOTONES */
-.nav-scrollable {
-  display: flex;
-  gap: 15px;
-  transition: all 0.3s ease;
-}
-
-/* ESTILO BASE: OCULTA EL CARRUSEL EN PC */
-.nav-scrollable {
-  overflow-x: visible;
-  white-space: normal;
-  flex-wrap: wrap;
-  justify-content: center;
-  flex: 1;
-}
-
-/* BOTONES DENTRO DEL CONTENEDOR */
-.nav-scrollable .nav-btn,
-.nav-logo-fixed .nav-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 8px 12px;
-  color: #8a8f9e;
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-  min-width: 50px;
-}
-.nav-scrollable .nav-btn:hover,
-.nav-logo-fixed .nav-btn:hover {
-  color: #e91e63;
-}
-.nav-scrollable .nav-btn i,
-.nav-logo-fixed .nav-btn i {
-  font-size: 24px;
-}
-
-/* OCULTAR BARRA DE SCROLL (por si acaso) */
-.nav-scrollable::-webkit-scrollbar {
-  display: none;
-}
-.nav-scrollable {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-/* ===== MÓVIL (< 768px) ===== */
-@media (max-width: 768px) {
-  .bottom-nav-bar {
-    justify-content: flex-start; /* Logo a la izquierda */
-  }
-  .nav-scrollable {
-    flex: 1;
-    overflow-x: auto;
-    overflow-y: hidden;
-    white-space: nowrap;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    gap: 10px;
-    -webkit-overflow-scrolling: touch;
-  }
-  .nav-scrollable .nav-btn {
-    flex-shrink: 0;
-    padding: 8px;
-  }
-  .nav-logo-fixed {
-    margin-left: 5px;
-  }
-}
-
-
-
-
-
-
-/* ESTILO MÓVIL - SIN MÁRGENES NI BORDES REDONDOS */
-@media (max-width: 768px) {
-  .news-aggregator {
-    padding: 10px 0px 70px 0px !important; /* Quita márgenes laterales */
-  }
-  
-  .news-card {
-    border-radius: 0px !important;
-    margin-bottom: 8px !important;
-    border-left: none !important;
-    border-right: none !important;
-  }
-  
-  .news-image {
-    border-radius: 0px !important;
-  }
-  
-  .news-content {
-    padding: 12px 12px !important;
-  }
-  
-  .news-meta {
-    padding-bottom: 8px !important;
-  }
-}
-
-  
-
-
-
-
-
-.cargar-mas-container {
-  margin-top: 50px !important;
-  position: relative !important;
-  bottom: 0 !important;
-}
-
-.cargar-mas-btn {
-  margin-top: 20px !important;
-  margin-bottom: 20px !important;
-}
-
-
-
-
-
-
-  
-
-
 </style>
 
 <div class='news-aggregator' id='news-widget'>
@@ -528,29 +472,30 @@
 </div>
 
 <div class='bottom-nav-bar' id='bottomNavBar'>
-  <!-- LOGO FIJO (IZQUIERDA) - PON TU IMAGEN DESPUÉS -->
-  <div class='nav-logo-fixed'>
-    <button class='nav-btn' onclick='irAlHome()'>
-      <img src='https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjYIGYkCqwUNhlWXUljtZ9NSVkyuDb-ZN24UI4ql5NJlBd7LaMQMOLuIWsAwAnEH0H4pu5l35XHCHhhprJEltf5vUzQ-ujf1aBWGWA_8eEe385Uq0MZuV1gL0QuGLVAVVCmq7Qq6TeaghDCqbp-XKAdaBGzLANjuGK0rZI8jx2oRyTGZ0U1PY8oyrI_RCM/s1600/nebhula%20%281800%20x%201800%20px%29%20%2875%29.png' alt='Logo' id='logoImg' style='width: 90px; height: 40px; object-fit: contain;'>
+  <div class='nav-toggle-wrapper'>
+    <button class='nav-toggle-btn' id='navToggleBtn'>
+      <i class='fas fa-chevron-down'></i>
     </button>
   </div>
-  
-  <!-- CARRUSEL DESLIZABLE (HORIZONTAL SIN BARRA) -->
-  <div class='nav-scrollable' id='navScrollable'>
-    <!-- BOTONES ORIGINALES (FUNCIONAN IGUAL) -->
-    <button class='nav-btn' onclick='abrirFormularioWeb()'><i class='fas fa-plus'></i></button>
-    <button class='nav-btn' onclick='mostrarFavoritosDesdeNav()'>
-      <i class='fas fa-heart'></i>
-      <span class='fav-counter' id='favCounter'>0</span>
-    </button>
-    
-    <!-- NUEVOS BOTONES PARA PROBAR CARRUSEL -->
-    <button class='nav-btn' onclick='window.location.href="/grupos"'><i class='fas fa-users'></i></button>
-    <button class='nav-btn' onclick='window.location.href="/blog"'><i class='fas fa-blog'></i></button>
-    <button class='nav-btn' onclick='window.location.href="/contacto"'><i class='fas fa-envelope'></i></button>
-    <button class='nav-btn' onclick='window.location.href="/comunidad"'><i class='fas fa-globe'></i></button>
-    <button class='nav-btn' onclick='window.location.href="/tools"'><i class='fas fa-tools'></i></button>
-    <button class='nav-btn' onclick='window.location.href="/galeria"'><i class='fas fa-images'></i></button>
+  <div class='nav-content'>
+    <div class='nav-logo-fixed'>
+      <button class='nav-btn' onclick='irAlHome()'>
+        <img src='' alt='Logo' id='logoImg' style='width: 40px; height: 40px; object-fit: contain;'>
+      </button>
+    </div>
+    <div class='nav-scrollable' id='navScrollable'>
+      <button class='nav-btn' onclick='abrirFormularioWeb()'><i class='fas fa-plus'></i></button>
+      <button class='nav-btn' onclick='mostrarFavoritosDesdeNav()'>
+        <i class='fas fa-heart'></i>
+        <span class='fav-counter' id='favCounter'>0</span>
+      </button>
+      <button class='nav-btn' onclick='window.location.href="/grupos"'><i class='fas fa-users'></i></button>
+      <button class='nav-btn' onclick='window.location.href="/blog"'><i class='fas fa-blog'></i></button>
+      <button class='nav-btn' onclick='window.location.href="/contacto"'><i class='fas fa-envelope'></i></button>
+      <button class='nav-btn' onclick='window.location.href="/comunidad"'><i class='fas fa-globe'></i></button>
+      <button class='nav-btn' onclick='window.location.href="/tools"'><i class='fas fa-tools'></i></button>
+      <button class='nav-btn' onclick='window.location.href="/galeria"'><i class='fas fa-images'></i></button>
+    </div>
   </div>
 </div>
 
@@ -566,22 +511,11 @@ var workersPorCategoria = {
 
 var workerDefault = 'https://socnas-proxy.josema-mera37.workers.dev';
 
-var TRANSLATOR_WORKER_URL = 'https://traductor-worker.josema-mera37.workers.dev';
 var RSS_CACHE_DURATION = 2 * 60 * 60 * 1000;
 
 var categoriasPorDefecto = ["Tecnología", "Deportes", "Mascotas", "Terror", "Cine", "Cocina", "Games", "Viajes", "Moda", "Música", "Ciencia", "General"];
 var MAX_ITEMS = 48;
 var ITEMS_INICIALES = 16;
-
-var lastScrollY = window.scrollY;
-var navBar = document.getElementById('bottomNavBar');
-window.addEventListener('scroll', function() {
-  var currentScrollY = window.scrollY;
-  if (Math.abs(currentScrollY - lastScrollY) < 10) { lastScrollY = currentScrollY; return; }
-  if (currentScrollY > lastScrollY) { navBar.classList.add('nav-hidden'); } 
-  else { navBar.classList.remove('nav-hidden'); }
-  lastScrollY = currentScrollY;
-}, { passive: true });
 
 var afiliados = {
   'iphone': { keywords: ['iphone 15','iphone 16','comprar iphone','oferta iphone'], foto: 'https://m.media-amazon.com/images/I/71xb2xkN5qL._AC_SL1500_.jpg', titulo: 'iPhone 16', descripcion: 'El último iPhone con cámara profesional y chip A18 Pro. Pantalla Super Retina XDR, batería para todo el día y acabados en titanio.', enlace: 'https://amazon.es/dp/B0CHX3TW6T?tag=TU-ID-AFILIADO-21' },
@@ -672,18 +606,69 @@ function agregarNuevaCategoria() {
   div.innerHTML = '<div style="display:flex;align-items:center;flex:1;"><input type="radio" name="categoria" value="' + n + '"> <span><i class="fas fa-folder"></i> ' + n + '</span></div><button class="categoria-delete-btn" onclick="eliminarCategoria(\'' + n.replace(/'/g, "\\'") + '\')"><i class="fas fa-trash"></i></button>';
   lista.appendChild(div); inp.value = ''; showToast('Creada');
 }
+
+// ========== FUNCIÓN CORREGIDA DE GUARDAR FAVORITOS ==========
 function guardarFavoritoConCategoria() {
   var sel = document.querySelector('#categoriaList input:checked');
   if (!sel) { showToast('Selecciona categoría'); return; }
-  var cat = sel.value; var n = noticiaPendiente; if (!n) return;
-  var f = getFavsPorCategoria(); var existe = false; var cats = Object.keys(f);
-  for (var i = 0; i < cats.length; i++) { for (var j = 0; j < f[cats[i]].length; j++) { if (f[cats[i]][j].u === n.u) { existe = true; break; } } }
-  if (existe) { showToast('Ya está en favoritos'); cerrarModalCategoria(); return; }
-  f[cat].push(n); guardarFavsPorCategoria(f);
+  var cat = sel.value;
+  var n = noticiaPendiente;
+  if (!n) { showToast('No hay noticia'); return; }
+  
+  var f = getFavsPorCategoria();
+  
+  // Verificar si ya existe
+  var existe = false;
+  var cats = Object.keys(f);
+  for (var i = 0; i < cats.length; i++) {
+    for (var j = 0; j < f[cats[i]].length; j++) {
+      if (f[cats[i]][j].u === n.u) {
+        existe = true;
+        break;
+      }
+    }
+  }
+  
+  if (existe) {
+    showToast('Ya está en favoritos');
+    cerrarModalCategoria();
+    return;
+  }
+  
+  // Asegurar que la categoría existe en el objeto
+  if (!f[cat]) f[cat] = [];
+  
+  f[cat].push({
+    u: n.u,
+    t: n.t || 'Sin título',
+    i: n.i || '',
+    s: n.s || '',
+    l: n.l || '',
+    d: n.d || '',
+    c: n.c || ''
+  });
+  
+  guardarFavsPorCategoria(f);
+  
+  // Actualizar el corazón en la tarjeta
   var cards = document.querySelectorAll('.news-card');
-  for (var i = 0; i < cards.length; i++) { if (cards[i].getAttribute('data-url') === n.u) { var btn = cards[i].querySelector('.favorite-btn'); if (btn) { btn.className = 'favorite-btn active'; btn.innerHTML = '<i class="fas fa-heart"></i>'; } break; } }
-  actualizarContadorFavoritos(); showToast('Guardado en ' + cat); cerrarModalCategoria();
+  for (var i = 0; i < cards.length; i++) {
+    if (cards[i].getAttribute('data-url') === n.u) {
+      var btn = cards[i].querySelector('.favorite-btn');
+      if (btn) {
+        btn.className = 'favorite-btn active';
+        btn.innerHTML = '<i class="fas fa-heart"></i>';
+      }
+      break;
+    }
+  }
+  
+  actualizarContadorFavoritos();
+  showToast('Guardado en ' + cat);
+  cerrarModalCategoria();
 }
+// ============================================================
+
 function eliminarFavorito(url, cat) {
   var f = getFavsPorCategoria(); f[cat] = f[cat].filter(function(it) { return it.u !== url; }); guardarFavsPorCategoria(f);
   var cards = document.querySelectorAll('.news-card');
@@ -724,58 +709,13 @@ function extractImage(it) {
   return null;
 }
 
-function shouldShowTranslateBtn(title, desc) {
-  var t = (title + ' ' + (desc || '')).toLowerCase();
-  var words = ['the','be','to','of','and','a','in','that','have','i','it','for','not','on','with','he','as','you','do','at','this','but','his','by','from','they','we','say','her','she','or','an','will','my','one','all','would','there','their','what','so','up','out','if','about','who','get','which','go','me','when','make','can','like','time','no','just','him','know','take','people','into','year','your','good','some','could','them','see','other','than','then','now','look','only','come','its','over','think','also','back','after','use','two','how','our','work','first','well','way','even','new','want','because','any','these','give','day','most','us'];
-  var c = 0; for (var i = 0; i < words.length; i++) { if (t.indexOf(' ' + words[i] + ' ') !== -1 || t.indexOf(words[i] + ' ') === 0) { c++; if (c >= 4) return true; } } return false;
-}
-
-async function traducirTexto(card, btn) {
-  var title = card.getAttribute('data-title') || '';
-  var desc = card.getAttribute('data-desc') || '';
-  var texto = (title + ' ' + desc).substring(0, 5000);
-  if (!texto.trim()) { showToast('No hay texto para traducir'); return; }
-  var existing = card.querySelector('.translated-text');
-  if (existing) { existing.remove(); return; }
-  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Traduciendo...';
-  btn.disabled = true;
-  try {
-    var url = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=es&dt=t&q=' + encodeURIComponent(texto);
-    var res = await fetch(url);
-    var data = await res.json();
-    if (data && data[0]) {
-      var translatedText = data[0].map(function(item) { return item[0]; }).join('');
-      var excerptDiv = card.querySelector('.news-excerpt');
-      if (excerptDiv) {
-        var translatedDiv = document.createElement('div');
-        translatedDiv.className = 'translated-text';
-        translatedDiv.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;"><strong><i class="fas fa-language"></i> Traducción:</strong><button class="close-translation" onclick="this.closest(\'.translated-text\').remove()" style="background:none;border:none;color:#5a5f6e;cursor:pointer;font-size:12px;"><i class="fas fa-times"></i></button></div>' + translatedText;
-        excerptDiv.insertAdjacentElement('afterend', translatedDiv);
-      }
-      btn.innerHTML = '<i class="fas fa-check"></i> Traducido';
-      btn.style.background = '#4caf5020';
-      btn.style.borderColor = '#4caf50';
-      btn.style.color = '#4caf50';
-      setTimeout(function() { btn.innerHTML = '<i class="fas fa-language"></i> Traducir'; btn.style.background = ''; btn.style.borderColor = ''; btn.style.color = ''; btn.disabled = false; }, 2000);
-    } else { throw new Error('No se pudo traducir'); }
-  } catch (e) {
-    btn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error';
-    btn.style.background = '#f4433620';
-    btn.style.borderColor = '#f44336';
-    btn.style.color = '#f44336';
-    setTimeout(function() { btn.innerHTML = '<i class="fas fa-language"></i> Traducir'; btn.style.background = ''; btn.style.borderColor = ''; btn.style.color = ''; btn.disabled = false; }, 2000);
-    showToast('❌ Error al traducir');
-  }
-}
-
 var rssCache = {}, rssCacheTime = {};
 function getRssCache(cat) { var now = Date.now(); if (rssCache[cat] && rssCacheTime[cat] && (now - rssCacheTime[cat] < RSS_CACHE_DURATION)) return rssCache[cat]; try { var s = localStorage.getItem('rssCache_' + cat); if (s) { var p = JSON.parse(s); if (Date.now() - p.time < RSS_CACHE_DURATION) { rssCache[cat] = p.data; rssCacheTime[cat] = p.time; return p.data; } } } catch (e) {} return null; }
 function setRssCache(cat, data) { rssCache[cat] = data; rssCacheTime[cat] = Date.now(); try { localStorage.setItem('rssCache_' + cat, JSON.stringify({ data: data, time: Date.now() })); } catch (e) {} }
 function loadRssCacheFromStorage() { try { for (var i = 0; i < localStorage.length; i++) { var k = localStorage.key(i); if (k && k.indexOf('rssCache_') === 0) { var s = localStorage.getItem(k); if (s) { var p = JSON.parse(s); if (Date.now() - p.time < RSS_CACHE_DURATION) { var c = k.replace('rssCache_', ''); rssCache[c] = p.data; rssCacheTime[c] = p.time; } } } } } catch (e) {} }
 
-// Configuración de feeds por categoría (usando workers)
 var feedsConfig = {
-  tecnologia: [], // ya no se usa, se usa el worker
+  tecnologia: [],
   deportes: [],
   mascotas: [],
   terror: [],
@@ -791,10 +731,8 @@ var feedsConfig = {
 var categoriasOrden = ['destacados','tecnologia','deportes','mascotas','terror','cine','cocina','games','viajes','moda','musica','ciencia'];
 var cargado = {}, datosGuardados = {}, visiblesPorTab = {}, cargandoMas = {};
 
-// NUEVA FUNCIÓN: cargar feed usando el worker de la categoría
 async function cargarFeedConWorker(categoriaId, limit) {
   var workerUrl = workersPorCategoria[categoriaId] || workerDefault;
-  
   try {
     var res = await fetch(workerUrl + '?limit=' + limit);
     var data = await res.json();
@@ -812,7 +750,6 @@ async function cargarFeedConWorker(categoriaId, limit) {
   }
 }
 
-// DESTACADOS - usa su worker específico (modificado para Cargar Más)
 async function cargarDestacados() {
   var panel = document.getElementById('panel-destacados');
   var cacheLocal = localStorage.getItem('destacadosCache');
@@ -829,15 +766,11 @@ async function cargarDestacados() {
   }
   
   panel.innerHTML = '<div class="news-grid destacados-grid">' + renderSkeletons(9) + '</div>';
-  
   var items = await cargarFeedConWorker('destacados', MAX_ITEMS);
-  
   datosGuardados.destacados = items;
   visiblesPorTab.destacados = Math.min(ITEMS_INICIALES, items.length);
-  
   localStorage.setItem('destacadosCache', JSON.stringify(items));
   localStorage.setItem('destacadosCacheTime', Date.now());
-  
   var html = await renderDestacadosGrid(items.slice(0, visiblesPorTab.destacados));
   panel.innerHTML = html;
   actualizarBotonCargarMas('destacados');
@@ -869,15 +802,12 @@ async function renderDestacadosGrid(items) {
     else if (ul.indexOf('muyinteresante') !== -1 || ul.indexOf('nationalgeographic') !== -1) { catDet = 'Ciencia'; catIcon = 'fas fa-flask'; }
     var podClass = (i === 0) ? ' podium-first' : '';
     
-    var showTranslate = shouldShowTranslateBtn(it.title, it.description);
-    var trBtn = showTranslate ? '<button class="translate-btn-inline" onclick="traducirTexto(this.closest(\'.news-card\'), this)"><i class="fas fa-language"></i> Traducir</button>' : '';
-    
     html += '<article class="news-card cat-destacados' + podClass + '" data-url="' + it.link + '" data-title="' + (it.title || '').replace(/"/g, '"') + '" data-img="' + imgSrc + '" data-source="' + (it.sourceName || '') + '" data-logo="' + (it.sourceLogo || '') + '" data-date="' + (it.pubDate || '') + '" data-desc="' + stripHtml(it.description || '').replace(/"/g, '"') + '">';
     html += '<div class="news-image-wrapper" data-has-image="' + hasImg + '">';
     if (img) { html += '<img class="news-image" src="' + imgSrc + '" loading="lazy" onerror="this.style.display=\'none\';this.parentNode.setAttribute(\'data-has-image\',\'false\');">'; }
     html += '<div class="card-actions"><button class="favorite-btn' + (esFav ? ' active' : '') + '" onclick="toggleFavConCategoria(this)"><i class="' + (esFav ? 'fas' : 'far') + ' fa-heart"></i></button><button class="share-btn" onclick="shareIt(\'' + it.link.replace(/'/g, "\\'") + '\',\'' + (it.title || 'Noticia').replace(/'/g, "\\'") + '\',this)"><i class="fas fa-share-alt"></i></button></div></div>';
     html += '<div class="news-content"><a class="news-title" href="' + it.link + '" target="_blank">' + (it.title || 'Noticia ' + (i + 1)) + '</a>';
-    html += '<p class="news-excerpt">' + truncateText(stripHtml(it.description || ''), 280) + ' ' + trBtn + '</p>';
+    html += '<p class="news-excerpt">' + truncateText(stripHtml(it.description || ''), 280) + '</p>';
     html += '<div class="news-meta"><div class="source-info"><span class="categoria-badge"><i class="' + catIcon + '"></i> ' + catDet + '</span>' + (it.sourceLogo ? '<img class="source-favicon" src="' + it.sourceLogo + '">' : '') + '<span>' + timeAgo(it.pubDate) + ' - ' + it.sourceName + '</span></div><div style="display:flex;gap:6px;align-items:center;">' + afiBtn + '<a href="' + it.link + '" target="_blank" class="read-more-btn"><i class="fas fa-eye"></i></a></div></div></div></article>';
   }
   html += '</div>';
@@ -917,15 +847,12 @@ async function renderNewsGrid(items, mostrar, catId) {
     var catNom = catId.charAt(0).toUpperCase() + catId.slice(1);
     var catIcon = getIconoCategoria(catNom);
     
-    var showTranslate = shouldShowTranslateBtn(it.title, it.description);
-    var trBtn = showTranslate ? '<button class="translate-btn-inline" onclick="traducirTexto(this.closest(\'.news-card\'), this)"><i class="fas fa-language"></i> Traducir</button>' : '';
-    
     html += '<article class="news-card cat-' + catId + '" data-url="' + it.link + '" data-title="' + it.title.replace(/"/g, '"') + '" data-img="' + imgSrc + '" data-source="' + (it.sourceName || '') + '" data-logo="' + (it.sourceLogo || '') + '" data-date="' + (it.pubDate || '') + '" data-desc="' + stripHtml(it.description || '').replace(/"/g, '"') + '">';
     html += '<div class="news-image-wrapper" data-has-image="' + hasImg + '">';
     if (img) { html += '<img class="news-image" src="' + imgSrc + '" loading="lazy" onerror="this.style.display=\'none\';this.parentNode.setAttribute(\'data-has-image\',\'false\');">'; }
     html += '<div class="card-actions"><button class="favorite-btn' + (esFav ? ' active' : '') + '" onclick="toggleFavConCategoria(this)"><i class="' + (esFav ? 'fas' : 'far') + ' fa-heart"></i></button><button class="share-btn" onclick="shareIt(\'' + it.link.replace(/'/g, "\\'") + '\',\'' + it.title.replace(/'/g, "\\'") + '\',this)"><i class="fas fa-share-alt"></i></button></div></div>';
     html += '<div class="news-content"><a class="news-title" href="' + it.link + '" target="_blank">' + it.title + '</a>';
-    html += '<p class="news-excerpt">' + truncateText(stripHtml(it.description), 280) + ' ' + trBtn + '</p>';
+    html += '<p class="news-excerpt">' + truncateText(stripHtml(it.description), 280) + '</p>';
     html += '<div class="news-meta"><div class="source-info"><span class="categoria-badge"><i class="' + catIcon + '"></i> ' + catNom + '</span>' + (it.sourceLogo ? '<img class="source-favicon" src="' + it.sourceLogo + '">' : '') + '<span>' + timeAgo(it.pubDate) + ' - ' + it.sourceName + '</span></div><div style="display:flex;gap:6px;align-items:center;">' + afiBtn + '<a href="' + it.link + '" target="_blank" class="read-more-btn"><i class="fas fa-eye"></i></a></div></div></div></article>';
   }
   html += '</div>';
@@ -937,7 +864,6 @@ async function cargarTab(id, forzar) {
   if (!panel) return;
   if (id === 'favoritos') { showFavs(); return; }
   
-  // Loaders personalizados con Font Awesome
   if (id === 'deportes') {
     panel.innerHTML = '<div class="loader-deportes"><i class="fas fa-futbol fa-bounce-sport"></i><div class="loader-text">Cargando noticias deportivas...</div></div>';
   } 
@@ -1025,23 +951,6 @@ function actualizarBotonCargarMas(id) {
   else { c.style.display = 'block'; b.disabled = false; b.innerHTML = '<i class="fas fa-plus-circle"></i> Cargar más noticias'; }
 }
 
-function cargarMasManual() {
-  var panel = document.querySelector('.tab-panel-wrap.active'); if (!panel) return;
-  var id = panel.id.replace('panel-', '');
-  if (id === 'favoritos') return;
-  if (cargandoMas[id]) return;
-  if (visiblesPorTab[id] >= datosGuardados[id].length) return;
-  var btn = document.getElementById('cargarMasBtn');
-  if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Cargando...'; }
-  cargandoMas[id] = true;
-  visiblesPorTab[id] = (visiblesPorTab[id] || ITEMS_INICIALES) + ITEMS_INICIALES;
-  if (id === 'destacados') {
-    renderDestacadosGrid(datosGuardados[id].slice(0, visiblesPorTab[id])).then(function(html) { panel.innerHTML = html; cargandoMas[id] = false; actualizarBotonCargarMas(id); });
-  } else {
-    renderNewsGrid(datosGuardados[id], visiblesPorTab[id], id).then(function(html) { panel.innerHTML = html; cargandoMas[id] = false; actualizarBotonCargarMas(id); });
-  }
-}
-
 function shareIt(url, title, btn) {
   if (navigator.share) { navigator.share({ title: title, url: url }); return; }
   var menu = document.createElement('div');
@@ -1061,6 +970,45 @@ function enviarFormularioWeb() {
   cerrarFormularioWeb(); showToast('Enviado');
   document.getElementById('webName').value = ''; document.getElementById('webUrl').value = ''; document.getElementById('webCategory').value = ''; document.getElementById('webEmail').value = '';
 }
+
+// Toggle para ocultar/mostrar barra
+var toggleBtn = document.getElementById('navToggleBtn');
+var navBarBottom = document.getElementById('bottomNavBar');
+var isNavOpen = true;
+
+if (toggleBtn) {
+  toggleBtn.addEventListener('click', function() {
+    if (isNavOpen) {
+      navBarBottom.classList.add('hidden');
+      toggleBtn.innerHTML = '<i class="fas fa-chevron-up"></i>';
+      isNavOpen = false;
+    } else {
+      navBarBottom.classList.remove('hidden');
+      toggleBtn.innerHTML = '<i class="fas fa-chevron-down"></i>';
+      isNavOpen = true;
+    }
+  });
+}
+
+// SCROLL INFINITO
+var cargandoScroll = false;
+window.addEventListener('scroll', function() {
+  var panel = document.querySelector('.tab-panel-wrap.active');
+  if (!panel) return;
+  var id = panel.id.replace('panel-', '');
+  if (id === 'favoritos') return;
+  if (cargandoScroll) return;
+  
+  var scrollTop = window.scrollY || document.documentElement.scrollTop;
+  var windowHeight = window.innerHeight;
+  var documentHeight = document.documentElement.scrollHeight;
+  
+  if (scrollTop + windowHeight >= documentHeight - 300) {
+    cargandoScroll = true;
+    cargarMas();
+    setTimeout(function() { cargandoScroll = false; }, 1000);
+  }
+});
 
 /* INICIALIZACIÓN */
 (function() {
