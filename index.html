@@ -35,6 +35,109 @@
   .skeleton-text { height: 14px !important; background: linear-gradient(90deg, #1a1f2e 25%, #2a2f3e 50%, #1a1f2e 75%) !important; background-size: 200% 100% !important; animation: skeleton-loading 1.5s infinite !important; border-radius: 4px !important; margin-bottom: 6px !important; }
   @keyframes skeleton-loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
   
+  /* LOADERS PERSONALIZADOS */
+  .loader-deportes {
+    text-align: center;
+    padding: 60px 20px;
+  }
+  .ball-soccer {
+    width: 70px;
+    height: 70px;
+    background: radial-gradient(circle at 35% 35%, white, #e0e0e0);
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    position: relative;
+    animation: bounce-ball 0.6s infinite ease-in-out;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    border: 2px solid #2c2c2c;
+  }
+  .ball-soccer::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: #2c2c2c;
+    transform: translateY(-50%);
+  }
+  .ball-soccer::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 3px;
+    height: 100%;
+    background: #2c2c2c;
+    transform: translateX(-50%);
+  }
+  .ball-soccer .pentagon {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background: #2c2c2c;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+  }
+  @keyframes bounce-ball {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-25px); }
+  }
+  .loader-text {
+    color: #e91e63;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-top: 15px;
+  }
+  
+  .loader-tecnologia {
+    text-align: center;
+    padding: 60px 20px;
+  }
+  .gear {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 20px;
+    position: relative;
+    animation: spin-gear 1.2s linear infinite;
+  }
+  .gear-inner {
+    width: 30px;
+    height: 30px;
+    background: #1e88e5;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+  }
+  .gear-tooth {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: #1e88e5;
+    clip-path: polygon(50% 0%, 100% 35%, 80% 100%, 20% 100%, 0% 35%);
+  }
+  .gear-tooth:nth-child(1) { top: -8px; left: 20px; transform: rotate(0deg); }
+  .gear-tooth:nth-child(2) { top: 10px; right: -8px; transform: rotate(90deg); }
+  .gear-tooth:nth-child(3) { bottom: -8px; left: 20px; transform: rotate(180deg); }
+  .gear-tooth:nth-child(4) { top: 10px; left: -8px; transform: rotate(270deg); }
+  @keyframes spin-gear {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  .loader-text-tech {
+    color: #1e88e5;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-top: 15px;
+  }
+  
   .news-grid { column-count: 3 !important; column-gap: 15px !important; width: 100% !important; }
   @media (max-width: 900px) { .news-grid { column-count: 2 !important; } }
   @media (max-width: 600px) { .news-grid { column-count: 1 !important; } }
@@ -362,7 +465,7 @@ var TRANSLATOR_WORKER_URL = 'https://traductor-worker.josema-mera37.workers.dev'
 var RSS_CACHE_DURATION = 2 * 60 * 60 * 1000;
 
 var categoriasPorDefecto = ["Tecnología", "Deportes", "Mascotas", "Terror", "Cine", "Cocina", "Games", "Viajes", "Moda", "Música", "Ciencia", "General"];
-var MAX_ITEMS = 28;
+var MAX_ITEMS = 48;
 var ITEMS_INICIALES = 16;
 
 var lastScrollY = window.scrollY;
@@ -728,6 +831,21 @@ async function cargarTab(id, forzar) {
   var panel = document.getElementById('panel-' + id);
   if (!panel) return;
   if (id === 'favoritos') { showFavs(); return; }
+  
+  // Loaders personalizados
+  if (id === 'deportes') {
+    panel.innerHTML = '<div class="loader-deportes"><div class="ball-soccer"><div class="pentagon"></div></div><div class="loader-text">🏃‍♂️ Cargando noticias deportivas...</div></div>';
+  } 
+  else if (id === 'tecnologia') {
+    panel.innerHTML = '<div class="loader-tecnologia"><div class="gear"><div class="gear-inner"></div><div class="gear-tooth"></div><div class="gear-tooth"></div><div class="gear-tooth"></div><div class="gear-tooth"></div></div><div class="loader-text-tech">⚙️ Cargando noticias de tecnología...</div></div>';
+  }
+  else if (id === 'destacados') {
+    panel.innerHTML = '<div class="news-grid destacados-grid">' + renderSkeletons(9) + '</div>';
+  }
+  else {
+    panel.innerHTML = '<div class="loading-section">Cargando...</div>';
+  }
+  
   if (id === 'destacados') { await cargarDestacados(); return; }
   
   var cache = getRssCache(id);
