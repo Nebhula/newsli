@@ -354,7 +354,6 @@ var workersPorCategoria = {
   destacados: 'https://destacados.josema-mera37.workers.dev',
   tecnologia: 'https://tecnologia.josema-mera37.workers.dev',
   deportes: 'https://deportes.josema-mera37.workers.dev'
-  // Los demás por ahora usan el worker por defecto
 };
 
 var workerDefault = 'https://socnas-proxy.josema-mera37.workers.dev';
@@ -364,7 +363,7 @@ var RSS_CACHE_DURATION = 2 * 60 * 60 * 1000;
 
 var categoriasPorDefecto = ["Tecnología", "Deportes", "Mascotas", "Terror", "Cine", "Cocina", "Games", "Viajes", "Moda", "Música", "Ciencia", "General"];
 var MAX_ITEMS = 48;
-var ITEMS_INICIALES = 36;
+var ITEMS_INICIALES = 16;
 
 var lastScrollY = window.scrollY;
 var navBar = document.getElementById('bottomNavBar');
@@ -605,65 +604,38 @@ async function cargarFeedConWorker(categoriaId, limit) {
   }
 }
 
-// DESTACADOS - usa su worker específico
+// DESTACADOS - usa su worker específico (modificado para Cargar Más)
 async function cargarDestacados() {
   var panel = document.getElementById('panel-destacados');
   var cacheLocal = localStorage.getItem('destacadosCache');
   var cacheTime = localStorage.getItem('destacadosCacheTime');
+  
   if (cacheLocal && cacheTime && (Date.now() - parseInt(cacheTime) < 86400000)) {
     var datosCache = JSON.parse(cacheLocal);
-    panel.innerHTML = renderDestacadosGrid(datosCache);
-    document.getElementById('cargarMasContainer').style.display = 'none';
+    datosGuardados.destacados = datosCache;
+    visiblesPorTab.destacados = Math.min(ITEMS_INICIALES, datosCache.length);
+    panel.innerHTML = await renderDestacadosGrid(datosCache.slice(0, visiblesPorTab.destacados));
+    actualizarBotonCargarMas('destacados');
     actualizarDestacadosEnSegundoPlano();
     return;
   }
+  
   panel.innerHTML = '<div class="news-grid destacados-grid">' + renderSkeletons(9) + '</div>';
   
-  var items = await cargarFeedConWorker('destacados', 30);
+  var items = await cargarFeedConWorker('destacados', MAX_ITEMS);
   
-  // Mezclar aleatoriamente
-  for (var i = items.length - 1; i > 0; i--) {
-    var j = Math.floor(Math.random() * (i + 1));
-    var temp = items[i];
-    items[i] = items[j];
-    items[j] = temp;
-  }
-  items = items.slice(0, 40);
+  datosGuardados.destacados = items;
+  visiblesPorTab.destacados = Math.min(ITEMS_INICIALES, items.length);
   
   localStorage.setItem('destacadosCache', JSON.stringify(items));
   localStorage.setItem('destacadosCacheTime', Date.now());
-  var html = renderDestacadosGrid(items);
+  
+  var html = await renderDestacadosGrid(items.slice(0, visiblesPorTab.destacados));
   panel.innerHTML = html;
-  document.getElementById('cargarMasContainer').style.display = 'none';
+  actualizarBotonCargarMas('destacados');
 }
 
-function actualizarDestacadosEnSegundoPlano() {
-  setTimeout(async function() {
-    var items = await cargarFeedConWorker('destacados', 30);
-    for (var i = items.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1));
-      var temp = items[i];
-      items[i] = items[j];
-      items[j] = temp;
-    }
-    items = items.slice(0, 15);
-    localStorage.setItem('destacadosCache', JSON.stringify(items));
-    localStorage.setItem('destacadosCacheTime', Date.now());
-    var panel = document.getElementById('panel-destacados');
-    if (panel && panel.classList.contains('active')) {
-      var nuevaHtml = renderDestacadosGrid(items);
-      if (nuevaHtml !== panel.innerHTML) { panel.innerHTML = nuevaHtml; }
-    }
-  }, 100);
-}
-
-function renderSkeletons(cantidad) {
-  var html = '';
-  for (var i = 0; i < cantidad; i++) { html += '<div class="skeleton-card"><div class="skeleton-image"></div><div class="skeleton-content"><div class="skeleton-title"></div><div class="skeleton-text"></div><div class="skeleton-text"></div></div></div>'; }
-  return html;
-}
-
-function renderDestacadosGrid(items) {
+async function renderDestacadosGrid(items) {
   if (!items || items.length === 0) return '<div class="loading-section">Sin noticias</div>';
   var html = '<div class="news-grid destacados-grid">';
   for (var i = 0; i < items.length; i++) {
@@ -701,6 +673,28 @@ function renderDestacadosGrid(items) {
     html += '<div class="news-meta"><div class="source-info"><span class="categoria-badge"><i class="' + catIcon + '"></i> ' + catDet + '</span>' + (it.sourceLogo ? '<img class="source-favicon" src="' + it.sourceLogo + '">' : '') + '<span>' + timeAgo(it.pubDate) + ' - ' + it.sourceName + '</span></div><div style="display:flex;gap:6px;align-items:center;">' + afiBtn + '<a href="' + it.link + '" target="_blank" class="read-more-btn"><i class="fas fa-eye"></i></a></div></div></div></article>';
   }
   html += '</div>';
+  return html;
+}
+
+function actualizarDestacadosEnSegundoPlano() {
+  setTimeout(async function() {
+    var items = await cargarFeedConWorker('destacados', MAX_ITEMS);
+    if (items && items.length > 0) {
+      datosGuardados.destacados = items;
+      localStorage.setItem('destacadosCache', JSON.stringify(items));
+      localStorage.setItem('destacadosCacheTime', Date.now());
+      var panel = document.getElementById('panel-destacados');
+      if (panel && panel.classList.contains('active')) {
+        var nuevaHtml = await renderDestacadosGrid(items.slice(0, visiblesPorTab.destacados));
+        if (nuevaHtml !== panel.innerHTML) { panel.innerHTML = nuevaHtml; }
+      }
+    }
+  }, 100);
+}
+
+function renderSkeletons(cantidad) {
+  var html = '';
+  for (var i = 0; i < cantidad; i++) { html += '<div class="skeleton-card"><div class="skeleton-image"></div><div class="skeleton-content"><div class="skeleton-title"></div><div class="skeleton-text"></div><div class="skeleton-text"></div></div></div>'; }
   return html;
 }
 
@@ -746,7 +740,6 @@ async function cargarTab(id, forzar) {
     return;
   }
   
-  // Cargar usando el worker específico de la categoría
   var items = await cargarFeedConWorker(id, MAX_ITEMS);
   if (items && items.length > 0) {
     datosGuardados[id] = items; cargado[id] = true;
@@ -776,13 +769,16 @@ function actualizarFeedEnSegundoPlano(cat) {
 function cargarMas() {
   var panel = document.querySelector('.tab-panel-wrap.active'); if (!panel) return;
   var id = panel.id.replace('panel-', '');
-  if (id === 'favoritos' || id === 'destacados') return;
+  if (id === 'favoritos') return;
   if (cargandoMas[id]) return;
   if (visiblesPorTab[id] >= datosGuardados[id].length) return;
   cargandoMas[id] = true;
   visiblesPorTab[id] = (visiblesPorTab[id] || ITEMS_INICIALES) + ITEMS_INICIALES;
-  renderNewsGrid(datosGuardados[id], visiblesPorTab[id], id).then(function(html) { panel.innerHTML = html; });
-  cargandoMas[id] = false;
+  if (id === 'destacados') {
+    renderDestacadosGrid(datosGuardados[id].slice(0, visiblesPorTab[id])).then(function(html) { panel.innerHTML = html; cargandoMas[id] = false; });
+  } else {
+    renderNewsGrid(datosGuardados[id], visiblesPorTab[id], id).then(function(html) { panel.innerHTML = html; cargandoMas[id] = false; });
+  }
 }
 
 function cambiarTab(id) {
@@ -794,7 +790,6 @@ function cambiarTab(id) {
   document.querySelectorAll('.tab-panel-wrap').forEach(function(p) { p.classList.remove('active'); });
   if (evt && evt.currentTarget) evt.currentTarget.classList.add('active');
   document.getElementById('panel-' + id).classList.add('active');
-  document.getElementById('cargarMasContainer').style.display = 'none';
   cargarTab(id);
 }
 
@@ -802,22 +797,26 @@ function actualizarBotonCargarMas(id) {
   var c = document.getElementById('cargarMasContainer');
   var b = document.getElementById('cargarMasBtn');
   if (!c || !b) return;
-  if (id === 'favoritos' || id === 'destacados') { c.style.display = 'none'; return; }
-  if (visiblesPorTab[id] >= datosGuardados[id].length) { c.style.display = 'none'; }
+  if (id === 'favoritos') { c.style.display = 'none'; return; }
+  if (!datosGuardados[id] || visiblesPorTab[id] >= datosGuardados[id].length) { c.style.display = 'none'; }
   else { c.style.display = 'block'; b.disabled = false; b.innerHTML = '<i class="fas fa-plus-circle"></i> Cargar más noticias'; }
 }
 
 function cargarMasManual() {
   var panel = document.querySelector('.tab-panel-wrap.active'); if (!panel) return;
   var id = panel.id.replace('panel-', '');
-  if (id === 'favoritos' || id === 'destacados') return;
+  if (id === 'favoritos') return;
   if (cargandoMas[id]) return;
   if (visiblesPorTab[id] >= datosGuardados[id].length) return;
   var btn = document.getElementById('cargarMasBtn');
   if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Cargando...'; }
   cargandoMas[id] = true;
   visiblesPorTab[id] = (visiblesPorTab[id] || ITEMS_INICIALES) + ITEMS_INICIALES;
-  renderNewsGrid(datosGuardados[id], visiblesPorTab[id], id).then(function(html) { panel.innerHTML = html; cargandoMas[id] = false; actualizarBotonCargarMas(id); });
+  if (id === 'destacados') {
+    renderDestacadosGrid(datosGuardados[id].slice(0, visiblesPorTab[id])).then(function(html) { panel.innerHTML = html; cargandoMas[id] = false; actualizarBotonCargarMas(id); });
+  } else {
+    renderNewsGrid(datosGuardados[id], visiblesPorTab[id], id).then(function(html) { panel.innerHTML = html; cargandoMas[id] = false; actualizarBotonCargarMas(id); });
+  }
 }
 
 function shareIt(url, title, btn) {
