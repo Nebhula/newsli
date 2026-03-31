@@ -299,76 +299,90 @@
   border-top: 1px solid #1e2a3a;
   display: flex;
   align-items: center;
+  justify-content: center; /* Centrado en pantallas grandes */
   padding: 10px 5px;
   z-index: 2000;
-  gap: 10px;
   transition: transform 0.3s ease;
 }
 
-/* LOGO FIJO */
+/* LOGO FIJO (en móvil se mantiene a la izquierda) */
 .nav-logo-fixed {
   flex-shrink: 0;
   margin-left: 5px;
 }
 
-/* CONTENEDOR CARRUSEL DESLIZABLE */
+/* CONTENEDOR DE BOTONES */
 .nav-scrollable {
-  flex: 1;
-  overflow-x: auto;
-  overflow-y: hidden;
   display: flex;
-  gap: 10px;
-  scroll-behavior: smooth;
-  white-space: nowrap;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE/Edge */
+  gap: 15px;
+  transition: all 0.3s ease;
 }
 
-/* OCULTAR BARRA DE DESPLAZAMIENTO EN CHROME/Safari */
-.nav-scrollable::-webkit-scrollbar {
-  display: none;
+/* ESTILO BASE: OCULTA EL CARRUSEL EN PC */
+.nav-scrollable {
+  overflow-x: visible;
+  white-space: normal;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex: 1;
 }
 
-/* BOTONES DENTRO DEL CARRUSEL */
-.nav-scrollable .nav-btn {
-  flex-shrink: 0;
+/* BOTONES DENTRO DEL CONTENEDOR */
+.nav-scrollable .nav-btn,
+.nav-logo-fixed .nav-btn {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 8px;
+  padding: 8px 12px;
   color: #8a8f9e;
   position: relative;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
   min-width: 50px;
 }
-.nav-scrollable .nav-btn:hover {
-  color: #e91e63;
-}
-.nav-scrollable .nav-btn i {
-  font-size: 24px;
-}
-
-/* BOTÓN LOGO FIJO (mismo estilo) */
-.nav-logo-fixed .nav-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 8px;
-  color: #8a8f9e;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-}
+.nav-scrollable .nav-btn:hover,
 .nav-logo-fixed .nav-btn:hover {
   color: #e91e63;
 }
+.nav-scrollable .nav-btn i,
+.nav-logo-fixed .nav-btn i {
+  font-size: 24px;
+}
 
+/* OCULTAR BARRA DE SCROLL (por si acaso) */
+.nav-scrollable::-webkit-scrollbar {
+  display: none;
+}
+.nav-scrollable {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
 
+/* ===== MÓVIL (< 768px) ===== */
+@media (max-width: 768px) {
+  .bottom-nav-bar {
+    justify-content: flex-start; /* Logo a la izquierda */
+  }
+  .nav-scrollable {
+    flex: 1;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: 10px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .nav-scrollable .nav-btn {
+    flex-shrink: 0;
+    padding: 8px;
+  }
+  .nav-logo-fixed {
+    margin-left: 5px;
+  }
+}
 
 
 
