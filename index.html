@@ -377,6 +377,61 @@
   
   .toast-container { position: fixed !important; bottom: 80px !important; left: 50% !important; transform: translateX(-50%) !important; z-index: 10000 !important; width: 90% !important; max-width: 350px !important; }
   .toast { background: rgba(0,0,0,0.95) !important; color: #fff !important; padding: 12px 16px !important; border-radius: 8px !important; font-size: 13px !important; margin-bottom: 8px !important; display: flex !important; align-items: center !important; gap: 8px !important; line-height: 1.4 !important; border-left: 3px solid #e91e63 !important; }
+
+
+
+
+/* ESTILOS MÓVIL - SIN BORDES NI MÁRGENES */
+@media (max-width: 600px) {
+  /* Contenedor principal */
+  .news-aggregator {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  
+  /* Eliminar márgenes laterales del grid */
+  .news-grid {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    column-gap: 0 !important;
+  }
+  
+  /* Tarjetas: sin bordes redondos, sin márgenes, ancho completo */
+  .news-card {
+    border-radius: 0 !important;
+    margin: 0 0 8px 0 !important;
+    width: 100% !important;
+    border-left: none !important;
+    border-right: none !important;
+  }
+  
+  /* Imagen: sin bordes redondos */
+  .news-image-wrapper {
+    border-radius: 0 !important;
+  }
+  
+  .news-image {
+    border-radius: 0 !important;
+  }
+  
+  /* Contenido interno: sin padding extra */
+  .news-content {
+    padding: 12px !important;
+  }
+  
+  /* Pestañas: ajustar para que no sobresalgan */
+  .tabs-nav-wrap {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+
+
+
+
 </style>
 
 <div class='news-aggregator' id='news-widget'>
