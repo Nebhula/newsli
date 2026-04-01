@@ -170,12 +170,6 @@
   .empty-favorites h3 { font-size: 16px !important; font-weight: 600 !important; color: #f0f0f0 !important; margin-bottom: 12px !important; line-height: 1.4 !important; }
   .empty-favorites p { font-size: 13px !important; color: #8a8f9e !important; line-height: 1.6 !important; margin: 0 !important; max-width: 300px !important; margin: 0 auto !important; }
   
-  .cargar-mas-container { text-align: center !important; padding: 20px !important; margin-top: 10px !important; display: none !important; }
-  .cargar-mas-btn { background: linear-gradient(135deg, #e91e63 0%, #ff6b9d 100%) !important; color: #fff !important; border: none !important; padding: 14px 40px !important; border-radius: 30px !important; font-size: 14px !important; font-weight: 600 !important; cursor: pointer !important; transition: all 0.2s ease !important; box-shadow: 0 4px 12px rgba(233,30,99,0.3) !important; display: inline-flex !important; align-items: center !important; gap: 8px !important; }
-  .cargar-mas-btn:hover { transform: translateY(-2px) !important; box-shadow: 0 6px 20px rgba(233,30,99,0.4) !important; }
-  .cargar-mas-btn:disabled { opacity: 0.5 !important; cursor: not-allowed !important; transform: none !important; }
-  .cargar-mas-btn i { font-size: 16px !important; }
-  
   #panel-destacados { padding-bottom: 40px !important; }
   
   /* MENÚ INFERIOR CON LOGO FIJO Y CARRUSEL */
@@ -414,11 +408,6 @@
   <div class='tab-panel-wrap' id='panel-moda'><div class='loading-section'>Cargando...</div></div>
   <div class='tab-panel-wrap' id='panel-musica'><div class='loading-section'>Cargando...</div></div>
   <div class='tab-panel-wrap' id='panel-ciencia'><div class='loading-section'>Cargando...</div></div>
-  <div class='cargar-mas-container' id='cargarMasContainer' style='display:none;'>
-    <button class='cargar-mas-btn' id='cargarMasBtn' onclick='cargarMasManual()'>
-      <i class='fas fa-plus-circle'></i> Cargar más noticias
-    </button>
-  </div>
 </div>
 
 <div class='categoria-modal' id='categoriaModal'>
@@ -514,8 +503,8 @@ var workerDefault = 'https://socnas-proxy.josema-mera37.workers.dev';
 var RSS_CACHE_DURATION = 2 * 60 * 60 * 1000;
 
 var categoriasPorDefecto = ["Tecnología", "Deportes", "Mascotas", "Terror", "Cine", "Cocina", "Games", "Viajes", "Moda", "Música", "Ciencia", "General"];
-var MAX_ITEMS = 48;
-var ITEMS_INICIALES = 46;
+var MAX_ITEMS = 60;
+var ITEMS_INICIALES = 16;
 
 var afiliados = {
   'iphone': { keywords: ['iphone 15','iphone 16','comprar iphone','oferta iphone'], foto: 'https://m.media-amazon.com/images/I/71xb2xkN5qL._AC_SL1500_.jpg', titulo: 'iPhone 16', descripcion: 'El último iPhone con cámara profesional y chip A18 Pro. Pantalla Super Retina XDR, batería para todo el día y acabados en titanio.', enlace: 'https://amazon.es/dp/B0CHX3TW6T?tag=TU-ID-AFILIADO-21' },
@@ -684,7 +673,6 @@ function toggleFavConCategoria(btn) {
 function showFavs() {
   var panel = document.getElementById('panel-favoritos');
   var f = getFavsPorCategoria(); var c = getCategorias(); var t = contarTotalFavoritos();
-  document.getElementById('cargarMasContainer').style.display = 'none';
   if (t === 0) { panel.innerHTML = '<div class="empty-favorites"><i class="fas fa-heart"></i><h3>Vacío</h3><p>Guarda noticias con el corazón</p></div>'; return; }
   var html = '';
   for (var i = 0; i < c.length; i++) { var cat = c[i]; var n = f[cat] || []; if (n.length > 0) { var icon = getIconoCategoria(cat); html += '<div class="categoria-fav-header"><h3><i class="' + icon + '"></i> ' + cat + '</h3><span>' + n.length + '</span></div>'; for (var j = 0; j < n.length; j++) { var x = n[j]; html += '<div class="fav-card"><div class="fav-card-info"><a class="fav-card-title" href="' + x.u + '" target="_blank">' + x.t + '</a><div class="fav-card-meta">' + (x.d ? timeAgo(x.d) : '') + ' · ' + (x.s || '') + '</div></div><button class="fav-card-remove" onclick="eliminarFavorito(\'' + x.u.replace(/'/g, "\\'") + '\', \'' + cat.replace(/'/g, "\\'") + '\')"><i class="fas fa-trash"></i></button></div>'; } } }
@@ -758,9 +746,8 @@ async function cargarDestacados() {
   if (cacheLocal && cacheTime && (Date.now() - parseInt(cacheTime) < 86400000)) {
     var datosCache = JSON.parse(cacheLocal);
     datosGuardados.destacados = datosCache;
-    visiblesPorTab.destacados = datosCache.length;
+    visiblesPorTab.destacados = Math.min(ITEMS_INICIALES, datosCache.length);
     panel.innerHTML = await renderDestacadosGrid(datosCache.slice(0, visiblesPorTab.destacados));
-    actualizarBotonCargarMas('destacados');
     actualizarDestacadosEnSegundoPlano();
     return;
   }
@@ -768,12 +755,11 @@ async function cargarDestacados() {
   panel.innerHTML = '<div class="news-grid destacados-grid">' + renderSkeletons(9) + '</div>';
   var items = await cargarFeedConWorker('destacados', MAX_ITEMS);
   datosGuardados.destacados = items;
-  visiblesPorTab.destacados = items.length;
+  visiblesPorTab.destacados = Math.min(ITEMS_INICIALES, items.length);
   localStorage.setItem('destacadosCache', JSON.stringify(items));
   localStorage.setItem('destacadosCacheTime', Date.now());
   var html = await renderDestacadosGrid(items.slice(0, visiblesPorTab.destacados));
   panel.innerHTML = html;
-  actualizarBotonCargarMas('destacados');
 }
 
 async function renderDestacadosGrid(items) {
@@ -885,7 +871,6 @@ async function cargarTab(id, forzar) {
     visiblesPorTab[id] = Math.min(ITEMS_INICIALES, cache.length);
     panel.innerHTML = await renderNewsGrid(cache, visiblesPorTab[id], id);
     actualizarFeedEnSegundoPlano(id);
-    actualizarBotonCargarMas(id);
     return;
   }
   
@@ -895,7 +880,6 @@ async function cargarTab(id, forzar) {
     visiblesPorTab[id] = Math.min(ITEMS_INICIALES, items.length);
     setRssCache(id, items);
     panel.innerHTML = await renderNewsGrid(items, visiblesPorTab[id], id);
-    actualizarBotonCargarMas(id);
   } else {
     panel.innerHTML = '<div class="loading-section">No se pudieron cargar las noticias</div>';
   }
@@ -909,24 +893,33 @@ function actualizarFeedEnSegundoPlano(cat) {
       var panel = document.getElementById('panel-' + cat);
       if (panel && panel.classList.contains('active')) {
         visiblesPorTab[cat] = Math.min(ITEMS_INICIALES, items.length);
-        renderNewsGrid(items, visiblesPorTab[cat], cat).then(function(html) { panel.innerHTML = html; actualizarBotonCargarMas(cat); });
+        renderNewsGrid(items, visiblesPorTab[cat], cat).then(function(html) { panel.innerHTML = html; });
       }
     }
   }, 100);
 }
 
 function cargarMas() {
-  var panel = document.querySelector('.tab-panel-wrap.active'); if (!panel) return;
+  var panel = document.querySelector('.tab-panel-wrap.active');
+  if (!panel) return;
   var id = panel.id.replace('panel-', '');
   if (id === 'favoritos') return;
   if (cargandoMas[id]) return;
   if (visiblesPorTab[id] >= datosGuardados[id].length) return;
+  
   cargandoMas[id] = true;
   visiblesPorTab[id] = (visiblesPorTab[id] || ITEMS_INICIALES) + ITEMS_INICIALES;
+  
   if (id === 'destacados') {
-    renderDestacadosGrid(datosGuardados[id].slice(0, visiblesPorTab[id])).then(function(html) { panel.innerHTML = html; cargandoMas[id] = false; });
+    renderDestacadosGrid(datosGuardados[id].slice(0, visiblesPorTab[id])).then(function(html) { 
+      panel.innerHTML = html; 
+      cargandoMas[id] = false; 
+    });
   } else {
-    renderNewsGrid(datosGuardados[id], visiblesPorTab[id], id).then(function(html) { panel.innerHTML = html; cargandoMas[id] = false; });
+    renderNewsGrid(datosGuardados[id], visiblesPorTab[id], id).then(function(html) { 
+      panel.innerHTML = html; 
+      cargandoMas[id] = false; 
+    });
   }
 }
 
@@ -940,15 +933,6 @@ function cambiarTab(id) {
   if (evt && evt.currentTarget) evt.currentTarget.classList.add('active');
   document.getElementById('panel-' + id).classList.add('active');
   cargarTab(id);
-}
-
-function actualizarBotonCargarMas(id) {
-  var c = document.getElementById('cargarMasContainer');
-  var b = document.getElementById('cargarMasBtn');
-  if (!c || !b) return;
-  if (id === 'favoritos') { c.style.display = 'none'; return; }
-  if (!datosGuardados[id] || visiblesPorTab[id] >= datosGuardados[id].length) { c.style.display = 'none'; }
-  else { c.style.display = 'block'; b.disabled = false; b.innerHTML = '<i class="fas fa-plus-circle"></i> Cargar más noticias'; }
 }
 
 function shareIt(url, title, btn) {
