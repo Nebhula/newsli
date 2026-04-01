@@ -912,7 +912,7 @@ async function renderDestacadosGrid(items) {
     if (img) { html += '<img class="news-image" src="' + imgSrc + '" loading="lazy" onerror="this.style.display=\'none\';this.parentNode.setAttribute(\'data-has-image\',\'false\');">'; }
     html += '<div class="card-actions"><button class="favorite-btn' + (esFav ? ' active' : '') + '" onclick="toggleFavConCategoria(this)"><i class="' + (esFav ? 'fas' : 'far') + ' fa-heart"></i></button><button class="share-btn" onclick="shareIt(\'' + it.link.replace(/'/g, "\\'") + '\',\'' + (it.title || 'Noticia').replace(/'/g, "\\'") + '\',this)"><i class="fas fa-share-alt"></i></button></div></div>';
     html += '<div class="news-content"><a class="news-title" href="' + it.link + '" target="_blank">' + (it.title || 'Noticia ' + (i + 1)) + '</a>';
-    html += '<p class="news-excerpt">' + truncateText(stripHtml(it.description || ''), 580) + '</p>';
+    html += '<p class="news-excerpt">' + truncateText(stripHtml(it.description || ''), 280) + '</p>';
     html += '<div class="news-meta"><div class="source-info"><span class="categoria-badge"><i class="' + catIcon + '"></i> ' + catDet + '</span>' + (it.sourceLogo ? '<img class="source-favicon" src="' + it.sourceLogo + '">' : '') + '<span>' + timeAgo(it.pubDate) + ' - ' + it.sourceName + '</span></div><div style="display:flex;gap:6px;align-items:center;">' + afiBtn + '<a href="' + it.link + '" target="_blank" class="read-more-btn"><i class="fas fa-eye"></i></a></div></div></div></article>';
   }
   html += '</div>';
