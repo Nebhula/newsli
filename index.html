@@ -381,11 +381,14 @@
 
 
 
+
+
+
 /* ESTILOS MÓVIL - SIN BORDES NI MÁRGENES */
 @media (max-width: 600px) {
   /* Contenedor principal */
   .news-aggregator {
-    padding: 0 !important;
+    padding: 0 0 80px 0 !important;
     margin: 0 !important;
     width: 100% !important;
     max-width: 100% !important;
@@ -427,10 +430,16 @@
     padding-left: 0 !important;
     padding-right: 0 !important;
   }
+  
+  /* Espacio inferior para que no se solape con el footer */
+  .news-aggregator {
+    padding-bottom: 80px !important;
+  }
+  
+  .news-card:last-child {
+    margin-bottom: 80px !important;
+  }
 }
-
-
-
 
 </style>
 
