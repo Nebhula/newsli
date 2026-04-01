@@ -83,6 +83,10 @@
   .news-card { background: #11131f !important; border-radius: 12px !important; overflow: hidden !important; box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important; transition: all 0.3s ease !important; display: inline-flex !important; flex-direction: column !important; width: 100% !important; position: relative !important; break-inside: avoid !important; margin-bottom: 15px !important; border: 1px solid #1e2a3a !important; content-visibility: auto !important; contain-intrinsic-size: 0 400px !important; }
   .news-card:hover { transform: translateY(-4px) !important; box-shadow: 0 12px 28px rgba(0,0,0,0.4), 0 0 0 1px #e91e63 !important; border-color: #e91e63 !important; }
   @media (max-width: 600px) { .news-card { box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important; } .news-card:hover { transform: translateY(-2px) !important; } }
+  .news-card {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 400px;
+}
   
   
   
@@ -440,6 +444,19 @@
   }
 }
 
+
+
+
+/* Espacio inferior para que no se solape con el footer (todos los dispositivos) */
+.news-aggregator {
+  padding-bottom: 80px !important;
+}
+
+.news-card:last-child {
+  margin-bottom: 80px !important;
+}
+
+  
 </style>
 
 <div class='news-aggregator' id='news-widget'>
