@@ -1129,78 +1129,119 @@ window.addEventListener('scroll', function() {
 
 
 
-
 <!-- GOOGLE TRANSLATE CON BANDERAS PERSONALIZADO -->
 <div id="google_translate_element" style="display: none;"></div>
 
 <!-- Selector de idioma con banderas -->
 <div id="custom_translate_flags" style="position: fixed; bottom: 70px; right: 10px; z-index: 9999; background: white; border-radius: 25px; padding: 8px 6px; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
-  <a href="javascript:translateLanguage('es')" style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; overflow: hidden;">
+  <a href="javascript:void(0)" onclick="translateLanguage('es')" style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; overflow: hidden; cursor: pointer;">
     <img src="https://flagicons.lipis.dev/flags/4x3/es.svg" alt="Español" style="width: 100%; height: 100%; object-fit: cover;">
   </a>
-  <a href="javascript:translateLanguage('en')" style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; overflow: hidden;">
+  <a href="javascript:void(0)" onclick="translateLanguage('en')" style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; overflow: hidden; cursor: pointer;">
     <img src="https://flagicons.lipis.dev/flags/4x3/us.svg" alt="English" style="width: 100%; height: 100%; object-fit: cover;">
   </a>
   <div style="width: 24px; height: 1px; background: #ddd; margin: 4px 0;"></div>
-  <a href="javascript:void(0)" onclick="cerrarSelector()" style="background: #e91e63; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; text-decoration: none;">
+  <a href="javascript:void(0)" onclick="cerrarSelector()" style="background: #e91e63; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; text-decoration: none; cursor: pointer;">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18"/><path d="M6 6L18 18"/></svg>
   </a>
 </div>
 
 <script type="text/javascript">
+  // Variable para controlar si ya se ha inicializado
+  var translateInitialized = false;
+  
   // Función que se ejecuta cuando Google Translate está listo
   function googleTranslateElementInit() {
-    new google.translate.TranslateElement({
-      pageLanguage: 'es',
-      includedLanguages: 'es,en',
-      layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-      autoDisplay: false
-    }, 'google_translate_element');
+    if (!translateInitialized) {
+      new google.translate.TranslateElement({
+        pageLanguage: 'es',
+        includedLanguages: 'es,en',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        autoDisplay: false
+      }, 'google_translate_element');
+      translateInitialized = true;
+    }
   }
   
-  // Función que traduce al idioma seleccionado
+  // Función principal de traducción
   function translateLanguage(langCode) {
-    // Mapeo de códigos a nombres de idioma que Google entiende
-    var langNames = {
-      'es': 'Spanish',
-      'en': 'English'
+    // Mapeo de códigos de idioma
+    var langMap = {
+      'es': 'es',
+      'en': 'en'
     };
     
-    var langName = langNames[langCode];
-    var $frame = $('.goog-te-menu-frame:first');
+    var targetLang = langMap[langCode];
     
-    if (!$frame.length) {
+    // Método 1: Usar cookie de Google Translate
+    document.cookie = "googtrans=/es/" + targetLang;
+    document.cookie = "googtrans=/es/" + targetLang + "; path=/";
+    
+    // Método 2: Recargar y aplicar traducción
+    if (typeof google !== 'undefined' && google.translate) {
+      // Forzar la recarga de la página con el nuevo idioma
+      location.reload();
+    } else {
+      // Si no está cargado, esperar y luego recargar
       setTimeout(function() {
-        translateLanguage(langCode);
-      }, 100);
-      return;
+        location.reload();
+      }, 500);
     }
     
-    $frame.contents().find('.goog-te-menu2-item span.text:contains(' + langName + ')').get(0).click();
     return false;
   }
   
+  // Función para cerrar el selector
   function cerrarSelector() {
     document.getElementById('custom_translate_flags').style.display = 'none';
   }
+  
+  // Leer cookie al cargar para mantener el idioma
+  function getCookie(name) {
+    var value = "; " + document.cookie;
+    var parts = value.split("; " + name + "=");
+    if (parts.length == 2) return parts.pop().split(";").shift();
+  }
+  
+  // Aplicar traducción guardada al cargar la página
+  window.addEventListener('load', function() {
+    var googtrans = getCookie('googtrans');
+    if (googtrans && googtrans !== '/es/es') {
+      // Ya hay una traducción activa
+      console.log('Traducción activa:', googtrans);
+    }
+  });
 </script>
 
-<!-- jQuery necesario para el selector -->
+<!-- jQuery y Google Translate -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 <style>
-  /* Ocultar el widget original de Google */
+  /* Ocultar elementos de Google Translate */
   .goog-te-banner-frame.skiptranslate {
     display: none !important;
   }
+  
   body {
     top: 0px !important;
   }
+  
   .goog-te-gadget {
     display: none !important;
   }
+  
   .goog-te-gadget-simple {
+    display: none !important;
+  }
+  
+  /* Ocultar notificaciones */
+  .goog-te-balloon-frame {
+    display: none !important;
+  }
+  
+  /* Ajustar el iframe de Google Translate */
+  iframe.skiptranslate {
     display: none !important;
   }
 </style>
