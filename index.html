@@ -1158,7 +1158,10 @@ async function renderDestacadosGrid(items) {
     
     var podClass = (i === 0) ? ' podium-first' : '';
     
-    html += '<article class="news-card cat-destacados' + podClass + '" data-url="' + it.link + '" data-title="' + (it.title || '').replace(/"/g, '"') + '" data-img="' + imgSrc + '" data-source="' + (it.sourceName || '') + '" data-logo="' + (it.sourceLogo || '') + '" data-date="' + (it.pubDate || '') + '" data-desc="' + stripHtml(it.description || '').replace(/"/g, '"') + '">';
+    // === CLASE DE COLOR SEGÚN CATEGORÍA DETECTADA ===
+    var catClass = ' cat-' + catDet.replace(/\s+/g, '-').toLowerCase().replace('á','a').replace('é','e').replace('í','i').replace('ó','o').replace('ú','u');
+    
+    html += '<article class="news-card' + catClass + podClass + '" data-url="' + it.link + '" data-title="' + (it.title || '').replace(/"/g, '"') + '" data-img="' + imgSrc + '" data-source="' + (it.sourceName || '') + '" data-logo="' + (it.sourceLogo || '') + '" data-date="' + (it.pubDate || '') + '" data-desc="' + stripHtml(it.description || '').replace(/"/g, '"') + '">';
     html += '<div class="news-image-wrapper" data-has-image="' + hasImg + '">';
     if (img) { html += '<img class="news-image" src="' + imgSrc + '" loading="lazy" onerror="this.style.display=\'none\';this.parentNode.setAttribute(\'data-has-image\',\'false\');">'; }
     
