@@ -1129,45 +1129,35 @@ window.addEventListener('scroll', function() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <script>
 async function autoTranslate() {
   const elements = document.querySelectorAll(".article-content p, .article-content h1, .article-content h2");
 
   for (let el of elements) {
-    const text = el.innerText.trim();
-    if (text.length < 20) continue; // evita textos cortos
+    const originalText = el.innerText.trim();
+
+    if (originalText.length < 20) continue; // evita traducir textos cortos
+
+    // 🔥 cache en localStorage
+    const cacheKey = 'tr_' + originalText;
+    const cached = localStorage.getItem(cacheKey);
+    if (cached) {
+      el.innerText = cached;
+      continue;
+    }
 
     try {
       const res = await fetch("TU_WORKER_URL_AQUI", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text })
+        body: JSON.stringify({ text: originalText })
       });
 
       const data = await res.json();
 
       if (data.detected === "en") {
         el.innerText = data.translated;
+        localStorage.setItem(cacheKey, data.translated);
       }
     } catch (e) {
       console.error("Error traduciendo:", e);
@@ -1175,7 +1165,7 @@ async function autoTranslate() {
   }
 }
 
-// Ejecuta al cargar la página
+// Ejecutar al cargar la página
 window.addEventListener("load", autoTranslate);
 </script>
 
