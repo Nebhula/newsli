@@ -236,18 +236,19 @@
   }
   
   .fav-card-image {
-    width: 100% !important;
-    height: 180px !important;
-    object-fit: cover !important;
-    background: #1a1f2e !important;
-    position: relative !important;
-  }
-  
-  .fav-card-image img {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-  }
+  width: 100% !important;
+  height: 180px !important;
+  object-fit: contain !important;  /* ← CAMBIA A contain */
+  background: #1a1f2e !important;
+  position: relative !important;
+}
+
+.fav-card-image img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;  /* ← MUEVE cover AQUÍ */
+  object-position: center top !important;  /* ← Muestra la parte importante */
+}
   
   .fav-card-read-badge {
     position: absolute !important;
