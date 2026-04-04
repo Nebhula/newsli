@@ -1128,52 +1128,57 @@ window.addEventListener('scroll', function() {
 
 
 
-<!-- BOTÓN TRADUCTOR -->
-<div id="translator-widget">
-  <select id="language-select">
-    <option value="">🌍 Traducir</option>
-    <option value="en">English</option>
-    <option value="es">Español</option>
-    <option value="fr">Français</option>
-    <option value="de">Deutsch</option>
-    <option value="it">Italiano</option>
-  </select>
+<div id="translator">
+  <button onclick="translate('es')">🇪🇸</button>
+  <button onclick="translate('en')">🇬🇧</button>
 </div>
 
 <style>
-#translator-widget {
+#translator {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  z-index: 9999;
+  display: flex;
+  gap: 10px;
 }
 
-#language-select {
-  padding: 10px 14px;
-  border-radius: 25px;
+#translator button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
   border: none;
-  background: #111;
-  color: #fff;
-  font-size: 14px;
+  font-size: 22px;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  background: white;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  transition: transform 0.2s;
 }
 
-#language-select:hover {
-  background: #333;
+#translator button:hover {
+  transform: scale(1.1);
 }
 </style>
 
 <script>
-document.getElementById("language-select").addEventListener("change", function() {
-  var lang = this.value;
-  if (!lang) return;
+async function translate(lang) {
+  const elements = document.querySelectorAll("h1, h2, h3, p, span, a");
 
-  var url = window.location.href;
-  var translateUrl = "https://translate.google.com/translate?sl=auto&tl=" + lang + "&u=" + encodeURIComponent(url);
+  elements.forEach(el => {
+    if (!el.dataset.original) {
+      el.dataset.original = el.innerText;
+    }
+  });
 
-  window.open(translateUrl, "_blank");
-});
+  for (let el of elements) {
+    let text = el.dataset.original;
+
+    // 🔥 Traducción usando API libre (MyMemory)
+    let res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=es|${lang}`);
+    let data = await res.json();
+
+    el.innerText = data.responseData.translatedText;
+  }
+}
 </script>
 
 
