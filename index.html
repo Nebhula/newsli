@@ -1147,7 +1147,7 @@ async function autoTranslate() {
     }
 
     try {
-      const res = await fetch("TU_WORKER_URL_AQUI", {
+      const res = await fetch("https://traductor-worker.josema-mera37.workers.dev/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text: originalText })
