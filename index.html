@@ -1128,58 +1128,62 @@ window.addEventListener('scroll', function() {
 
 
 
-<div id="translator">
-  <button onclick="translate('es')">🇪🇸</button>
-  <button onclick="translate('en')">🇬🇧</button>
-</div>
 
-<style>
-#translator {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  display: flex;
-  gap: 10px;
-}
 
-#translator button {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  border: none;
-  font-size: 22px;
-  cursor: pointer;
-  background: white;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  transition: transform 0.2s;
-}
 
-#translator button:hover {
-  transform: scale(1.1);
-}
-</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <script>
-async function translate(lang) {
-  const elements = document.querySelectorAll("h1, h2, h3, p, span, a");
-
-  elements.forEach(el => {
-    if (!el.dataset.original) {
-      el.dataset.original = el.innerText;
-    }
-  });
+async function autoTranslate() {
+  const elements = document.querySelectorAll(".article-content p, .article-content h1, .article-content h2");
 
   for (let el of elements) {
-    let text = el.dataset.original;
+    const text = el.innerText.trim();
+    if (text.length < 20) continue; // evita textos cortos
 
-    // 🔥 Traducción usando API libre (MyMemory)
-    let res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=es|${lang}`);
-    let data = await res.json();
+    try {
+      const res = await fetch("TU_WORKER_URL_AQUI", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text })
+      });
 
-    el.innerText = data.responseData.translatedText;
+      const data = await res.json();
+
+      if (data.detected === "en") {
+        el.innerText = data.translated;
+      }
+    } catch (e) {
+      console.error("Error traduciendo:", e);
+    }
   }
 }
+
+// Ejecuta al cargar la página
+window.addEventListener("load", autoTranslate);
 </script>
+
+
+
+
+
+  
 
 
 
