@@ -861,7 +861,10 @@ var RSS_CACHE_DURATION = 2 * 60 * 60 * 1000;
 var categoriasPorDefecto = ["Tecnología", "Deportes", "Mascotas", "Terror", "Cine", "Cocina", "Games", "Viajes", "Moda", "Música", "Ciencia", "General"];
 var MAX_ITEMS = 60;
 var ITEMS_INICIALES = 36;
-
+function escapeAttr(str) {
+  if (!str) return '';
+  return String(str).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
 var afiliados = {
   'iphone': { keywords: ['iphone 15','iphone 16','comprar iphone','oferta iphone'], foto: 'https://m.media-amazon.com/images/I/71xb2xkN5qL._AC_SL1500_.jpg', titulo: 'iPhone 16', descripcion: 'El último iPhone con cámara profesional y chip A18 Pro. Pantalla Super Retina XDR, batería para todo el día y acabados en titanio.', enlace: 'https://amazon.es/dp/B0CHX3TW6T?tag=TU-ID-AFILIADO-21' },
   'playstation': { keywords: ['ps5','playstation 5','comprar ps5'], foto: 'https://m.media-amazon.com/images/I/51w+R0uLc+L._AC_SL1500_.jpg', titulo: 'PlayStation 5', descripcion: 'La consola de Sony con gráficos 4K, SSD ultrarrápida y mandos DualSense con respuesta háptica. Disfruta de los mejores exclusivos.', enlace: 'https://amazon.es/dp/B0CL5KNB9M?tag=TU-ID-AFILIADO-21' },
@@ -1397,7 +1400,7 @@ async function renderDestacadosGrid(items) {
     // === CLASE DE COLOR SEGÚN CATEGORÍA DETECTADA ===
     var catClass = ' cat-' + catDet.replace(/\s+/g, '-').toLowerCase().replace('á','a').replace('é','e').replace('í','i').replace('ó','o').replace('ú','u');
     
-    html += '<article class="news-card' + catClass + podClass + '" data-url="' + it.link + '" data-title="' + (it.title || '').replace(/"/g, '"') + '" data-img="' + imgSrc + '" data-source="' + (it.sourceName || '') + '" data-logo="' + (it.sourceLogo || '') + '" data-date="' + (it.pubDate || '') + '" data-desc="' + stripHtml(it.description || '').replace(/"/g, '"') + '">';
+    html += '<article class="news-card' + catClass + podClass + '" data-url="' + it.link + '" data-title="' + (it.title || '').replace(/"/g, '"') + '" data-img="' + imgSrc + '" data-source="' + (it.sourceName || '') + '" data-logo="' + (it.sourceLogo || '') + '" data-date="' + (it.pubDate || '') + '" data-desc="' + escapeAttr(stripHtml(it.description || '')) + '">';
     html += '<div class="news-image-wrapper" data-has-image="' + hasImg + '">';
     if (img) { html += '<img class="news-image" src="' + imgSrc + '" loading="lazy" onerror="this.style.display=\'none\';this.parentNode.setAttribute(\'data-has-image\',\'false\');">'; }
     
@@ -1462,7 +1465,7 @@ var catNom = categoriasCorrectas[catId] || catId.charAt(0).toUpperCase() + catId
 // ============================================
 var catIcon = getIconoCategoria(catNom);
     
-    html += '<article class="news-card cat-' + catId + '" data-url="' + it.link + '" data-title="' + it.title.replace(/"/g, '"') + '" data-img="' + imgSrc + '" data-source="' + (it.sourceName || '') + '" data-logo="' + (it.sourceLogo || '') + '" data-date="' + (it.pubDate || '') + '" data-desc="' + stripHtml(it.description || '').replace(/"/g, '"') + '">';
+    html += '<article class="news-card cat-' + catId + '" data-url="' + it.link + '" data-title="' + escapeAttr(it.title || '') + '" data-img="' + imgSrc + '" data-source="' + (it.sourceName || '') + '" data-logo="' + (it.sourceLogo || '') + '" data-date="' + (it.pubDate || '') + '" data-desc="' + stripHtml(it.description || '').replace(/"/g, '"') + '">';
     html += '<div class="news-image-wrapper" data-has-image="' + hasImg + '">';
     if (img) { html += '<img class="news-image" src="' + imgSrc + '" loading="lazy" onerror="this.style.display=\'none\';this.parentNode.setAttribute(\'data-has-image\',\'false\');">'; }
     
