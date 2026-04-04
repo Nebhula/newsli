@@ -1197,8 +1197,23 @@ async function renderNewsGrid(items, mostrar, catId) {
     var esFav = noticiaEsFavorita(it.link);
     var afi = buscarAfiliado(it.title);
     var afiBtn = afi ? '<button class="affiliate-btn" onclick="toggleOferta(this.closest(\'.news-card\'), this, \'' + afi + '\')"><i class="fas fa-tag"></i> Oferta</button>' : '';
-    var catNom = catId.charAt(0).toUpperCase() + catId.slice(1);
-    var catIcon = getIconoCategoria(catNom);
+    // === CORRECCIÓN DE CATEGORÍAS (CON TILDE) ===
+var categoriasCorrectas = {
+  'tecnologia': 'Tecnología',
+  'deportes': 'Deportes',
+  'mascotas': 'Mascotas',
+  'terror': 'Terror',
+  'cine': 'Cine',
+  'cocina': 'Cocina',
+  'games': 'Games',
+  'viajes': 'Viajes',
+  'moda': 'Moda',
+  'musica': 'Música',
+  'ciencia': 'Ciencia'
+};
+var catNom = categoriasCorrectas[catId] || catId.charAt(0).toUpperCase() + catId.slice(1);
+// ============================================
+var catIcon = getIconoCategoria(catNom);
     
     html += '<article class="news-card cat-' + catId + '" data-url="' + it.link + '" data-title="' + it.title.replace(/"/g, '"') + '" data-img="' + imgSrc + '" data-source="' + (it.sourceName || '') + '" data-logo="' + (it.sourceLogo || '') + '" data-date="' + (it.pubDate || '') + '" data-desc="' + stripHtml(it.description || '').replace(/"/g, '"') + '">';
     html += '<div class="news-image-wrapper" data-has-image="' + hasImg + '">';
