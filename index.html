@@ -237,17 +237,24 @@
   
   .fav-card-image {
   width: 100% !important;
-  height: 220px !important;  /* ← AUMENTA LA ALTURA */
+  height: 300px !important;  /* ← CAMBIO DRÁSTICO PARA VER SI FUNCIONA */
+  max-height: 300px !important;
+  min-height: 300px !important;
   object-fit: cover !important;
+  object-position: center center !important;
   background: #1a1f2e !important;
   position: relative !important;
+  overflow: hidden !important;
+  display: block !important;
 }
 
 .fav-card-image img {
   width: 100% !important;
   height: 100% !important;
+  max-height: 300px !important;
   object-fit: cover !important;
-  object-position: center center !important;  /* ← Centro en vez de arriba */
+  object-position: center center !important;
+  display: block !important;
 }
   
   .fav-card-read-badge {
