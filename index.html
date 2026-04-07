@@ -10,7 +10,7 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: #0a0c15; font-family: Arial, sans-serif; overflow-x: hidden; }
     
-    .app-container { max-width: 1400px; margin: 0 auto; padding: 10px 15px 80px; }
+    .app-container { max-width: 1400px; margin: 0 auto; padding: 10px 15px 100px; }
     
     .tabs-nav-wrap { display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; padding: 8px 0; position: sticky; top: 0; background: #0a0c15; z-index: 100; }
     .tab-btn-wrap { background: #11131f; border: 1px solid #1e2a3a; border-radius: 40px; padding: 10px 20px; cursor: pointer; font-weight: 600; color: #8a8f9e; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
@@ -20,9 +20,10 @@
     .tab-panel-wrap.active { display: block; animation: fadeIn 0.3s; }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     
-    /* FILTROS */
-    .filtros-container { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
-    .filtro-select { background: #11131f; border: 1px solid #1e2a3a; border-radius: 30px; padding: 10px 20px; color: #fff; font-size: 13px; cursor: pointer; outline: none; min-width: 140px; }
+    /* === FILTROS COMPACTOS === */
+    .filtros-container { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+    .filtros-container::-webkit-scrollbar { display: none; }
+    .filtro-select { background: #11131f; border: 1px solid #1e2a3a; border-radius: 20px; padding: 8px 12px; color: #fff; font-size: 11px; cursor: pointer; outline: none; min-width: 80px; white-space: nowrap; }
     .filtro-select:focus { border-color: #e91e63; }
     
     .listas-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
@@ -79,12 +80,92 @@
     .btn-volver { background: #1e2a3a; border: none; padding: 10px 20px; border-radius: 30px; color: #fff; cursor: pointer; margin-bottom: 20px; display: inline-flex; align-items: center; gap: 8px; }
     .btn-volver:hover { background: #e91e63; }
     
-    .bottom-nav-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #0a0c15; border-top: 1px solid #1e2a3a; padding: 10px; display: flex; justify-content: center; gap: 20px; z-index: 1000; }
-    .nav-btn { background: none; border: none; padding: 8px 15px; color: #8a8f9e; cursor: pointer; display: flex; align-items: center; gap: 5px; border-radius: 30px; }
-    .nav-btn:hover { background: #1e2a3a; color: #e91e63; }
-    .fav-counter { background: #e91e63; color: #fff; border-radius: 50%; padding: 2px 6px; font-size: 10px; margin-left: 5px; }
+    /* === BOTTOM NAV BAR === */
+    .bottom-nav-bar { 
+      position: fixed !important; 
+      bottom: 0 !important; 
+      left: 0 !important; 
+      right: 0 !important; 
+      background: #0a0c15 !important; 
+      border-top: 1px solid #1e2a3a !important; 
+      z-index: 1000 !important;
+      padding: 10px 0 !important;
+    }
     
-    .toast-container { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); z-index: 10000; width: 90%; max-width: 300px; }
+    .nav-carousel {
+      display: flex !important;
+      gap: 15px !important;
+      overflow-x: auto !important;
+      overflow-y: hidden !important;
+      -webkit-overflow-scrolling: touch !important;
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+      padding: 0 15px !important;
+      scroll-behavior: smooth !important;
+    }
+    
+    .nav-carousel::-webkit-scrollbar { display: none !important; }
+    
+    .nav-item {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 5px !important;
+      padding: 8px 15px !important;
+      background: none !important;
+      border: none !important;
+      color: #8a8f9e !important;
+      cursor: pointer !important;
+      min-width: 70px !important;
+      transition: all 0.2s !important;
+      flex-shrink: 0 !important;
+      position: relative !important;
+    }
+    
+    .nav-item:hover { color: #e91e63 !important; transform: translateY(-2px) !important; }
+    .nav-item.active { color: #e91e63 !important; }
+    .nav-item i { font-size: 22px !important; }
+    .nav-item span { font-size: 11px !important; font-weight: 600 !important; white-space: nowrap !important; }
+    
+    /* === CONTADOR DE FAVORITOS === */
+    .nav-badge {
+      position: absolute !important;
+      top: 0px !important;
+      right: 10px !important;
+      background: #e91e63 !important;
+      color: #fff !important;
+      font-size: 10px !important;
+      font-weight: 700 !important;
+      padding: 2px 6px !important;
+      border-radius: 10px !important;
+      min-width: 18px !important;
+      text-align: center !important;
+      line-height: 1 !important;
+    }
+    
+    /* === FAVORITOS POR CATEGORÍAS === */
+    .fav-category-section {
+      margin-bottom: 30px !important;
+    }
+    
+    .fav-category-title {
+      font-size: 18px !important;
+      font-weight: 700 !important;
+      color: #e91e63 !important;
+      margin-bottom: 15px !important;
+      padding-bottom: 10px !important;
+      border-bottom: 2px solid #1e2a3a !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 10px !important;
+    }
+    
+    .fav-category-title i {
+      font-size: 20px !important;
+    }
+    
+    .toast-container { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); z-index: 10000; width: 90%; max-width: 300px; }
     .toast { background: #1e293b; color: #fff; padding: 10px 15px; border-radius: 10px; margin-bottom: 8px; border-left: 3px solid #e91e63; font-size: 13px; }
     
     .footer-principal { text-align: center; padding: 30px 10px; background: #0a0c15; border-top: 1px solid #1e2a3a; margin-top: 20px; }
@@ -129,14 +210,27 @@
     .modal-btn-close { background: #1e2a3a; color: #8a8f9e; }
     .modal-btn-close:hover { background: #ef4444; color: #fff; }
     
+    /* === RESPONSIVE === */
     @media (max-width: 600px) {
       .modal-info-row { flex-direction: column; gap: 5px; }
       .modal-info-label { width: 100%; }
       .modal-actions { flex-wrap: wrap; }
       .modal-btn { flex: 1; justify-content: center; }
       .item-imagen { height: 200px; }
-      .filtros-container { flex-direction: column; }
-      .filtro-select { width: 100%; }
+      
+      /* FILTROS EN UNA LÍNEA EN MÓVIL */
+      .filtros-container { 
+        flex-direction: row !important; 
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        padding-bottom: 5px !important;
+      }
+      .filtro-select { 
+        width: auto !important; 
+        min-width: 75px !important;
+        font-size: 10px !important;
+        padding: 6px 10px !important;
+      }
     }
   </style>
 </head>
@@ -152,28 +246,27 @@
     <button class="tab-btn-wrap" onclick="cambiarCategoria('terror')"><i class="fas fa-ghost"></i> TERROR</button>
   </div>
   
-  <!-- CINE -->
   <div id="panel-cine" class="tab-panel-wrap active">
     <div class="vista-listas">
       <div class="filtros-container">
         <select id="cine-genero" class="filtro-select">
-          <option value="todos">Todos los géneros</option>
+          <option value="todos">Género</option>
           <option value="accion">Acción</option>
           <option value="terror">Terror</option>
           <option value="comedia">Comedia</option>
           <option value="drama">Drama</option>
-          <option value="ciencia-ficcion">Ciencia Ficción</option>
+          <option value="ciencia-ficcion">Sci-Fi</option>
         </select>
         <select id="cine-anio" class="filtro-select">
-          <option value="todos">Todos los años</option>
+          <option value="todos">Año</option>
           <option value="2026">2026</option>
           <option value="2025">2025</option>
           <option value="2024">2024</option>
         </select>
         <select id="cine-pais" class="filtro-select">
-          <option value="todos">Todos los países</option>
+          <option value="todos">País</option>
           <option value="españa">España</option>
-          <option value="latam">Latinoamérica</option>
+          <option value="latam">Latam</option>
         </select>
       </div>
       <div class="listas-grid" id="listas-cine"></div>
@@ -185,27 +278,26 @@
     </div>
   </div>
   
-  <!-- LIBROS -->
   <div id="panel-libros" class="tab-panel-wrap">
     <div class="vista-listas">
       <div class="filtros-container">
         <select id="libros-genero" class="filtro-select">
-          <option value="todos">Todos los géneros</option>
+          <option value="todos">Género</option>
           <option value="misterio">Misterio</option>
           <option value="romance">Romance</option>
           <option value="fantasia">Fantasía</option>
           <option value="terror">Terror</option>
         </select>
         <select id="libros-anio" class="filtro-select">
-          <option value="todos">Todos los años</option>
+          <option value="todos">Año</option>
           <option value="2026">2026</option>
           <option value="2025">2025</option>
           <option value="2024">2024</option>
         </select>
         <select id="libros-pais" class="filtro-select">
-          <option value="todos">Todos los países</option>
+          <option value="todos">País</option>
           <option value="españa">España</option>
-          <option value="latam">Latinoamérica</option>
+          <option value="latam">Latam</option>
         </select>
       </div>
       <div class="listas-grid" id="listas-libros"></div>
@@ -217,26 +309,25 @@
     </div>
   </div>
   
-  <!-- GAMES -->
   <div id="panel-games" class="tab-panel-wrap">
     <div class="vista-listas">
       <div class="filtros-container">
         <select id="games-genero" class="filtro-select">
-          <option value="todos">Todos los géneros</option>
+          <option value="todos">Género</option>
           <option value="rpg">RPG</option>
           <option value="accion">Acción</option>
           <option value="aventura">Aventura</option>
           <option value="shooter">Shooter</option>
         </select>
         <select id="games-anio" class="filtro-select">
-          <option value="todos">Todos los años</option>
+          <option value="todos">Año</option>
           <option value="2026">2026</option>
           <option value="2025">2025</option>
         </select>
         <select id="games-pais" class="filtro-select">
-          <option value="todos">Todos los países</option>
+          <option value="todos">País</option>
           <option value="españa">España</option>
-          <option value="latam">Latinoamérica</option>
+          <option value="latam">Latam</option>
         </select>
       </div>
       <div class="listas-grid" id="listas-games"></div>
@@ -248,26 +339,25 @@
     </div>
   </div>
   
-  <!-- TECNOLOGIA -->
   <div id="panel-tecnologia" class="tab-panel-wrap">
     <div class="vista-listas">
       <div class="filtros-container">
         <select id="tecnologia-genero" class="filtro-select">
-          <option value="todos">Todos los tipos</option>
+          <option value="todos">Tipo</option>
           <option value="moviles">Móviles</option>
           <option value="portatiles">Portátiles</option>
           <option value="audio">Audio</option>
           <option value="wearables">Wearables</option>
         </select>
         <select id="tecnologia-anio" class="filtro-select">
-          <option value="todos">Todos los años</option>
+          <option value="todos">Año</option>
           <option value="2026">2026</option>
           <option value="2025">2025</option>
         </select>
         <select id="tecnologia-pais" class="filtro-select">
-          <option value="todos">Todos los países</option>
+          <option value="todos">País</option>
           <option value="españa">España</option>
-          <option value="latam">Latinoamérica</option>
+          <option value="latam">Latam</option>
         </select>
       </div>
       <div class="listas-grid" id="listas-tecnologia"></div>
@@ -279,26 +369,25 @@
     </div>
   </div>
   
-  <!-- DEPORTES -->
   <div id="panel-deportes" class="tab-panel-wrap">
     <div class="vista-listas">
       <div class="filtros-container">
         <select id="deportes-genero" class="filtro-select">
-          <option value="todos">Todos los deportes</option>
+          <option value="todos">Deporte</option>
           <option value="futbol">Fútbol</option>
           <option value="baloncesto">Baloncesto</option>
           <option value="tenis">Tenis</option>
           <option value="motor">Motor</option>
         </select>
         <select id="deportes-anio" class="filtro-select">
-          <option value="todos">Todos los años</option>
+          <option value="todos">Año</option>
           <option value="2026">2026</option>
           <option value="2025">2025</option>
         </select>
         <select id="deportes-pais" class="filtro-select">
-          <option value="todos">Todos los países</option>
+          <option value="todos">País</option>
           <option value="españa">España</option>
-          <option value="latam">Latinoamérica</option>
+          <option value="latam">Latam</option>
         </select>
       </div>
       <div class="listas-grid" id="listas-deportes"></div>
@@ -310,25 +399,24 @@
     </div>
   </div>
   
-  <!-- TERROR -->
   <div id="panel-terror" class="tab-panel-wrap">
     <div class="vista-listas">
       <div class="filtros-container">
         <select id="terror-genero" class="filtro-select">
-          <option value="todos">Todos los géneros</option>
+          <option value="todos">Género</option>
           <option value="peliculas">Películas</option>
           <option value="libros">Libros</option>
           <option value="series">Series</option>
         </select>
         <select id="terror-anio" class="filtro-select">
-          <option value="todos">Todos los años</option>
+          <option value="todos">Año</option>
           <option value="2026">2026</option>
           <option value="2025">2025</option>
         </select>
         <select id="terror-pais" class="filtro-select">
-          <option value="todos">Todos los países</option>
+          <option value="todos">País</option>
           <option value="españa">España</option>
-          <option value="latam">Latinoamérica</option>
+          <option value="latam">Latam</option>
         </select>
       </div>
       <div class="listas-grid" id="listas-terror"></div>
@@ -340,11 +428,9 @@
     </div>
   </div>
   
-  <!-- FAVORITOS -->
   <div id="panel-favoritos" class="tab-panel-wrap"><div id="favoritos-container"></div></div>
 </div>
 
-<!-- MODAL -->
 <div id="detailModal" class="modal-full">
   <div class="modal-container">
     <div class="modal-header">
@@ -360,8 +446,41 @@
   <p class="footer-copy">2026 Nebhula Rankings</p>
 </footer>
 
+<!-- === BOTTOM NAV BAR === -->
 <div class="bottom-nav-bar">
-  <button class="nav-btn" onclick="mostrarFavoritos()"><i class="fas fa-heart"></i> Favoritos <span id="favCounter" class="fav-counter">0</span></button>
+  <div class="nav-carousel" id="navCarousel">
+    <div class="nav-item-wrapper">
+      <button class="nav-item active" onclick="navegarA('inicio', this)">
+        <i class="fas fa-home"></i>
+        <span>Inicio</span>
+      </button>
+    </div>
+    <div class="nav-item-wrapper">
+      <button class="nav-item" onclick="mostrarFavoritos(); navegarA('favoritos', this)">
+        <i class="fas fa-heart"></i>
+        <span>Favoritos</span>
+        <span class="nav-badge" id="navBadge">0</span>
+      </button>
+    </div>
+    <div class="nav-item-wrapper">
+      <button class="nav-item" onclick="navegarA('noticias', this)">
+        <i class="fas fa-newspaper"></i>
+        <span>Noticias</span>
+      </button>
+    </div>
+    <div class="nav-item-wrapper">
+      <button class="nav-item" onclick="navegarA('perfil', this)">
+        <i class="fas fa-user"></i>
+        <span>Perfil</span>
+      </button>
+    </div>
+    <div class="nav-item-wrapper">
+      <button class="nav-item" onclick="navegarA('ajustes', this)">
+        <i class="fas fa-cog"></i>
+        <span>Ajustes</span>
+      </button>
+    </div>
+  </div>
 </div>
 
 <div class="toast-container" id="toastContainer"></div>
@@ -372,35 +491,23 @@ const rankingsData = {
     listas: [
       { id: 'top_terror_2026', titulo: 'Top 5 Terror 2026', descripcion: 'Las más aterradoras del año', imagen: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400', genero: 'terror', año: 2026, pais: 'españa', fecha: '2026-01-15' },
       { id: 'top_comedia_2026', titulo: 'Top 5 Comedia 2026', descripcion: 'Para reír sin parar', imagen: 'https://images.unsplash.com/photo-1585647347483-22b66260dfff?w=400', genero: 'comedia', año: 2026, pais: 'latam', fecha: '2026-01-10' },
-      { id: 'top_accion_2026', titulo: 'Top 5 Acción 2026', descripcion: 'Adrenalina pura', imagen: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400', genero: 'accion', año: 2026, pais: 'españa', fecha: '2026-01-05' },
-      { id: 'top_drama_2025', titulo: 'Top 5 Drama 2025', descripcion: 'Historias que emocionan', imagen: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=400', genero: 'drama', año: 2025, pais: 'latam', fecha: '2025-12-15' },
-      { id: 'top_scifi_2025', titulo: 'Top 5 Ciencia Ficción 2025', descripcion: 'Futuros imaginados', imagen: 'https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=400', genero: 'ciencia-ficcion', año: 2025, pais: 'españa', fecha: '2025-12-01' }
+      { id: 'top_accion_2026', titulo: 'Top 5 Acción 2026', descripcion: 'Adrenalina pura', imagen: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400', genero: 'accion', año: 2026, pais: 'españa', fecha: '2026-01-05' }
     ],
     items: {
       top_terror_2026: [
-        { id: 'c1', titulo: 'El Conjuro 4', descripcion: 'Los Warren regresan.', reseña: 'La cuarta entrega es la más aterradora. Sustos bien construidos, atmósfera opresiva.', imagen: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=800', score: 95, afiliado: true, director: 'Michael Chaves', año: '2026', duracion: '112 min', genero: 'Terror', posicion: 1 },
-        { id: 'c2', titulo: 'Saw X', descripcion: 'Jigsaw no perdona.', reseña: 'La mejor entrega de la saga desde la original.', imagen: 'https://images.unsplash.com/photo-1509347528160-9a9e33742cd4?w=800', score: 92, afiliado: true, director: 'Kevin Greutert', año: '2026', duracion: '118 min', genero: 'Terror', posicion: 2 },
+        { id: 'c1', titulo: 'El Conjuro 4', descripcion: 'Los Warren regresan.', reseña: 'La cuarta entrega es la más aterradora.', imagen: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=800', score: 95, afiliado: true, director: 'Michael Chaves', año: '2026', duracion: '112 min', genero: 'Terror', posicion: 1 },
+        { id: 'c2', titulo: 'Saw X', descripcion: 'Jigsaw no perdona.', reseña: 'La mejor entrega de la saga.', imagen: 'https://images.unsplash.com/photo-1509347528160-9a9e33742cd4?w=800', score: 92, afiliado: true, director: 'Kevin Greutert', año: '2026', duracion: '118 min', genero: 'Terror', posicion: 2 },
         { id: 'c3', titulo: 'Insidious 5', descripcion: 'El infierno llama.', reseña: 'La familia Lambert enfrenta sus demonios.', imagen: 'https://images.unsplash.com/photo-1505635552518-3448ff116af3?w=800', score: 90, afiliado: true, director: 'Patrick Wilson', año: '2026', duracion: '107 min', genero: 'Terror', posicion: 3 }
       ],
       top_comedia_2026: [
         { id: 'c4', titulo: 'Superfast 2', descripcion: 'Parodia hilarante.', reseña: 'Divertida de principio a fin.', imagen: 'https://images.unsplash.com/photo-1585647347483-22b66260dfff?w=800', score: 88, afiliado: true, director: 'Jason Friedberg', año: '2026', duracion: '95 min', genero: 'Comedia', posicion: 1 },
-        { id: 'c5', titulo: 'Deadpool 3', descripcion: 'Ryan Reynolds vuelve.', reseña: 'Humor ácido y acción desenfrenada.', imagen: 'https://images.unsplash.com/photo-1560932687-45ce2eb0a400?w=800', score: 91, afiliado: true, director: 'Shawn Levy', año: '2026', duracion: '127 min', genero: 'Comedia', posicion: 2 },
-        { id: 'c6', titulo: 'The Hangover 4', descripcion: 'La resaca continúa.', reseña: 'Más locuras en Las Vegas.', imagen: 'https://images.unsplash.com/photo-1517604931442-71053641243d?w=800', score: 85, afiliado: true, director: 'Todd Phillips', año: '2026', duracion: '100 min', genero: 'Comedia', posicion: 3 }
+        { id: 'c5', titulo: 'Deadpool 3', descripcion: 'Ryan Reynolds vuelve.', reseña: 'Humor ácido y acción.', imagen: 'https://images.unsplash.com/photo-1560932687-45ce2eb0a400?w=800', score: 91, afiliado: true, director: 'Shawn Levy', año: '2026', duracion: '127 min', genero: 'Comedia', posicion: 2 },
+        { id: 'c6', titulo: 'The Hangover 4', descripcion: 'La resaca continúa.', reseña: 'Más locuras en Vegas.', imagen: 'https://images.unsplash.com/photo-1517604931442-71053641243d?w=800', score: 85, afiliado: true, director: 'Todd Phillips', año: '2026', duracion: '100 min', genero: 'Comedia', posicion: 3 }
       ],
       top_accion_2026: [
-        { id: 'c7', titulo: 'John Wick 5', descripcion: 'Keanu Reeves vuelve.', reseña: 'Las coreografías de acción son las mejores de la década.', imagen: 'https://images.unsplash.com/photo-1531259683007-016a7b628fc3?w=800', score: 94, afiliado: true, director: 'Chad Stahelski', año: '2026', duracion: '169 min', genero: 'Acción', posicion: 1 },
-        { id: 'c8', titulo: 'Misión Imposible 8', descripcion: 'Tom Cruise al límite.', reseña: 'Los stunt más locos de la historia.', imagen: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=800', score: 93, afiliado: true, director: 'Christopher McQuarrie', año: '2026', duracion: '163 min', genero: 'Acción', posicion: 2 },
-        { id: 'c9', titulo: 'Fast & Furious 11', descripcion: 'La familia vuelve.', reseña: 'Coches, explosiones y adrenalina.', imagen: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=800', score: 87, afiliado: true, director: 'Louis Leterrier', año: '2026', duracion: '142 min', genero: 'Acción', posicion: 3 }
-      ],
-      top_drama_2025: [
-        { id: 'c10', titulo: 'Oppenheimer 2', descripcion: 'Thriller histórico.', reseña: 'Christopher Nolan supera su propia obra.', imagen: 'https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=800', score: 96, afiliado: true, director: 'Christopher Nolan', año: '2025', duracion: '180 min', genero: 'Drama', posicion: 1 },
-        { id: 'c11', titulo: 'El Padrino 4', descripcion: 'La saga continúa.', reseña: 'Francis Ford Coppola regresa.', imagen: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=800', score: 94, afiliado: true, director: 'Francis Ford Coppola', año: '2025', duracion: '175 min', genero: 'Drama', posicion: 2 },
-        { id: 'c12', titulo: 'Schindler List 2', descripcion: 'Historia real.', reseña: 'Steven Spielberg emociona de nuevo.', imagen: 'https://images.unsplash.com/photo-1594908900066-3f47337549d8?w=800', score: 97, afiliado: true, director: 'Steven Spielberg', año: '2025', duracion: '195 min', genero: 'Drama', posicion: 3 }
-      ],
-      top_scifi_2025: [
-        { id: 'c13', titulo: 'Dune: Parte 3', descripcion: 'La saga continúa.', reseña: 'Villeneuve demuestra que el cine de gran presupuesto puede ser inteligente.', imagen: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?w=800', score: 98, afiliado: true, director: 'Denis Villeneuve', año: '2025', duracion: '165 min', genero: 'Ciencia Ficción', posicion: 1 },
-        { id: 'c14', titulo: 'Avatar 4', descripcion: 'Pandora te espera.', reseña: 'James Cameron vuelve a sorprender.', imagen: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800', score: 95, afiliado: true, director: 'James Cameron', año: '2025', duracion: '192 min', genero: 'Ciencia Ficción', posicion: 2 },
-        { id: 'c15', titulo: 'Interstellar 2', descripcion: 'Más allá del tiempo.', reseña: 'Christopher Nolan explora nuevos universos.', imagen: 'https://images.unsplash.com/photo-1419242902214-2727a6dd77a6?w=800', score: 96, afiliado: true, director: 'Christopher Nolan', año: '2025', duracion: '169 min', genero: 'Ciencia Ficción', posicion: 3 }
+        { id: 'c7', titulo: 'John Wick 5', descripcion: 'Keanu Reeves vuelve.', reseña: 'Las mejores coreografías.', imagen: 'https://images.unsplash.com/photo-1531259683007-016a7b628fc3?w=800', score: 94, afiliado: true, director: 'Chad Stahelski', año: '2026', duracion: '169 min', genero: 'Acción', posicion: 1 },
+        { id: 'c8', titulo: 'Misión Imposible 8', descripcion: 'Tom Cruise al límite.', reseña: 'Stunts increíbles.', imagen: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=800', score: 93, afiliado: true, director: 'Christopher McQuarrie', año: '2026', duracion: '163 min', genero: 'Acción', posicion: 2 },
+        { id: 'c9', titulo: 'Fast & Furious 11', descripcion: 'La familia vuelve.', reseña: 'Coches y explosiones.', imagen: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=800', score: 87, afiliado: true, director: 'Louis Leterrier', año: '2026', duracion: '142 min', genero: 'Acción', posicion: 3 }
       ]
     }
   },
@@ -413,18 +520,18 @@ const rankingsData = {
     items: {
       top_misterio_2026: [
         { id: 'l1', titulo: 'El Viento del Este', descripcion: 'Thriller psicológico.', reseña: 'Te atrapa desde la primera página.', imagen: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=800', score: 97, afiliado: true, autor: 'Elena M. Garcia', año: '2026', paginas: '456', editorial: 'Literatura SA', genero: 'Misterio', posicion: 1 },
-        { id: 'l2', titulo: 'La Chica del Tren 2', descripcion: 'Secuela esperada.', reseña: 'Paula Hawkins vuelve a sorprender.', imagen: 'https://images.unsplash.com/photo-1474932430478-367dbb6832c1?w=800', score: 94, afiliado: true, autor: 'Paula Hawkins', año: '2026', paginas: '389', editorial: 'Planeta', genero: 'Misterio', posicion: 2 },
-        { id: 'l3', titulo: 'Gone Girl 3', descripcion: 'Amy vuelve.', reseña: 'Gillian Flynn cierra la trilogía.', imagen: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=800', score: 95, afiliado: true, autor: 'Gillian Flynn', año: '2026', paginas: '412', editorial: 'RBA', genero: 'Misterio', posicion: 3 }
+        { id: 'l2', titulo: 'La Chica del Tren 2', descripcion: 'Secuela esperada.', reseña: 'Paula Hawkins sorprende.', imagen: 'https://images.unsplash.com/photo-1474932430478-367dbb6832c1?w=800', score: 94, afiliado: true, autor: 'Paula Hawkins', año: '2026', paginas: '389', editorial: 'Planeta', genero: 'Misterio', posicion: 2 },
+        { id: 'l3', titulo: 'Gone Girl 3', descripcion: 'Amy vuelve.', reseña: 'Gillian Flynn cierra trilogía.', imagen: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=800', score: 95, afiliado: true, autor: 'Gillian Flynn', año: '2026', paginas: '412', editorial: 'RBA', genero: 'Misterio', posicion: 3 }
       ],
       top_romance_2026: [
         { id: 'l4', titulo: 'Amor en París', descripcion: 'Romance moderno.', reseña: 'Dulce y emotivo.', imagen: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=800', score: 90, afiliado: false, autor: 'María López', año: '2026', paginas: '320', editorial: 'Romance SA', genero: 'Romance', posicion: 1 },
-        { id: 'l5', titulo: 'Orgullo y Prejuicio 2', descripcion: 'Jane Austen actualizada.', reseña: 'Una reinterpretación moderna.', imagen: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=800', score: 92, afiliado: true, autor: 'Carmen Ruiz', año: '2026', paginas: '356', editorial: 'Clásicos', genero: 'Romance', posicion: 2 },
-        { id: 'l6', titulo: 'Bajo la Misma Estrella 2', descripcion: 'Amor y enfermedad.', reseña: 'John Green emociona de nuevo.', imagen: 'https://images.unsplash.com/photo-1474932430478-367dbb6832c1?w=800', score: 93, afiliado: true, autor: 'John Green', año: '2026', paginas: '342', editorial: 'Nube de Tinta', genero: 'Romance', posicion: 3 }
+        { id: 'l5', titulo: 'Orgullo y Prejuicio 2', descripcion: 'Jane Austen actualizada.', reseña: 'Reinterpretación moderna.', imagen: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=800', score: 92, afiliado: true, autor: 'Carmen Ruiz', año: '2026', paginas: '356', editorial: 'Clásicos', genero: 'Romance', posicion: 2 },
+        { id: 'l6', titulo: 'Bajo la Misma Estrella 2', descripcion: 'Amor y enfermedad.', reseña: 'John Green emociona.', imagen: 'https://images.unsplash.com/photo-1474932430478-367dbb6832c1?w=800', score: 93, afiliado: true, autor: 'John Green', año: '2026', paginas: '342', editorial: 'Nube de Tinta', genero: 'Romance', posicion: 3 }
       ],
       top_fantasia_2025: [
-        { id: 'l7', titulo: 'El Reino Olvidado', descripcion: 'Fantasía épica.', reseña: 'Un mundo mágico increíble.', imagen: 'https://images.unsplash.com/photo-1519074069415-a4a4569450ae?w=800', score: 95, afiliado: true, autor: 'Carlos Ruiz', año: '2025', paginas: '680', editorial: 'Fantasía SA', genero: 'Fantasía', posicion: 1 },
-        { id: 'l8', titulo: 'Harry Potter 8', descripcion: 'Hogwarts vuelve.', reseña: 'J.K. Rowling regresa al mundo mágico.', imagen: 'https://images.unsplash.com/photo-1519074069415-a4a4569450ae?w=800', score: 96, afiliado: true, autor: 'J.K. Rowling', año: '2025', paginas: '720', editorial: 'Salamandra', genero: 'Fantasía', posicion: 2 },
-        { id: 'l9', titulo: 'El Señor de los Anillos 4', descripcion: 'La Tierra Media continúa.', reseña: 'Tolkien expande su universo.', imagen: 'https://images.unsplash.com/photo-1519074069415-a4a4569450ae?w=800', score: 98, afiliado: true, autor: 'J.R.R. Tolkien', año: '2025', paginas: '850', editorial: 'Minotauro', genero: 'Fantasía', posicion: 3 }
+        { id: 'l7', titulo: 'El Reino Olvidado', descripcion: 'Fantasía épica.', reseña: 'Mundo mágico increíble.', imagen: 'https://images.unsplash.com/photo-1519074069415-a4a4569450ae?w=800', score: 95, afiliado: true, autor: 'Carlos Ruiz', año: '2025', paginas: '680', editorial: 'Fantasía SA', genero: 'Fantasía', posicion: 1 },
+        { id: 'l8', titulo: 'Harry Potter 8', descripcion: 'Hogwarts vuelve.', reseña: 'J.K. Rowling regresa.', imagen: 'https://images.unsplash.com/photo-1519074069415-a4a4569450ae?w=800', score: 96, afiliado: true, autor: 'J.K. Rowling', año: '2025', paginas: '720', editorial: 'Salamandra', genero: 'Fantasía', posicion: 2 },
+        { id: 'l9', titulo: 'El Señor de los Anillos 4', descripcion: 'Tierra Media continúa.', reseña: 'Tolkien expande universo.', imagen: 'https://images.unsplash.com/photo-1519074069415-a4a4569450ae?w=800', score: 98, afiliado: true, autor: 'J.R.R. Tolkien', año: '2025', paginas: '850', editorial: 'Minotauro', genero: 'Fantasía', posicion: 3 }
       ]
     }
   },
@@ -436,91 +543,91 @@ const rankingsData = {
     ],
     items: {
       top_rpg_2026: [
-        { id: 'g1', titulo: 'Elden Ring: Shadow', descripcion: 'La expansión definitiva.', reseña: 'FromSoftware vuelve a superarse.', imagen: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800', score: 99, afiliado: true, desarrollador: 'FromSoftware', año: '2026', plataformas: 'PS5, Xbox, PC', genero: 'RPG', posicion: 1 },
-        { id: 'g2', titulo: 'Final Fantasy XVI', descripcion: 'Square Enix sorprende.', reseña: 'El mejor FF de la década.', imagen: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800', score: 97, afiliado: true, desarrollador: 'Square Enix', año: '2026', plataformas: 'PS5', genero: 'RPG', posicion: 2 },
-        { id: 'g3', titulo: 'The Witcher 4', descripcion: 'Geralt vuelve.', reseña: 'CD Projekt RED cierra con broche de oro.', imagen: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800', score: 98, afiliado: true, desarrollador: 'CD Projekt', año: '2026', plataformas: 'PS5, Xbox, PC', genero: 'RPG', posicion: 3 }
+        { id: 'g1', titulo: 'Elden Ring: Shadow', descripcion: 'Expansión definitiva.', reseña: 'FromSoftware se supera.', imagen: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800', score: 99, afiliado: true, desarrollador: 'FromSoftware', año: '2026', plataformas: 'PS5, Xbox, PC', genero: 'RPG', posicion: 1 },
+        { id: 'g2', titulo: 'Final Fantasy XVI', descripcion: 'Square Enix sorprende.', reseña: 'El mejor FF.', imagen: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800', score: 97, afiliado: true, desarrollador: 'Square Enix', año: '2026', plataformas: 'PS5', genero: 'RPG', posicion: 2 },
+        { id: 'g3', titulo: 'The Witcher 4', descripcion: 'Geralt vuelve.', reseña: 'CD Projekt cierra saga.', imagen: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800', score: 98, afiliado: true, desarrollador: 'CD Projekt', año: '2026', plataformas: 'PS5, Xbox, PC', genero: 'RPG', posicion: 3 }
       ],
       top_accion_2026: [
-        { id: 'g4', titulo: 'The Last of Us Parte 3', descripcion: 'El cierre de la trilogía.', reseña: 'Naughty Dog cierra con broche de oro.', imagen: 'https://images.unsplash.com/photo-1551103782-8ab07afd45c1?w=800', score: 98, afiliado: true, desarrollador: 'Naughty Dog', año: '2026', plataformas: 'PS5', genero: 'Aventura', posicion: 1 },
-        { id: 'g5', titulo: 'God of War 3', descripcion: 'Kratos en el Ragnarök.', reseña: 'Santa Monica Studio supera expectativas.', imagen: 'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=800', score: 97, afiliado: true, desarrollador: 'Santa Monica', año: '2026', plataformas: 'PS5', genero: 'Acción', posicion: 2 },
-        { id: 'g6', titulo: 'Spider-Man 3', descripcion: 'Peter Parker al máximo.', reseña: 'Insomniac Games vuela alto.', imagen: 'https://images.unsplash.com/photo-1635805737707-575885ab0820?w=800', score: 96, afiliado: true, desarrollador: 'Insomniac', año: '2026', plataformas: 'PS5', genero: 'Acción', posicion: 3 }
+        { id: 'g4', titulo: 'The Last of Us Parte 3', descripcion: 'Cierre de trilogía.', reseña: 'Naughty Dog broche oro.', imagen: 'https://images.unsplash.com/photo-1551103782-8ab07afd45c1?w=800', score: 98, afiliado: true, desarrollador: 'Naughty Dog', año: '2026', plataformas: 'PS5', genero: 'Aventura', posicion: 1 },
+        { id: 'g5', titulo: 'God of War 3', descripcion: 'Kratos en Ragnarök.', reseña: 'Santa Monica supera.', imagen: 'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=800', score: 97, afiliado: true, desarrollador: 'Santa Monica', año: '2026', plataformas: 'PS5', genero: 'Acción', posicion: 2 },
+        { id: 'g6', titulo: 'Spider-Man 3', descripcion: 'Peter Parker máximo.', reseña: 'Insomniac vuela alto.', imagen: 'https://images.unsplash.com/photo-1635805737707-575885ab0820?w=800', score: 96, afiliado: true, desarrollador: 'Insomniac', año: '2026', plataformas: 'PS5', genero: 'Acción', posicion: 3 }
       ],
       top_aventura_2025: [
-        { id: 'g7', titulo: 'Zelda: Tears of Kingdom 2', descripcion: 'La secuela soñada.', reseña: 'Nintendo supera lo imposible.', imagen: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800', score: 97, afiliado: true, desarrollador: 'Nintendo', año: '2025', plataformas: 'Switch', genero: 'Aventura', posicion: 1 },
-        { id: 'g8', titulo: 'Horizon 3', descripcion: 'Aloy en nuevas tierras.', reseña: 'Guerrilla Games expande el mundo.', imagen: 'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=800', score: 95, afiliado: true, desarrollador: 'Guerrilla', año: '2025', plataformas: 'PS5', genero: 'Aventura', posicion: 2 },
-        { id: 'g9', titulo: 'Uncharted 5', descripcion: 'Nathan Drake vuelve.', reseña: 'Naughty Dog cierra la saga.', imagen: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800', score: 94, afiliado: true, desarrollador: 'Naughty Dog', año: '2025', plataformas: 'PS5', genero: 'Aventura', posicion: 3 }
+        { id: 'g7', titulo: 'Zelda: Tears of Kingdom 2', descripcion: 'Secuela soñada.', reseña: 'Nintendo supera imposible.', imagen: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800', score: 97, afiliado: true, desarrollador: 'Nintendo', año: '2025', plataformas: 'Switch', genero: 'Aventura', posicion: 1 },
+        { id: 'g8', titulo: 'Horizon 3', descripcion: 'Aloy nuevas tierras.', reseña: 'Guerrilla expande.', imagen: 'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=800', score: 95, afiliado: true, desarrollador: 'Guerrilla', año: '2025', plataformas: 'PS5', genero: 'Aventura', posicion: 2 },
+        { id: 'g9', titulo: 'Uncharted 5', descripcion: 'Nathan Drake vuelve.', reseña: 'Naughty Dog cierra.', imagen: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800', score: 94, afiliado: true, desarrollador: 'Naughty Dog', año: '2025', plataformas: 'PS5', genero: 'Aventura', posicion: 3 }
       ]
     }
   },
   tecnologia: {
     listas: [
-      { id: 'top_moviles_2026', titulo: 'Top 5 Móviles 2026', descripcion: 'Los mejores smartphones', imagen: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400', genero: 'moviles', año: 2026, pais: 'españa', fecha: '2026-01-10' },
+      { id: 'top_moviles_2026', titulo: 'Top 5 Móviles 2026', descripcion: 'Mejores smartphones', imagen: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400', genero: 'moviles', año: 2026, pais: 'españa', fecha: '2026-01-10' },
       { id: 'top_audio_2026', titulo: 'Top 5 Audio 2026', descripcion: 'Sonido premium', imagen: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400', genero: 'audio', año: 2026, pais: 'latam', fecha: '2026-01-05' },
       { id: 'top_portatiles_2025', titulo: 'Top 5 Portátiles 2025', descripcion: 'Potencia portable', imagen: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400', genero: 'portatiles', año: 2025, pais: 'españa', fecha: '2025-12-15' }
     ],
     items: {
       top_moviles_2026: [
-        { id: 't1', titulo: 'iPhone 17 Pro Max', descripcion: 'El smartphone definitivo.', reseña: 'El chip A19 es una bestia.', imagen: 'https://images.unsplash.com/photo-1592286927505-1def25115558?w=800', score: 96, afiliado: true, marca: 'Apple', año: '2026', caracteristicas: 'Chip A19, 512GB', posicion: 1 },
-        { id: 't2', titulo: 'Samsung Galaxy S26', descripcion: 'Android puro.', reseña: 'Samsung lidera el mercado Android.', imagen: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800', score: 95, afiliado: true, marca: 'Samsung', año: '2026', caracteristicas: 'Snapdragon 8 Gen 4', posicion: 2 },
-        { id: 't3', titulo: 'Google Pixel 9', descripcion: 'IA integrada.', reseña: 'Google apuesta por la inteligencia artificial.', imagen: 'https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=800', score: 94, afiliado: true, marca: 'Google', año: '2026', caracteristicas: 'Tensor G5', posicion: 3 }
+        { id: 't1', titulo: 'iPhone 17 Pro Max', descripcion: 'Smartphone definitivo.', reseña: 'Chip A19 bestia.', imagen: 'https://images.unsplash.com/photo-1592286927505-1def25115558?w=800', score: 96, afiliado: true, marca: 'Apple', año: '2026', caracteristicas: 'Chip A19, 512GB', posicion: 1 },
+        { id: 't2', titulo: 'Samsung Galaxy S26', descripcion: 'Android puro.', reseña: 'Samsung lidera.', imagen: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800', score: 95, afiliado: true, marca: 'Samsung', año: '2026', caracteristicas: 'Snapdragon 8 Gen 4', posicion: 2 },
+        { id: 't3', titulo: 'Google Pixel 9', descripcion: 'IA integrada.', reseña: 'Google IA.', imagen: 'https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=800', score: 94, afiliado: true, marca: 'Google', año: '2026', caracteristicas: 'Tensor G5', posicion: 3 }
       ],
       top_audio_2026: [
-        { id: 't4', titulo: 'Sony WH-1000XM6', descripcion: 'Cancelación líder.', reseña: 'Los mejores auriculares del mercado.', imagen: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800', score: 95, afiliado: true, marca: 'Sony', año: '2026', caracteristicas: 'ANC, 40h batería', posicion: 1 },
-        { id: 't5', titulo: 'AirPods Pro 3', descripcion: 'Apple domina.', reseña: 'Integración perfecta con iOS.', imagen: 'https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=800', score: 94, afiliado: true, marca: 'Apple', año: '2026', caracteristicas: 'Spatial Audio', posicion: 2 },
-        { id: 't6', titulo: 'Bose QC Ultra', descripcion: 'Confort superior.', reseña: 'Bose sigue siendo el rey del confort.', imagen: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800', score: 93, afiliado: true, marca: 'Bose', año: '2026', caracteristicas: 'ANC premium', posicion: 3 }
+        { id: 't4', titulo: 'Sony WH-1000XM6', descripcion: 'Cancelación líder.', reseña: 'Mejores auriculares.', imagen: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800', score: 95, afiliado: true, marca: 'Sony', año: '2026', caracteristicas: 'ANC, 40h', posicion: 1 },
+        { id: 't5', titulo: 'AirPods Pro 3', descripcion: 'Apple domina.', reseña: 'iOS perfecto.', imagen: 'https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=800', score: 94, afiliado: true, marca: 'Apple', año: '2026', caracteristicas: 'Spatial Audio', posicion: 2 },
+        { id: 't6', titulo: 'Bose QC Ultra', descripcion: 'Confort superior.', reseña: 'Rey del confort.', imagen: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800', score: 93, afiliado: true, marca: 'Bose', año: '2026', caracteristicas: 'ANC premium', posicion: 3 }
       ],
       top_portatiles_2025: [
-        { id: 't7', titulo: 'MacBook Pro M4', descripcion: 'Potencia brutal.', reseña: 'El mejor portátil para profesionales.', imagen: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=800', score: 97, afiliado: true, marca: 'Apple', año: '2025', caracteristicas: 'M4, 32GB RAM', posicion: 1 },
-        { id: 't8', titulo: 'Dell XPS 15', descripcion: 'Windows premium.', reseña: 'Dell compite con Apple.', imagen: 'https://images.unsplash.com/photo-1593642632823-8f78536788c6?w=800', score: 95, afiliado: true, marca: 'Dell', año: '2025', caracteristicas: 'i9, 32GB RAM', posicion: 2 },
-        { id: 't9', titulo: 'Lenovo ThinkPad X1', descripcion: 'Productividad pura.', reseña: 'El favorito de los profesionales.', imagen: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=800', score: 94, afiliado: true, marca: 'Lenovo', año: '2025', caracteristicas: 'i7, 16GB RAM', posicion: 3 }
+        { id: 't7', titulo: 'MacBook Pro M4', descripcion: 'Potencia brutal.', reseña: 'Mejor portátil.', imagen: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=800', score: 97, afiliado: true, marca: 'Apple', año: '2025', caracteristicas: 'M4, 32GB', posicion: 1 },
+        { id: 't8', titulo: 'Dell XPS 15', descripcion: 'Windows premium.', reseña: 'Dell compite.', imagen: 'https://images.unsplash.com/photo-1593642632823-8f78536788c6?w=800', score: 95, afiliado: true, marca: 'Dell', año: '2025', caracteristicas: 'i9, 32GB', posicion: 2 },
+        { id: 't9', titulo: 'Lenovo ThinkPad X1', descripcion: 'Productividad pura.', reseña: 'Favorito profesionales.', imagen: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=800', score: 94, afiliado: true, marca: 'Lenovo', año: '2025', caracteristicas: 'i7, 16GB', posicion: 3 }
       ]
     }
   },
   deportes: {
     listas: [
-      { id: 'top_futbol_2026', titulo: 'Top 5 Fútbol 2026', descripcion: 'Los mejores jugadores', imagen: 'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=400', genero: 'futbol', año: 2026, pais: 'españa', fecha: '2026-01-10' },
-      { id: 'top_baloncesto_2026', titulo: 'Top 5 NBA 2026', descripcion: 'Estrellas de la cancha', imagen: 'https://images.unsplash.com/photo-1546519638-68e109498ee3?w=400', genero: 'baloncesto', año: 2026, pais: 'latam', fecha: '2026-01-05' },
+      { id: 'top_futbol_2026', titulo: 'Top 5 Fútbol 2026', descripcion: 'Mejores jugadores', imagen: 'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=400', genero: 'futbol', año: 2026, pais: 'españa', fecha: '2026-01-10' },
+      { id: 'top_baloncesto_2026', titulo: 'Top 5 NBA 2026', descripcion: 'Estrellas cancha', imagen: 'https://images.unsplash.com/photo-1546519638-68e109498ee3?w=400', genero: 'baloncesto', año: 2026, pais: 'latam', fecha: '2026-01-05' },
       { id: 'top_motor_2025', titulo: 'Top 5 Motor 2025', descripcion: 'Velocidad pura', imagen: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=400', genero: 'motor', año: 2025, pais: 'españa', fecha: '2025-12-20' }
     ],
     items: {
       top_futbol_2026: [
-        { id: 'dp1', titulo: 'Lionel Messi', descripcion: 'El mejor de la historia.', reseña: 'A sus 39 años sigue demostrando su magia.', imagen: 'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=800', score: 99, afiliado: false, deporte: 'Futbol', logros: '8 Balones de Oro', pais: 'Argentina', posicion: 1 },
-        { id: 'dp2', titulo: 'Cristiano Ronaldo', descripcion: 'El goleador eterno.', reseña: '40 años y sigue marcando goles.', imagen: 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=800', score: 98, afiliado: false, deporte: 'Futbol', logros: '5 Balones de Oro', pais: 'Portugal', posicion: 2 },
-        { id: 'dp3', titulo: 'Kylian Mbappé', descripcion: 'El futuro es ahora.', reseña: 'El jugador más completo del mundo.', imagen: 'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=800', score: 97, afiliado: false, deporte: 'Futbol', logros: 'Mundial 2022', pais: 'Francia', posicion: 3 }
+        { id: 'dp1', titulo: 'Lionel Messi', descripcion: 'Mejor historia.', reseña: '39 años magia.', imagen: 'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=800', score: 99, afiliado: false, deporte: 'Futbol', logros: '8 Balones Oro', pais: 'Argentina', posicion: 1 },
+        { id: 'dp2', titulo: 'Cristiano Ronaldo', descripcion: 'Goleador eterno.', reseña: '40 años goles.', imagen: 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=800', score: 98, afiliado: false, deporte: 'Futbol', logros: '5 Balones Oro', pais: 'Portugal', posicion: 2 },
+        { id: 'dp3', titulo: 'Kylian Mbappé', descripcion: 'Futuro ahora.', reseña: 'Más completo.', imagen: 'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=800', score: 97, afiliado: false, deporte: 'Futbol', logros: 'Mundial 2022', pais: 'Francia', posicion: 3 }
       ],
       top_baloncesto_2026: [
-        { id: 'dp4', titulo: 'LeBron James', descripcion: 'El rey de la NBA.', reseña: '20 temporadas y sigue al máximo.', imagen: 'https://images.unsplash.com/photo-1546519638-68e109498ee3?w=800', score: 98, afiliado: false, deporte: 'Baloncesto', logros: '4 Anillos NBA', pais: 'USA', posicion: 1 },
-        { id: 'dp5', titulo: 'Stephen Curry', descripcion: 'El mejor tirador.', reseña: 'Revolucionó el juego desde el triple.', imagen: 'https://images.unsplash.com/photo-1546519638-68e109498ee3?w=800', score: 97, afiliado: false, deporte: 'Baloncesto', logros: '4 Anillos NBA', pais: 'USA', posicion: 2 },
-        { id: 'dp6', titulo: 'Giannis Antetokounmpo', descripcion: 'La bestia griega.', reseña: 'Dominio total en la pintura.', imagen: 'https://images.unsplash.com/photo-1546519638-68e109498ee3?w=800', score: 96, afiliado: false, deporte: 'Baloncesto', logros: '2 MVPs', pais: 'Grecia', posicion: 3 }
+        { id: 'dp4', titulo: 'LeBron James', descripcion: 'Rey NBA.', reseña: '20 temporadas máximo.', imagen: 'https://images.unsplash.com/photo-1546519638-68e109498ee3?w=800', score: 98, afiliado: false, deporte: 'Baloncesto', logros: '4 Anillos', pais: 'USA', posicion: 1 },
+        { id: 'dp5', titulo: 'Stephen Curry', descripcion: 'Mejor tirador.', reseña: 'Revolucionó triple.', imagen: 'https://images.unsplash.com/photo-1546519638-68e109498ee3?w=800', score: 97, afiliado: false, deporte: 'Baloncesto', logros: '4 Anillos', pais: 'USA', posicion: 2 },
+        { id: 'dp6', titulo: 'Giannis', descripcion: 'Bestia griega.', reseña: 'Dominio pintura.', imagen: 'https://images.unsplash.com/photo-1546519638-68e109498ee3?w=800', score: 96, afiliado: false, deporte: 'Baloncesto', logros: '2 MVPs', pais: 'Grecia', posicion: 3 }
       ],
       top_motor_2025: [
-        { id: 'dp7', titulo: 'Max Verstappen', descripcion: 'Dominio total.', reseña: 'Tercer título mundial consecutivo.', imagen: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=800', score: 97, afiliado: false, deporte: 'F1', logros: '3 Mundiales', pais: 'Holanda', posicion: 1 },
-        { id: 'dp8', titulo: 'Lewis Hamilton', descripcion: 'La leyenda.', reseña: '7 veces campeón del mundo.', imagen: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=800', score: 96, afiliado: false, deporte: 'F1', logros: '7 Mundiales', pais: 'Reino Unido', posicion: 2 },
-        { id: 'dp9', titulo: 'Fernando Alonso', descripcion: 'El eterno.', reseña: '42 años y sigue compitiendo.', imagen: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=800', score: 95, afiliado: false, deporte: 'F1', logros: '2 Mundiales', pais: 'España', posicion: 3 }
+        { id: 'dp7', titulo: 'Max Verstappen', descripcion: 'Dominio total.', reseña: '3º mundial.', imagen: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=800', score: 97, afiliado: false, deporte: 'F1', logros: '3 Mundiales', pais: 'Holanda', posicion: 1 },
+        { id: 'dp8', titulo: 'Lewis Hamilton', descripcion: 'La leyenda.', reseña: '7 veces campeón.', imagen: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=800', score: 96, afiliado: false, deporte: 'F1', logros: '7 Mundiales', pais: 'Reino Unido', posicion: 2 },
+        { id: 'dp9', titulo: 'Fernando Alonso', descripcion: 'El eterno.', reseña: '42 años compite.', imagen: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=800', score: 95, afiliado: false, deporte: 'F1', logros: '2 Mundiales', pais: 'España', posicion: 3 }
       ]
     }
   },
   terror: {
     listas: [
-      { id: 'top_peliculas_2026', titulo: 'Top 5 Películas 2026', descripcion: 'Para no dormir', imagen: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400', genero: 'peliculas', año: 2026, pais: 'españa', fecha: '2026-01-10' },
+      { id: 'top_peliculas_2026', titulo: 'Top 5 Películas 2026', descripcion: 'No dormir', imagen: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400', genero: 'peliculas', año: 2026, pais: 'españa', fecha: '2026-01-10' },
       { id: 'top_libros_2026', titulo: 'Top 5 Libros 2026', descripcion: 'Terror literario', imagen: 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=400', genero: 'libros', año: 2026, pais: 'latam', fecha: '2026-01-05' },
-      { id: 'top_series_2025', titulo: 'Top 5 Series 2025', descripcion: 'Pesadillas en serie', imagen: 'https://images.unsplash.com/photo-1574267432644-f5442e7420f6?w=400', genero: 'series', año: 2025, pais: 'españa', fecha: '2025-12-15' }
+      { id: 'top_series_2025', titulo: 'Top 5 Series 2025', descripcion: 'Pesadillas serie', imagen: 'https://images.unsplash.com/photo-1574267432644-f5442e7420f6?w=400', genero: 'series', año: 2025, pais: 'españa', fecha: '2025-12-15' }
     ],
     items: {
       top_peliculas_2026: [
-        { id: 'tr1', titulo: 'El Conjuro 4', descripcion: 'Los Warren regresan.', reseña: 'La cuarta entrega es la más aterradora.', imagen: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=800', score: 95, afiliado: true, director: 'Michael Chaves', año: '2026', duracion: '112 min', genero: 'Terror', posicion: 1 },
-        { id: 'tr2', titulo: 'Saw XI', descripcion: 'Jigsaw vuelve.', reseña: 'La saga continúa más sangrienta.', imagen: 'https://images.unsplash.com/photo-1509347528160-9a9e33742cd4?w=800', score: 93, afiliado: true, director: 'Kevin Greutert', año: '2026', duracion: '115 min', genero: 'Terror', posicion: 2 },
-        { id: 'tr3', titulo: 'Insidious 6', descripcion: 'El infierno llama.', reseña: 'La familia Lambert no descansa.', imagen: 'https://images.unsplash.com/photo-1505635552518-3448ff116af3?w=800', score: 91, afiliado: true, director: 'Patrick Wilson', año: '2026', duracion: '110 min', genero: 'Terror', posicion: 3 }
+        { id: 'tr1', titulo: 'El Conjuro 4', descripcion: 'Warren regresan.', reseña: 'Más aterradora.', imagen: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=800', score: 95, afiliado: true, director: 'Michael Chaves', año: '2026', duracion: '112 min', genero: 'Terror', posicion: 1 },
+        { id: 'tr2', titulo: 'Saw XI', descripcion: 'Jigsaw vuelve.', reseña: 'Más sangrienta.', imagen: 'https://images.unsplash.com/photo-1509347528160-9a9e33742cd4?w=800', score: 93, afiliado: true, director: 'Kevin Greutert', año: '2026', duracion: '115 min', genero: 'Terror', posicion: 2 },
+        { id: 'tr3', titulo: 'Insidious 6', descripcion: 'Infierno llama.', reseña: 'Lambert no descansa.', imagen: 'https://images.unsplash.com/photo-1505635552518-3448ff116af3?w=800', score: 91, afiliado: true, director: 'Patrick Wilson', año: '2026', duracion: '110 min', genero: 'Terror', posicion: 3 }
       ],
       top_libros_2026: [
-        { id: 'tr4', titulo: 'It: Eso', descripcion: 'El payaso más famoso.', reseña: 'La obra maestra de King.', imagen: 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=800', score: 96, afiliado: true, autor: 'Stephen King', año: '2026', paginas: '1138', editorial: 'Plaza & Janés', genero: 'Terror', posicion: 1 },
-        { id: 'tr5', titulo: 'El Resplandor 2', descripcion: 'Overbeck vuelve.', reseña: 'King regresa al hotel maldito.', imagen: 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=800', score: 94, afiliado: true, autor: 'Stephen King', año: '2026', paginas: '680', editorial: 'Debolsillo', genero: 'Terror', posicion: 2 },
-        { id: 'tr6', titulo: 'Drácula 2', descripcion: 'El conde regresa.', reseña: 'Bram Stoker actualizado.', imagen: 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=800', score: 92, afiliado: true, autor: 'Dacre Stoker', año: '2026', paginas: '520', editorial: 'Terror SA', genero: 'Terror', posicion: 3 }
+        { id: 'tr4', titulo: 'It: Eso', descripcion: 'Payaso famoso.', reseña: 'Obra King.', imagen: 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=800', score: 96, afiliado: true, autor: 'Stephen King', año: '2026', paginas: '1138', editorial: 'Plaza & Janés', genero: 'Terror', posicion: 1 },
+        { id: 'tr5', titulo: 'El Resplandor 2', descripcion: 'Overbeck vuelve.', reseña: 'King hotel.', imagen: 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=800', score: 94, afiliado: true, autor: 'Stephen King', año: '2026', paginas: '680', editorial: 'Debolsillo', genero: 'Terror', posicion: 2 },
+        { id: 'tr6', titulo: 'Drácula 2', descripcion: 'Conde regresa.', reseña: 'Stoker actualizado.', imagen: 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=800', score: 92, afiliado: true, autor: 'Dacre Stoker', año: '2026', paginas: '520', editorial: 'Terror SA', genero: 'Terror', posicion: 3 }
       ],
       top_series_2025: [
-        { id: 'tr7', titulo: 'The Haunting', descripcion: 'Antología de terror.', reseña: 'Mike Flanagan en estado puro.', imagen: 'https://images.unsplash.com/photo-1574267432644-f5442e7420f6?w=800', score: 94, afiliado: true, director: 'Mike Flanagan', año: '2025', episodios: '10', genero: 'Terror', posicion: 1 },
-        { id: 'tr8', titulo: 'Stranger Things 5', descripcion: 'El fin de una era.', reseña: 'Los Duffer cierran con broche de oro.', imagen: 'https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?w=800', score: 95, afiliado: true, director: 'Duffer Bros', año: '2025', episodios: '8', genero: 'Terror', posicion: 2 },
-        { id: 'tr9', titulo: 'The Walking Dead 12', descripcion: 'Los zombies vuelven.', reseña: 'AMC revive la saga.', imagen: 'https://images.unsplash.com/photo-1574267432644-f5442e7420f6?w=800', score: 90, afiliado: true, director: 'Scott Gimple', año: '2025', episodios: '16', genero: 'Terror', posicion: 3 }
+        { id: 'tr7', titulo: 'The Haunting', descripcion: 'Antología terror.', reseña: 'Flanagan puro.', imagen: 'https://images.unsplash.com/photo-1574267432644-f5442e7420f6?w=800', score: 94, afiliado: true, director: 'Mike Flanagan', año: '2025', episodios: '10', genero: 'Terror', posicion: 1 },
+        { id: 'tr8', titulo: 'Stranger Things 5', descripcion: 'Fin era.', reseña: 'Duffer broche.', imagen: 'https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?w=800', score: 95, afiliado: true, director: 'Duffer Bros', año: '2025', episodios: '8', genero: 'Terror', posicion: 2 },
+        { id: 'tr9', titulo: 'Walking Dead 12', descripcion: 'Zombies vuelven.', reseña: 'AMC revive.', imagen: 'https://images.unsplash.com/photo-1574267432644-f5442e7420f6?w=800', score: 90, afiliado: true, director: 'Scott Gimple', año: '2025', episodios: '16', genero: 'Terror', posicion: 3 }
       ]
     }
   }
@@ -528,15 +635,61 @@ const rankingsData = {
 
 let favoritos = JSON.parse(localStorage.getItem('favoritosGlobal')) || [];
 let listasGlobalesPorCategoria = {};
+let categoriaActualGlobal = 'cine';
 
-function actualizarContador() { document.getElementById('favCounter').textContent = favoritos.length; }
-function guardarFavoritos() { localStorage.setItem('favoritosGlobal', JSON.stringify(favoritos)); actualizarContador(); }
-function esFavorito(id) { return favoritos.some(f => f.id === id); }
+const categoriaIconos = {
+  cine: 'fa-film',
+  libros: 'fa-book',
+  games: 'fa-gamepad',
+  tecnologia: 'fa-laptop',
+  deportes: 'fa-futbol',
+  terror: 'fa-ghost'
+};
 
-function toggleFavorito(item, btn) {
+const categoriaNombres = {
+  cine: '🎬 Cine',
+  libros: '📚 Libros',
+  games: '🎮 Videojuegos',
+  tecnologia: '💻 Tecnología',
+  deportes: '⚽ Deportes',
+  terror: '👻 Terror'
+};
+
+function actualizarContador() {
+  const count = favoritos.length;
+  const badge = document.getElementById('navBadge');
+  
+  if (badge) {
+    badge.textContent = count;
+    if (count > 0) {
+      badge.style.display = 'block';
+    } else {
+      badge.style.display = 'none';
+    }
+  }
+}
+
+function guardarFavoritos() { 
+  localStorage.setItem('favoritosGlobal', JSON.stringify(favoritos)); 
+  actualizarContador(); 
+}
+
+function esFavorito(id) { 
+  return favoritos.some(f => f.id === id); 
+}
+
+function toggleFavorito(item, btn, categoria) {
   const idx = favoritos.findIndex(f => f.id === item.id);
-  if (idx === -1) { favoritos.push(item); showToast(item.titulo + ' guardado'); if (btn) btn.classList.add('fav-active'); }
-  else { favoritos.splice(idx, 1); showToast(item.titulo + ' eliminado'); if (btn) btn.classList.remove('fav-active'); }
+  if (idx === -1) { 
+    const itemConCategoria = { ...item, categoria: categoria };
+    favoritos.push(itemConCategoria); 
+    showToast(item.titulo + ' guardado'); 
+    if (btn) btn.classList.add('fav-active'); 
+  } else { 
+    favoritos.splice(idx, 1); 
+    showToast(item.titulo + ' eliminado'); 
+    if (btn) btn.classList.remove('fav-active'); 
+  }
   guardarFavoritos();
 }
 
@@ -545,7 +698,7 @@ function compartirItem(item) {
     navigator.share({ title: item.titulo, text: item.descripcion, url: window.location.href });
   } else {
     navigator.clipboard.writeText(item.titulo + ' - ' + item.descripcion);
-    showToast('Enlace copiado al portapapeles');
+    showToast('Enlace copiado');
   }
 }
 
@@ -567,68 +720,22 @@ function abrirModalDesdeFavorito(item) {
   
   let infoRows = '';
   if (categoria === 'cine' || categoria === 'terror') {
-    infoRows = `
-      <div class="modal-info-row"><div class="modal-info-label">Director</div><div class="modal-info-value">${item.director || 'N/A'}</div></div>
-      <div class="modal-info-row"><div class="modal-info-label">Año</div><div class="modal-info-value">${item.año || 'N/A'}</div></div>
-      <div class="modal-info-row"><div class="modal-info-label">Duración</div><div class="modal-info-value">${item.duracion || 'N/A'}</div></div>
-      <div class="modal-info-row"><div class="modal-info-label">Género</div><div class="modal-info-value">${item.genero || 'N/A'}</div></div>
-    `;
+    infoRows = '<div class="modal-info-row"><div class="modal-info-label">Director</div><div class="modal-info-value">' + (item.director || 'N/A') + '</div></div><div class="modal-info-row"><div class="modal-info-label">Año</div><div class="modal-info-value">' + (item.año || 'N/A') + '</div></div><div class="modal-info-row"><div class="modal-info-label">Duración</div><div class="modal-info-value">' + (item.duracion || 'N/A') + '</div></div><div class="modal-info-row"><div class="modal-info-label">Género</div><div class="modal-info-value">' + (item.genero || 'N/A') + '</div></div>';
   } else if (categoria === 'libros') {
-    infoRows = `
-      <div class="modal-info-row"><div class="modal-info-label">Autor</div><div class="modal-info-value">${item.autor || 'N/A'}</div></div>
-      <div class="modal-info-row"><div class="modal-info-label">Año</div><div class="modal-info-value">${item.año || 'N/A'}</div></div>
-      <div class="modal-info-row"><div class="modal-info-label">Páginas</div><div class="modal-info-value">${item.paginas || 'N/A'}</div></div>
-      <div class="modal-info-row"><div class="modal-info-label">Editorial</div><div class="modal-info-value">${item.editorial || 'N/A'}</div></div>
-    `;
+    infoRows = '<div class="modal-info-row"><div class="modal-info-label">Autor</div><div class="modal-info-value">' + (item.autor || 'N/A') + '</div></div><div class="modal-info-row"><div class="modal-info-label">Año</div><div class="modal-info-value">' + (item.año || 'N/A') + '</div></div><div class="modal-info-row"><div class="modal-info-label">Páginas</div><div class="modal-info-value">' + (item.paginas || 'N/A') + '</div></div><div class="modal-info-row"><div class="modal-info-label">Editorial</div><div class="modal-info-value">' + (item.editorial || 'N/A') + '</div></div>';
   } else if (categoria === 'games') {
-    infoRows = `
-      <div class="modal-info-row"><div class="modal-info-label">Desarrollador</div><div class="modal-info-value">${item.desarrollador || 'N/A'}</div></div>
-      <div class="modal-info-row"><div class="modal-info-label">Año</div><div class="modal-info-value">${item.año || 'N/A'}</div></div>
-      <div class="modal-info-row"><div class="modal-info-label">Plataformas</div><div class="modal-info-value">${item.plataformas || 'N/A'}</div></div>
-    `;
+    infoRows = '<div class="modal-info-row"><div class="modal-info-label">Desarrollador</div><div class="modal-info-value">' + (item.desarrollador || 'N/A') + '</div></div><div class="modal-info-row"><div class="modal-info-label">Año</div><div class="modal-info-value">' + (item.año || 'N/A') + '</div></div><div class="modal-info-row"><div class="modal-info-label">Plataformas</div><div class="modal-info-value">' + (item.plataformas || 'N/A') + '</div></div>';
   } else if (categoria === 'tecnologia') {
-    infoRows = `
-      <div class="modal-info-row"><div class="modal-info-label">Marca</div><div class="modal-info-value">${item.marca || 'N/A'}</div></div>
-      <div class="modal-info-row"><div class="modal-info-label">Año</div><div class="modal-info-value">${item.año || 'N/A'}</div></div>
-      <div class="modal-info-row"><div class="modal-info-label">Características</div><div class="modal-info-value">${item.caracteristicas || 'N/A'}</div></div>
-    `;
+    infoRows = '<div class="modal-info-row"><div class="modal-info-label">Marca</div><div class="modal-info-value">' + (item.marca || 'N/A') + '</div></div><div class="modal-info-row"><div class="modal-info-label">Año</div><div class="modal-info-value">' + (item.año || 'N/A') + '</div></div><div class="modal-info-row"><div class="modal-info-label">Características</div><div class="modal-info-value">' + (item.caracteristicas || 'N/A') + '</div></div>';
   } else if (categoria === 'deportes') {
-    infoRows = `
-      <div class="modal-info-row"><div class="modal-info-label">Deporte</div><div class="modal-info-value">${item.deporte || 'N/A'}</div></div>
-      <div class="modal-info-row"><div class="modal-info-label">País</div><div class="modal-info-value">${item.pais || 'N/A'}</div></div>
-      <div class="modal-info-row"><div class="modal-info-label">Logros</div><div class="modal-info-value">${item.logros || 'N/A'}</div></div>
-    `;
+    infoRows = '<div class="modal-info-row"><div class="modal-info-label">Deporte</div><div class="modal-info-value">' + (item.deporte || 'N/A') + '</div></div><div class="modal-info-row"><div class="modal-info-label">País</div><div class="modal-info-value">' + (item.pais || 'N/A') + '</div></div><div class="modal-info-row"><div class="modal-info-label">Logros</div><div class="modal-info-value">' + (item.logros || 'N/A') + '</div></div>';
   } else {
     infoRows = '<div class="modal-info-row"><div class="modal-info-value">Información no disponible</div></div>';
   }
   
-  const buttonsHTML = `
-    <div class="modal-actions">
-      ${item.afiliado ? `<a href="#" class="modal-btn modal-btn-buy" onclick="event.preventDefault(); showToast('Abriendo enlace...')"><i class="fas fa-shopping-cart"></i> Ver Oferta</a>` : ''}
-      <button class="modal-btn modal-btn-fav ${esFavorito(item.id) ? 'active' : ''}" onclick="toggleFavoritoModal('${item.id}', '${categoria}')">
-        <i class="${esFavorito(item.id) ? 'fas' : 'far'} fa-heart"></i> ${esFavorito(item.id) ? 'Guardado' : 'Favorito'}
-      </button>
-      <button class="modal-btn modal-btn-close" onclick="cerrarModal()">Cerrar</button>
-    </div>
-  `;
+  const buttonsHTML = '<div class="modal-actions">' + (item.afiliado ? '<a href="#" class="modal-btn modal-btn-buy" onclick="event.preventDefault(); showToast(\'Abriendo...\')"><i class="fas fa-shopping-cart"></i> Ver Oferta</a>' : '') + '<button class="modal-btn modal-btn-fav ' + (esFavorito(item.id) ? 'active' : '') + '" onclick="toggleFavoritoModal(\'' + item.id + '\', \'' + categoria + '\')"><i class="' + (esFavorito(item.id) ? 'fas' : 'far') + ' fa-heart"></i> ' + (esFavorito(item.id) ? 'Guardado' : 'Favorito') + '</button><button class="modal-btn modal-btn-close" onclick="cerrarModal()">Cerrar</button></div>';
   
-  modalContent.innerHTML = `
-    <div class="modal-body">
-      <div class="modal-item-header">
-        <h1 class="modal-item-titulo">${item.titulo}</h1>
-        <div class="modal-item-score">
-          <span class="modal-score-number ${scoreClass}">${item.score}</span>
-          <span class="modal-score-label">/100</span>
-        </div>
-      </div>
-      <div class="modal-info-grid">${infoRows}</div>
-      <div class="modal-review-section">
-        <h3><i class="fas fa-quote-left"></i> Nuestra Opinión</h3>
-        <p class="modal-review-text">${item.reseña}</p>
-      </div>
-      ${buttonsHTML}
-    </div>
-  `;
+  modalContent.innerHTML = '<div class="modal-body"><div class="modal-item-header"><h1 class="modal-item-titulo">' + item.titulo + '</h1><div class="modal-item-score"><span class="modal-score-number ' + scoreClass + '">' + item.score + '</span><span class="modal-score-label">/100</span></div></div><div class="modal-info-grid">' + infoRows + '</div><div class="modal-review-section"><h3><i class="fas fa-quote-left"></i> Nuestra Opinión</h3><p class="modal-review-text">' + item.reseña + '</p></div>' + buttonsHTML + '</div>';
   
   modal.scrollTop = 0;
   modal.classList.add('active');
@@ -650,7 +757,7 @@ function cerrarModal() {
 function toggleFavoritoModal(itemId, categoria) {
   const item = getItemById(itemId, categoria);
   if (item) {
-    toggleFavorito(item);
+    toggleFavorito(item, null, categoria);
     abrirModal(itemId, categoria);
   }
 }
@@ -665,29 +772,23 @@ function showToast(msg) {
 }
 
 function cambiarCategoria(cat) {
+  categoriaActualGlobal = cat;
   document.querySelectorAll('.tab-btn-wrap').forEach(b => b.classList.remove('active'));
   event.currentTarget.classList.add('active');
-  
   document.querySelectorAll('.tab-panel-wrap').forEach(p => p.classList.remove('active'));
   document.getElementById('panel-' + cat).classList.add('active');
-  
   renderListas(cat);
 }
 
 function renderListas(categoria) {
   const data = rankingsData[categoria];
   const container = document.getElementById('listas-' + categoria);
-  
   listasGlobalesPorCategoria[categoria] = data.listas;
-  
   let listasOrdenadas = [...data.listas].sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
-  
   renderListaCards(container, listasOrdenadas, categoria);
-  
   const filtroGenero = document.getElementById(categoria + '-genero');
   const filtroAnio = document.getElementById(categoria + '-anio');
   const filtroPais = document.getElementById(categoria + '-pais');
-  
   if (filtroGenero) filtroGenero.onchange = () => aplicarFiltros(categoria);
   if (filtroAnio) filtroAnio.onchange = () => aplicarFiltros(categoria);
   if (filtroPais) filtroPais.onchange = () => aplicarFiltros(categoria);
@@ -697,56 +798,33 @@ function aplicarFiltros(categoria) {
   const filtroGenero = document.getElementById(categoria + '-genero');
   const filtroAnio = document.getElementById(categoria + '-anio');
   const filtroPais = document.getElementById(categoria + '-pais');
-  
   const genero = filtroGenero ? filtroGenero.value : 'todos';
   const año = filtroAnio ? filtroAnio.value : 'todos';
   const pais = filtroPais ? filtroPais.value : 'todos';
-  
   let filtradas = listasGlobalesPorCategoria[categoria].filter(lista => {
-    return (genero === 'todos' || lista.genero === genero) &&
-           (año === 'todos' || lista.año === parseInt(año)) &&
-           (pais === 'todos' || lista.pais === pais);
+    return (genero === 'todos' || lista.genero === genero) && (año === 'todos' || lista.año === parseInt(año)) && (pais === 'todos' || lista.pais === pais);
   });
-  
   filtradas.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
-  
   const container = document.getElementById('listas-' + categoria);
   renderListaCards(container, filtradas, categoria);
 }
 
 function renderListaCards(container, listas, categoria) {
   if (listas.length === 0) {
-    container.innerHTML = '<div class="empty-state"><i class="fas fa-search"></i><p>No hay rankings con esos filtros</p></div>';
+    container.innerHTML = '<div class="empty-state"><i class="fas fa-search"></i><p>No hay rankings</p></div>';
     return;
   }
-  
-  container.innerHTML = listas.map(lista => `
-    <div class="lista-card" onclick="verLista('${categoria}', '${lista.id}')">
-      <img class="lista-imagen" src="${lista.imagen}" alt="${lista.titulo}">
-      <div class="lista-contenido">
-        <div class="lista-titulo">${lista.titulo}</div>
-        <div class="lista-desc">${lista.descripcion}</div>
-        <div class="lista-meta">
-          <span><i class="fas fa-calendar"></i> ${lista.año}</span>
-          <span><i class="fas fa-globe"></i> ${lista.pais}</span>
-          <span><i class="fas fa-film"></i> ${lista.genero}</span>
-        </div>
-      </div>
-    </div>
-  `).join('');
+  container.innerHTML = listas.map(lista => '<div class="lista-card" onclick="verLista(\'' + categoria + '\', \'' + lista.id + '\')"><img class="lista-imagen" src="' + lista.imagen + '"><div class="lista-contenido"><div class="lista-titulo">' + lista.titulo + '</div><div class="lista-desc">' + lista.descripcion + '</div><div class="lista-meta"><span><i class="fas fa-calendar"></i> ' + lista.año + '</span><span><i class="fas fa-globe"></i> ' + lista.pais + '</span><span><i class="fas fa-film"></i> ' + lista.genero + '</span></div></div></div>').join('');
 }
 
 function verLista(categoria, listaId) {
   const data = rankingsData[categoria];
   const lista = data.listas.find(l => l.id === listaId);
   const items = rankingsData[categoria].items[listaId];
-  
   if (!lista || !items) return;
-  
   document.querySelector('#panel-' + categoria + ' .vista-listas').style.display = 'none';
   document.querySelector('#panel-' + categoria + ' .vista-items').style.display = 'block';
   document.getElementById('titulo-' + categoria).textContent = lista.titulo;
-  
   renderItems(categoria, items);
 }
 
@@ -757,53 +835,16 @@ function volver(categoria) {
 
 function renderItems(categoria, items) {
   const container = document.getElementById('items-' + categoria);
-  
   container.innerHTML = items.map(item => {
     const posClass = item.posicion === 1 ? 'top1' : item.posicion === 2 ? 'top2' : item.posicion === 3 ? 'top3' : '';
     const scoreClass = item.score >= 0 ? 'positivo' : 'negativo';
     const scorePercent = Math.min(Math.abs(item.score), 100);
-    
-    return `
-      <div class="item-card" data-item-id="${item.id}" data-categoria="${categoria}">
-        <div class="item-imagen">
-          <img src="${item.imagen}" alt="${item.titulo}" style="width:100%;height:100%;object-fit:cover;">
-          <div class="item-posicion ${posClass}">${item.posicion}</div>
-          <div class="item-image-buttons">
-            <button class="img-btn ${esFavorito(item.id) ? 'fav-active' : ''}" onclick="event.stopPropagation(); toggleFavoritoById('${item.id}', '${categoria}', this)">
-              <i class="${esFavorito(item.id) ? 'fas' : 'far'} fa-heart"></i>
-            </button>
-            <button class="img-btn share-btn" onclick="event.stopPropagation(); compartirItemById('${item.id}', '${categoria}')">
-              <i class="fas fa-share"></i>
-            </button>
-          </div>
-        </div>
-        <div class="item-contenido">
-          <div class="item-titulo" onclick="abrirModal('${item.id}', '${categoria}')">${item.titulo}</div>
-          <div class="item-desc">${item.descripcion}</div>
-          <div class="item-score-container">
-            <span class="item-score-label"><i class="fas fa-star"></i> Puntuación</span>
-            <span class="item-score-value ${scoreClass}">${item.score}</span>
-            <span class="item-score-max">/100</span>
-            <div class="item-score-bar">
-              <div class="item-score-bar-fill ${scoreClass}" style="width: ${scorePercent}%"></div>
-            </div>
-          </div>
-          <div class="item-actions">
-            <button class="btn-eye" onclick="event.stopPropagation(); abrirModal('${item.id}', '${categoria}')">
-              <i class="fas fa-eye"></i> Ver ficha
-            </button>
-          </div>
-        </div>
-      </div>
-    `;
+    return '<div class="item-card" data-item-id="' + item.id + '" data-categoria="' + categoria + '"><div class="item-imagen"><img src="' + item.imagen + '" style="width:100%;height:100%;object-fit:cover;"><div class="item-posicion ' + posClass + '">' + item.posicion + '</div><div class="item-image-buttons"><button class="img-btn ' + (esFavorito(item.id) ? 'fav-active' : '') + '" onclick="event.stopPropagation(); toggleFavoritoById(\'' + item.id + '\', \'' + categoria + '\', this)"><i class="' + (esFavorito(item.id) ? 'fas' : 'far') + ' fa-heart"></i></button><button class="img-btn share-btn" onclick="event.stopPropagation(); compartirItemById(\'' + item.id + '\', \'' + categoria + '\')"><i class="fas fa-share"></i></button></div></div><div class="item-contenido"><div class="item-titulo" onclick="abrirModal(\'' + item.id + '\', \'' + categoria + '\')">' + item.titulo + '</div><div class="item-desc">' + item.descripcion + '</div><div class="item-score-container"><span class="item-score-label"><i class="fas fa-star"></i> Puntuación</span><span class="item-score-value ' + scoreClass + '">' + item.score + '</span><span class="item-score-max">/100</span><div class="item-score-bar"><div class="item-score-bar-fill ' + scoreClass + '" style="width: ' + scorePercent + '%"></div></div></div><div class="item-actions"><button class="btn-eye" onclick="event.stopPropagation(); abrirModal(\'' + item.id + '\', \'' + categoria + '\')"><i class="fas fa-eye"></i> Ver ficha</button></div></div></div>';
   }).join('');
-  
   container.querySelectorAll('.item-card').forEach(card => {
     card.addEventListener('click', function(e) {
       if (!e.target.closest('button') && !e.target.closest('.item-titulo')) {
-        const itemId = this.dataset.itemId;
-        const categoria = this.dataset.categoria;
-        abrirModal(itemId, categoria);
+        abrirModal(this.dataset.itemId, this.dataset.categoria);
       }
     });
   });
@@ -811,7 +852,7 @@ function renderItems(categoria, items) {
 
 function toggleFavoritoById(itemId, categoria, btn) {
   const item = getItemById(itemId, categoria);
-  if (item) toggleFavorito(item, btn);
+  if (item) toggleFavorito(item, btn, categoria);
 }
 
 function compartirItemById(itemId, categoria) {
@@ -827,7 +868,8 @@ function abrirFavoritoPorIndex(index) {
 function toggleFavoritoByIndex(index, btn) {
   const item = favoritos[index];
   if (item) {
-    toggleFavorito(item, btn);
+    const categoria = item.categoria || categoriaActualGlobal;
+    toggleFavorito(item, btn, categoria);
     renderFavoritos();
   }
 }
@@ -840,35 +882,47 @@ function renderFavoritos() {
     return;
   }
   
-  container.innerHTML = '<div class="items-grid">' + favoritos.map((item, index) => {
-    const scoreClass = item.score >= 0 ? 'positivo' : 'negativo';
-    const scorePercent = Math.min(Math.abs(item.score), 100);
-    
-    return `
-      <div class="item-card" data-fav-index="${index}">
-        <div class="item-imagen">
-          <img src="${item.imagen}" alt="${item.titulo}" style="width:100%;height:100%;object-fit:cover;">
-          <div class="item-image-buttons">
-            <button class="img-btn fav-active" onclick="event.stopPropagation(); toggleFavoritoByIndex(${index}, this)">
-              <i class="fas fa-heart"></i>
-            </button>
-          </div>
-        </div>
-        <div class="item-contenido">
-          <div class="item-titulo" onclick="abrirFavoritoPorIndex(${index})">${item.titulo}</div>
-          <div class="item-desc">${item.descripcion}</div>
-          <div class="item-score-container">
-            <span class="item-score-label"><i class="fas fa-star"></i> Puntuación</span>
-            <span class="item-score-value ${scoreClass}">${item.score}</span>
-            <span class="item-score-max">/100</span>
-            <div class="item-score-bar">
-              <div class="item-score-bar-fill ${scoreClass}" style="width: ${scorePercent}%"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    `;
-  }).join('') + '</div>';
+  const favoritosPorCategoria = {};
+  favoritos.forEach((item, index) => {
+    const cat = item.categoria || 'unknown';
+    if (!favoritosPorCategoria[cat]) {
+      favoritosPorCategoria[cat] = [];
+    }
+    favoritosPorCategoria[cat].push({ ...item, favIndex: index });
+  });
+  
+  const ordenCategorias = ['cine', 'libros', 'games', 'tecnologia', 'deportes', 'terror'];
+  
+  let html = '';
+  
+  ordenCategorias.forEach(cat => {
+    if (favoritosPorCategoria[cat] && favoritosPorCategoria[cat].length > 0) {
+      const icono = categoriaIconos[cat] || 'fa-star';
+      const nombre = categoriaNombres[cat] || cat;
+      
+      html += '<div class="fav-category-section">';
+      html += '<div class="fav-category-title"><i class="fas ' + icono + '"></i> ' + nombre + ' (' + favoritosPorCategoria[cat].length + ')</div>';
+      html += '<div class="items-grid">';
+      
+      favoritosPorCategoria[cat].forEach(item => {
+        const scoreClass = item.score >= 0 ? 'positivo' : 'negativo';
+        const scorePercent = Math.min(Math.abs(item.score), 100);
+        
+        html += '<div class="item-card" data-fav-index="' + item.favIndex + '">';
+        html += '<div class="item-imagen"><img src="' + item.imagen + '" style="width:100%;height:100%;object-fit:cover;">';
+        html += '<div class="item-image-buttons"><button class="img-btn fav-active" onclick="event.stopPropagation(); toggleFavoritoByIndex(' + item.favIndex + ', this)"><i class="fas fa-heart"></i></button></div></div>';
+        html += '<div class="item-contenido"><div class="item-titulo" onclick="abrirFavoritoPorIndex(' + item.favIndex + ')">' + item.titulo + '</div>';
+        html += '<div class="item-desc">' + item.descripcion + '</div>';
+        html += '<div class="item-score-container"><span class="item-score-label"><i class="fas fa-star"></i> Puntuación</span>';
+        html += '<span class="item-score-value ' + scoreClass + '">' + item.score + '</span><span class="item-score-max">/100</span>';
+        html += '<div class="item-score-bar"><div class="item-score-bar-fill ' + scoreClass + '" style="width: ' + scorePercent + '%"></div></div></div></div></div>';
+      });
+      
+      html += '</div></div>';
+    }
+  });
+  
+  container.innerHTML = html;
   
   container.querySelectorAll('.item-card').forEach(card => {
     card.addEventListener('click', function(e) {
@@ -887,18 +941,29 @@ function mostrarFavoritos() {
   renderFavoritos();
 }
 
+function navegarA(seccion, btn) {
+  document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+  btn.classList.add('active');
+  if (seccion === 'inicio') { cambiarCategoria('cine'); showToast('Inicio'); }
+  else if (seccion === 'noticias') { showToast('Próximamente'); }
+  else if (seccion === 'perfil') { showToast('Próximamente'); }
+  else if (seccion === 'ajustes') { showToast('Próximamente'); }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
   actualizarContador();
   renderListas('cine');
+  
+  const carousel = document.getElementById('navCarousel');
+  let isDown = false, startX, scrollLeft;
+  carousel.addEventListener('mousedown', (e) => { isDown = true; startX = e.pageX - carousel.offsetLeft; scrollLeft = carousel.scrollLeft; });
+  carousel.addEventListener('mouseleave', () => { isDown = false; });
+  carousel.addEventListener('mouseup', () => { isDown = false; });
+  carousel.addEventListener('mousemove', (e) => { if (!isDown) return; e.preventDefault(); const x = e.pageX - carousel.offsetLeft; carousel.scrollLeft = scrollLeft - (x - startX) * 2; });
 });
 
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') cerrarModal();
-});
-
-document.getElementById('detailModal').addEventListener('click', function(e) {
-  if (e.target === this) cerrarModal();
-});
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') cerrarModal(); });
+document.getElementById('detailModal').addEventListener('click', function(e) { if (e.target === this) cerrarModal(); });
 </script>
 
 </body>
